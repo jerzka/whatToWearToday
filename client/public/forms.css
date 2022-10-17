@@ -1,0 +1,75 @@
+:root {
+  --basic-color: steelblue;
+  --darken-basic-color: rgb(112, 128, 144);
+  --lighter-accent-color:  rgba(241, 165, 189, 0.5);
+  --accent-color: rgb(226, 115, 150);
+  --logo-size: 100px;
+}
+
+body {
+  padding: 15% 0;
+  justify-content: center;
+  display: flex;
+  align-items: center;
+}
+
+#form-signup, #form-signin {
+  background-color: rgba(255, 255, 255, 0.7);
+  max-width: 330px;
+  padding: 0;
+}
+
+form {
+  position: relative;
+  top: -3rem;
+}
+
+#logo{
+  position: relative;
+  width: var(--logo-size);
+  height: var(--logo-size);
+  border-radius: 50%;
+}
+
+#logo > img {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%); 
+  border-radius: 50%;
+}
+
+#submit-btn {
+  margin-top: 2rem;
+}
+
+.form-row {
+  margin-top: 1.5rem;
+  text-align: center;
+}
+
+#form-signin > form > div:nth-child(2){
+  margin-top: 3rem;
+}
+
+form > p{
+  margin-top: 1rem;
+  font-size: .75rem;
+}
+
+.form-row > label{
+  font-weight: 100;
+}
+
+
+footer h5{
+  font-family: 'Prata', serif;
+}
+
+footer span{
+  background-color: var(--accent-color);
+}
+
+footer > p{
+  font-size: .6rem;
+}

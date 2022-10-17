@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration - What to wear today?</title>
+    <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans&family=Prata&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="main.css" type="text/css">
+    <link rel="stylesheet" href="forms.css" type="text/css">
+
+</head>
+
+<body class="text-center">
+    <div class="container">
+    <main  id="form-signup" class="m-auto" aria-label="registration form">
+        <form class="px-5 needs-validation" method="post" novalidate>
+            <div id="logo" class="bg-primary my-2 mx-auto">
+                <img src="images/logo_WhatToWear_opaque.svg" width="80px" alt="Logo What to wear today?" aria-label="Logo  What to wear today?" >
+            </div>
+            <div class="form-row">
+                <input name="userInput" class="form-control" type="text" placeholder="login" autocomplete="username" aria-label="registration user login" required />
+            </div>
+            <div class="form-row">
+                <input name="emailInput" class="form-control" type="email" placeholder="name@example.com"  autocomplete="username" aria-label="registration email" required />
+            </div>
+            <div class="form-row">
+                <input name="passwordInput" class="form-control" type="password" placeholder="password"  autocomplete="current-password" aria-label="registration password" required />
+            </div>
+            <p>By signing up, you agree to our Terms, Privacy Policy and Cookies Policy.</p>
+            <input id="submit-btn" name="submit" class="w-100 btn btn-lg btn-primary text-white" type="submit" aria-label="registration submit button" value="Sign up" />
+        </form>
+        
+    </main>
+
+    <footer aria-label="page footer">
+        <h5 aria-label="Web application name">What to wear <span>today</span>?</h5>
+        <p>© 2022 Jerzka</p>
+    </footer>
+</div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
+        crossorigin="anonymous"></script>
+    <script src="signup.js"></script>
+</body>
+
+</html>

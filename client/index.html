@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What to wear today?</title>
+    <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <link rel="stylesheet" href="main.css">
+    <link rel="stylesheet" href="carousel.css">
+</head>
+
+<body>
+
+    <main>
+        <section id="intro" class="container">
+            <div class="row justify-content-end">
+                <div class="col col-md-7 mx-5">
+                    <div id="logo" class="bg-primary my-2 mx-auto">
+                        <img src="images/logo_WhatToWear_opaque.svg" width="80px" alt="Logo What to wear?"
+                            aria-label="Logo What to wear today?">
+                    </div>
+                    <h1 class="intro-heading" aria-label="Web application name">What to wear <span
+                            class="span-bg">today</span>?</h1>
+                    <h4 class="sub-heading fw-normal lh-1">
+                        <span class="span-color">- this is every woman's morning question standing in front of a
+                            wardrobe
+                            full of clothes.</span>
+                    </h4>
+                    <p class="intro-lead my-3">With this website, I will try to help you organize your clothes and
+                        remember
+                        the outfits that make you feel like a million dollars!
+                    </p>
+                    <p>
+                        <a href="/signup" class="btn btn-primary my-2">Try it now!</a>
+                    </p>
+                    <p>You have an account already? <a href="/signin">Sign in</a></p>
+                </div>
+            </div>
+        </section>
+
+
+        <div class="other-outfits py-5">
+            <div class="container">
+                <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+                    <div class="col">
+                        <div class="card shadow-sm">
+                            <img class="w-100 card-img-top" width="100%" height="225" src="images/default.png" alt="..."
+                                aria-label="Other user outfit" focusable="false">
+                            <div class="card-body">
+                                <p class="card-text">Outfit created by <span class="span-bg">Kate</span></p>
+                                <h3>Rock stripes</h3>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="accent">
+                                        <i class="fa fa-star fa-lg" aria-hidden="true"></i>
+                                        <i class="fa fa-star fa-lg" aria-hidden="true"></i>
+                                        <i class="fa fa-star fa-lg" aria-hidden="true"></i>
+                                        <i class="fa fa-star fa-lg" aria-hidden="true"></i>
+                                        <i class="fa fa-star-o fa-lg" aria-hidden="true"></i>
+                                    </div>
+                                    <button type="button" class="btn btn-sm btn-outline-primary">Rate</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="card shadow-sm">
+                            <img class="w-100 card-img-top" width="100%" height="225" src="images/default.png" alt="..."
+                                aria-label="Other user outfit" focusable="false">
+                            <div class="card-body">
+                                <p class="card-text">Outfit created by <span class="span-bg">Kasia</span></p>
+                                <h3>Tame a tiger</h3>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="accent">
+                                        <i class="fa fa-star fa-lg" aria-hidden="true"></i>
+                                        <i class="fa fa-star fa-lg" aria-hidden="true"></i>
+                                        <i class="fa fa-star fa-lg" aria-hidden="true"></i>
+                                        <i class="fa fa-star fa-lg" aria-hidden="true"></i>
+                                        <i class="fa fa-star-o fa-lg" aria-hidden="true"></i>
+                                    </div>
+                                    <button type="button" class="btn btn-sm btn-outline-primary">Rate</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="card shadow-sm">
+                            <img class="w-100 card-img-top" width="100%" height="225" src="images/default.png" alt="..."
+                                aria-label="Other user outfit" focusable="false">
+                            <div class="card-body">
+                                <p class="card-text">Outfit created by <span class="span-bg">Kate</span></p>
+                                <h3>Rock stripes</h3>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="accent">
+                                        <i class="fa fa-star fa-lg" aria-hidden="true"></i>
+                                        <i class="fa fa-star fa-lg" aria-hidden="true"></i>
+                                        <i class="fa fa-star fa-lg" aria-hidden="true"></i>
+                                        <i class="fa fa-star fa-lg" aria-hidden="true"></i>
+                                        <i class="fa fa-star-o fa-lg" aria-hidden="true"></i>
+                                    </div>
+                                    <button type="button" class="btn btn-sm btn-outline-primary">Rate</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <h1 class="my-3">Latest trends</h1>
+
+        <div id="myCarousel" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-indicators">
+              <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+              <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+              <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+            </div>
+            <div class="carousel-inner">
+              <div class="carousel-item active">
+                <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"/></svg>
+        
+                <div class="container">
+                  <div class="carousel-caption">
+                    <h1>Newest trends</h1>
+                    <p>Some representative placeholder content for the first slide of the carousel.</p>
+                    <p><a class="btn btn-primary" href="#">Check this out</a></p>
+                  </div>
+                </div>
+              </div>
+              <div class="carousel-item">
+                <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"/></svg>
+        
+                <div class="container">
+                  <div class="carousel-caption">
+                    <h1>From the street</h1>
+                    <p>Some representative placeholder content for the second slide of the carousel.</p>
+                    <p><a class="btn btn-primary" href="#">Go</a></p>
+                  </div>
+                </div>
+              </div>
+              <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
+              <span class="carousel-control-prev-icon span-bg" aria-hidden="true"></span>
+              <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next">
+              <span class="carousel-control-next-icon span-bg" aria-hidden="true"></span>
+              <span class="visually-hidden">Next</span>
+            </button>
+          </div>
+
+          
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="container footer" aria-label="page footer">
+        <h5 aria-label="Web application name">What to wear <span class="span-bg">today</span>?</h5>
+        <p>© 2022 Jerzka</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

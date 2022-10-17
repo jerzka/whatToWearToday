@@ -1,0 +1,35 @@
+#banner{
+    background-image: url('./images/banner-coffee.jpg');
+    background-position-y: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+#banner h3{
+    text-shadow: 2px 2px 5px rgb(0 , 0 , 0);
+}
+
+:root {
+    --basic-color: steelblue;
+    /*lightslategrey*/
+    --darken-basic-color: rgb(112, 128, 144);
+    /*slategrey*/
+    --lighter-basic-color: lightsteelblue;
+    --accent-color: rgb(226, 115, 150);
+    --logo-size: 100px;
+  }
+
+#logo{
+    position: relative;
+    width: var(--logo-size);
+    height: var(--logo-size);
+    border-radius: 50%;
+  }
+  
+  #logo > img {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%); 
+    border-radius: 50%;
+  }
