@@ -39,7 +39,7 @@
                     <p>
                         <a href="/signup" class="btn btn-primary my-2">Try it now!</a>
                     </p>
-                    <p>You have an account already? <a href="/signin">Sign in</a></p>
+                    <p>You have an account already? <br class="d-md-none"/> <a href="/signin">Sign in</a></p>
                 </div>
             </div>
         </section>
@@ -63,7 +63,7 @@
                                         <i class="fa fa-star fa-lg" aria-hidden="true"></i>
                                         <i class="fa fa-star-o fa-lg" aria-hidden="true"></i>
                                     </div>
-                                    <button type="button" class="btn btn-sm btn-outline-primary">Rate</button>
+                                    <button type="button" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#ratingModal">Rate</button>
                                 </div>
                             </div>
                         </div>
@@ -117,44 +117,79 @@
 
         <div id="myCarousel" class="carousel slide" data-bs-ride="carousel">
             <div class="carousel-indicators">
-              <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-              <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
-              <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" class="active"
+                    aria-current="true" aria-label="Slide 1"></button>
+                <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
             </div>
             <div class="carousel-inner">
-              <div class="carousel-item active">
-                <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"/></svg>
-        
-                <div class="container">
-                  <div class="carousel-caption">
-                    <h1>Newest trends</h1>
-                    <p>Some representative placeholder content for the first slide of the carousel.</p>
-                    <p><a class="btn btn-primary" href="#">Check this out</a></p>
-                  </div>
-                </div>
-              </div>
-              <div class="carousel-item">
-                <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"/></svg>
-        
-                <div class="container">
-                  <div class="carousel-caption">
-                    <h1>From the street</h1>
-                    <p>Some representative placeholder content for the second slide of the carousel.</p>
-                    <p><a class="btn btn-primary" href="#">Go</a></p>
-                  </div>
-                </div>
-              </div>
-              <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
-              <span class="carousel-control-prev-icon span-bg" aria-hidden="true"></span>
-              <span class="visually-hidden">Previous</span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next">
-              <span class="carousel-control-next-icon span-bg" aria-hidden="true"></span>
-              <span class="visually-hidden">Next</span>
-            </button>
-          </div>
+                <div class="carousel-item active">
+                    <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"
+                        aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false">
+                        <rect width="100%" height="100%" fill="#777" />
+                    </svg>
 
-          
+                    <div class="container">
+                        <div class="carousel-caption">
+                            <h1>Newest trends</h1>
+                            <p>Some representative placeholder content for the first slide of the carousel.</p>
+                            <p><a class="btn btn-primary" href="#">Check this out</a></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"
+                        aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false">
+                        <rect width="100%" height="100%" fill="#777" />
+                    </svg>
+
+                    <div class="container">
+                        <div class="carousel-caption">
+                            <h1>From the street</h1>
+                            <p>Some representative placeholder content for the second slide of the carousel.</p>
+                            <p><a class="btn btn-primary" href="#">Go</a></p>
+                        </div>
+                    </div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon span-bg" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next">
+                    <span class="carousel-control-next-icon span-bg" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+
+            <!-- Modal -->
+            <div class="modal fade" id="ratingModal" tabindex="-1" aria-labelledby="ratingModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content text-center">
+                        <div class="modal-header">
+                            <h4 class="modal-title text-center" id="ratingModalLabel">Rate outfit</h4>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="text-center">
+                                <h1 class="fs-5">Leave your rating for <b>Outfit Name</b> of <span class="span-bg">User</span></h1>
+                                <p>Select and click the stars</p>
+                                <div class="accent">
+                                    <i class="fa fa-star fa-lg" aria-hidden="true"></i>
+                                    <i class="fa fa-star fa-lg" aria-hidden="true"></i>
+                                    <i class="fa fa-star fa-lg" aria-hidden="true"></i>
+                                    <i class="fa fa-star fa-lg" aria-hidden="true"></i>
+                                    <i class="fa fa-star-o fa-lg" aria-hidden="true"></i>
+                                </div>
+                            </div>
+                    </div>
+                        <div class="modal-footer">
+                            <button id="rateModalBtn" type="button" class="btn btn-primary">Rate</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
     </main>
 
     <!-- FOOTER -->

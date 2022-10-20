@@ -18,21 +18,21 @@
 
 </head>
 
-<body class="text-center">
-    <div class="container">
+<body>
+    <div class="container text-center">
     <main  id="form-signup" class="m-auto" aria-label="registration form">
-        <form class="px-5 needs-validation" method="post" novalidate>
+        <form class="px-5">
             <div id="logo" class="bg-primary my-2 mx-auto">
                 <img src="images/logo_WhatToWear_opaque.svg" width="80px" alt="Logo What to wear today?" aria-label="Logo  What to wear today?" >
             </div>
             <div class="form-row">
-                <input name="userInput" class="form-control" type="text" placeholder="login" autocomplete="username" aria-label="registration user login" required />
+                <input id="userInput" class="form-control" type="text" placeholder="login" autocomplete="username" aria-label="registration user login" required />
             </div>
             <div class="form-row">
-                <input name="emailInput" class="form-control" type="email" placeholder="name@example.com"  autocomplete="username" aria-label="registration email" required />
+                <input id="emailInput" class="form-control" type="email" placeholder="name@example.com"  autocomplete="username" aria-label="registration email" required />
             </div>
             <div class="form-row">
-                <input name="passwordInput" class="form-control" type="password" placeholder="password"  autocomplete="current-password" aria-label="registration password" required />
+                <input id="passwordInput" class="form-control" type="password" placeholder="password"  autocomplete="current-password" aria-label="registration password" required />
             </div>
             <p>By signing up, you agree to our Terms, Privacy Policy and Cookies Policy.</p>
             <input id="submit-btn" name="submit" class="w-100 btn btn-lg btn-primary text-white" type="submit" aria-label="registration submit button" value="Sign up" />
