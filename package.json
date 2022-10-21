@@ -4,9 +4,9 @@
   "description": "Web application helping to organize wardrobe",
   "main": "app.js",
   "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node app.js",
-    "develop": "nodemon app.js",
-    "test": "echo \\\"Error: no test specified\\\" && exit 1"
+    "develop": "nodemon app.js"
   },
   "repository": {
     "type": "git",
@@ -36,6 +36,7 @@
     "bcryptjs": "^2.4.3",
     "express": "^4.18.2",
     "express-handlebars": "^6.0.6",
+    "mongodb": "^4.11.0",
     "mongoose": "^6.6.6"
   },
   "devDependencies": {
