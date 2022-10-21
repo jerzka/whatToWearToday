@@ -1,8 +1,9 @@
 const express = require("express");
 const path = require("path");
 const bodyParser = require("body-parser");
-const { engine } =require("express-handlebars");
-const urlencodedParser = bodyParser.urlencoded({ extended: false });
+const { engine } = require("express-handlebars");
+const { getConnection } = require("./db/db");
+const userService = require("./controllers/user.controller");
 
 const app = express();
 const port = 3003;
@@ -13,14 +14,8 @@ app.engine('hbs', engine({
     layoutsDir: __dirname + '/views/layouts',
     extname: 'hbs'
     }));   
- 
-// const __filename = fileURLToPath(import.meta.url);
-// const __dirname = path.dirname(__filename);
-const users = [];
-let loggedIn = false;
 
-//console.log('directory-name', __dirname+'/client/index.js');
-
+app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, '/client/public')));
 
 app.get('/', (req, res) => {
@@ -32,35 +27,27 @@ app.get('/signup', (req, res) => {
                     customstyle: `<link rel="stylesheet" href="forms.css">`});
 });
 
-app.post('/signup', urlencodedParser, (req, res) => {
-    const newId = users.length === 0 ? 0 : users[users.length - 1].id + 1;
-    const newUser = {
-      id: newId,
-      user: req.body.userInput,
-      email: req.body.emailInput,
-      password: req.body.passwordInput
-    };
-  
-    users.push(newUser);
-    //res.send(users);
-    res.redirect("/signin");
-  
-  });
+app.post('/signup', async (req, res) => {
+    console.log(req.body);
+    try {
+        await userService.storeUser(req.body);
+    } catch(err) {
+        res.status(err.code).json({
+            error: err.msg
+        })
+        return;
+    }
+    res.status(200).json({
+         message: "user created sucessfully"
+    });
+});
 
 app.get('/signin', (req, res) => {
     res.sendFile(__dirname +'/client/signin.html');
 });
 
-app.post('/signin', urlencodedParser, (req, res) => {
+app.post('/signin', (req, res) => {
     const userInfo = req.body;
-
-    if(users.findIndex((x) => (x.user === userInfo.userInput && x.password === userInfo.passwordInput ))){
-        loggedIn = true;
-        res.redirect("/home");
-    }
-    else {
-        res.send("Acces denied");
-    }
 });
 
 app.get('/home', (req, res) => {
@@ -70,7 +57,6 @@ app.get('/home', (req, res) => {
 app.get('/details', (req, res) => {
     res.sendFile(__dirname +'/client/cloth.html');
 });
-
 
 app.get('/add-cloth', (req, res) => {
     res.sendFile(__dirname +'/client/cloth-form.html');
@@ -89,8 +75,10 @@ app.use((req, res) => {
     res.status(404).sendFile(__dirname +'/client/404.html');
 });
 
-app.listen(port, () => {
+app.listen(port, async() => {
     console.log('Listening from port 3003');
+    await getConnection();
+    console.log("Connected to MongoDB");
 });
 
 module.exports = app;
