@@ -10,8 +10,11 @@ const port = 3003;
 
 app.engine('handlebars', engine());
 app.set('view engine', 'hbs');
+app.set('views', path.join(__dirname, 'views'));
 app.engine('hbs', engine({
-    layoutsDir: __dirname + '/views/layouts',
+    defaultLayout: 'main',
+    layoutsDir: path.join(__dirname, '/views/layouts'),
+    partialDir: path.join(__dirname, '/views/partials'),
     extname: 'hbs'
     }));   
 
