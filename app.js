@@ -22,7 +22,9 @@ app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, '/client/public')));
 
 app.get('/', (req, res) => {
-    res.render('intro', {layout: 'main', customstyle: `<link rel="stylesheet" href="carousel.css">`});
+    res.render('intro', {
+                    layout: 'main', 
+                    customstyle: `<link rel="stylesheet" href="carousel.css">`});
 });
 app.get('/signup', (req, res) => {
     res.render('signup', {

@@ -6,17 +6,19 @@
                     aria-label="Logo  What to wear today?">
             </div>
             <div class="form-row">
-                <input id="userInput" class="form-control" type="text" placeholder="login" autocomplete="username"
-                    aria-label="registration user login" required />
-            </div>
-            <div class="form-row">
                 <input id="emailInput" class="form-control" type="email" placeholder="name@example.com"
                     autocomplete="username" aria-label="registration email" required />
+
             </div>
-            <div class="form-row">
-                <input id="passwordInput" class="form-control" type="password" placeholder="password"
-                    autocomplete="current-password" aria-label="registration password" required />
+            <div class="form-row input-group mb-3">
+                    <input id="passwordInput" class="form-control" type="password" placeholder="password"
+                        autocomplete="current-password" aria-label="registration password"
+                        aria-describedby="showButton">
+                    <button class="btn btn-outline-secondary opacity-25" type="button" id="showButton">
+                        <i id="showIcon" class="fa fa-eye" aria-hidden="true"></i>
+                    </button>
             </div>
+
             <p>By signing up, you agree to our Terms, Privacy Policy and Cookies Policy.</p>
             <button id="signupBtn" type="button" class="btn btn-primary btn-lg">Sign up</button>
         </form>

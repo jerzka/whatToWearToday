@@ -12,7 +12,8 @@ const storeUser = async (userData) => {
             password
         });
         console.log("user to model "+ user);
-        await user.save();
+        const newUser = await user.save();
+        return newUser;
     } catch(err) {
         throw {
             msg: 'failed to create user, please check your input',
