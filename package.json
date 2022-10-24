@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node app.js",
-    "develop": "nodemon app.js"
+    "develop": "nodemon app.js",
+    "uglify": "uglifyjs client/public/form-helpers.js client/public/signup.js --output client/public/signup.min.js & uglifyjs client/public/form-helpers.js client/public/signin.js --output client/public/signin.min.js"
   },
   "repository": {
     "type": "git",
@@ -44,6 +45,7 @@
   },
   "devDependencies": {
     "dotenv": "^16.0.3",
-    "nodemon": "^2.0.20"
+    "nodemon": "^2.0.20",
+    "uglify-js": "^3.17.4"
   }
 }

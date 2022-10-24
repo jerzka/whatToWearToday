@@ -1,4 +1,4 @@
-export const validateSignInUpForm = (formValue) => {
+const validateSignInUpForm = (formValue) => {
   
     if ((!formValue.email || formValue.email === "")) {
       showError('Please provide an email')
@@ -18,7 +18,7 @@ export const validateSignInUpForm = (formValue) => {
     return true;
 }
 
-export const showError = (errorMessage) => {
+const showError = (errorMessage) => {
     const body = document.getElementsByTagName('body')[0]
     console.log( body)
     const randomNumber = Math.random()
@@ -35,7 +35,7 @@ export const showError = (errorMessage) => {
     </div>`)
 }
 
-export const showHidePassword = () => {
+const showHidePassword = () => {
     const icon = document.getElementById('showIcon');
     const passwordInput = document.getElementById("passwordInput");
     if (icon.classList.contains("fa-eye")){

@@ -1,5 +1,3 @@
-import { showError, showHidePassword, validateSignInUpForm } from './form-helpers.js';
- 
 const handleSignup = async () => {
   const formValue = {
     email: document.getElementById("emailInput").value,
