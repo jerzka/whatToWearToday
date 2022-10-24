@@ -4,6 +4,8 @@ const bodyParser = require("body-parser");
 const { engine } = require("express-handlebars");
 const { getConnection } = require("./db/db");
 const userService = require("./controllers/user.controller");
+const cookieParser = require("cookie-parser");
+const { auth } = require('./middelwares/auth');
 
 const app = express();
 const port = 3003;
@@ -20,6 +22,7 @@ app.engine('hbs', engine({
 
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, '/client/public')));
+app.use(cookieParser());
 
 app.get('/', (req, res) => {
     res.render('intro', {
@@ -48,11 +51,36 @@ app.post('/signup', async (req, res) => {
 });
 
 app.get('/signin', (req, res) => {
-    res.sendFile(__dirname +'/client/signin.html');
+    res.render('signin', {
+        layout: 'main', 
+        customstyle: `<link rel="stylesheet" href="forms.css">`
+    });
 });
 
-app.post('/signin', (req, res) => {
-    const userInfo = req.body;
+app.post('/signin', async (req, res) => {
+    const body = req.body;
+
+    if(!body.email || !body.password || body.password.length === 0){
+        res.status(400).json({
+            error: "Invalid user information, please check your input"
+        });
+        return;
+    }
+
+    try{
+        const {userId, token} = await userService.signin(body);
+        if(userId && token){
+            res.cookie('token', token, {maxAge: 900000});
+            res.status(200).json({
+                userId,
+                token
+            });
+        }
+    } catch (error){
+        res.status(error.code).json({
+            error: error.msg
+        })
+    }
 });
 
 app.get('/home', (req, res) => {

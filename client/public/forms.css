@@ -75,6 +75,7 @@ footer > p{
 }
 
 .errorToast{
+  display: block;
   top:2%;
   right:2%;
 }

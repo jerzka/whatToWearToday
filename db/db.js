@@ -18,4 +18,8 @@ const getConnection = async() =>{
     }
 }
 
-module.exports = {getConnection, mongoose, Schema: mongoose.Schema};
+module.exports = {
+    getConnection, 
+    mongoose, 
+    Schema: mongoose.Schema
+};
