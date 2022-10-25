@@ -83,6 +83,22 @@ app.post('/signin', async (req, res) => {
     }
 });
 
+app.get('/home', auth, async (req, res) => {
+    try {
+        const user = await userService.getUserById(req.userId)
+        res.render('home', {
+            layout: 'main',
+            name: user.name
+        })
+    } catch(error) {
+        res.redirect('/login')
+        res.end()
+        return
+    }
+
+})
+
+
 app.get('/home', (req, res) => {
     res.sendFile(__dirname +'/client/home.html');
 });

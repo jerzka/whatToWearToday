@@ -13,7 +13,7 @@ const getConnection = async() =>{
     }
     else{
         console.log("create new connection")
-        connection = await mongoose.connect(process.env.MONGODB_URI);
+        connection = await mongoose.connect(process.env.API_KEY);
         return connection;
     }
 }

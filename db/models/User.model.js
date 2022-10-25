@@ -1,6 +1,7 @@
-const mongoose = require('mongoose');
+const { getConnection, Schema, mongoose } = require('../db');
+getConnection();
 
-const User = mongoose.model('User', new mongoose.Schema({
+const userModel = mongoose.model('User', new mongoose.Schema({
     name: {
         type: String,
         required: [true, "Name is required"]
@@ -22,4 +23,4 @@ const User = mongoose.model('User', new mongoose.Schema({
 })
 );
 
-module.exports = User;
+module.exports = userModel;
