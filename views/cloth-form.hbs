@@ -1,0 +1,163 @@
+<div id="custom-form" class="container w-75">
+    <h1 class="p-3"><span class="span-bg text-white">Add</span> new cloth</h1>
+
+    <form class="px-3">
+        <div class="row justify-content-between">
+            <div class="form-group-custom border border-secondary border-opacity-25 my-5">
+                <div class="form-group-header">
+                    <h4>Basic info</h4>
+                </div>
+                <div class="row p-5">
+                    <div class="col-12 col-md-8">
+                        <label for="clothName" class="form-label ">Your cloth name</label>
+                        <input type="text" class="form-control" id="clothName" placeholder="New item name" value="">
+                    </div>
+                    <div class="col-12 col-md-4 mt-3 p-0 text-start">
+                        <div class="form-check form-custom-switch">
+                            <label class="form-check-label" for="availabilityCheck">Availability</label>
+                            <input class="form-check-input" type="checkbox" role="switch" id="availabilityCheck">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row justify-content-between">
+            <div class="col-12 col-md-5 form-group-custom border border-secondary border-opacity-25 my-5">
+                <div class="form-group-header">
+                    <h4>Season</h4>
+                </div>
+
+                <div class="row row-cols-2 pt-5">
+                    <div class="form-custom-check col pb-3">
+                        <input type="checkbox" class="form-check-input checkbox-xl" id="season-spring">
+                        <label class="form-check-label d-block" for="season-spring">Spring</label>
+                    </div>
+                    <div class="form-custom-check col">
+                        <input type="checkbox" class="form-check-input checkbox-xl" id="season-summer">
+                        <label class="form-check-label d-block" for="season-summer">Summer</label>
+                    </div>
+                </div>
+                <div class="row row-cols-2 pb-5">
+                    <div class="form-custom-check col">
+                        <input type="checkbox" class="form-check-input checkbox-xl" id="season-fall">
+                        <label class="form-check-label d-block" for="season-fall">Fall</label>
+                    </div>
+                    <div class="form-custom-check col">
+                        <input type="checkbox" class="form-check-input checkbox-xl" id="season-winter">
+                        <label class="form-check-label d-block" for="season-winter">Winter</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-6 form-group-custom border border-secondary border-opacity-25 my-5">
+
+                <div class="form-group-header">
+                    <h4>Your cloth style</h4>
+                </div>
+                <div class="row pt-5 justify-content-around">
+                    <div class="col-10 p-0 px-3">
+                        <select class="form-select" id="cloth-style">
+                            <option value="">Casual</option>
+                            <option>Elegant</option>
+                            <option>Sport</option>
+                            <option>Vintage</option>
+                            <option>Rock</option>
+                            <option>Outdoor</option>
+                        </select>
+                    </div>
+                    <div class="col-2 p-0">
+                        <button class="btn btn-primary">
+                            <i class="fa fa-plus fa-lg text-white" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="row my-5">
+                    <ul class="list-group-custom col-12 p-0 justify-content-center">
+                        <li class="list-group-item">Elegant</li>
+                        <li class="list-group-item">Vintage</li>
+                        <li class="list-group-item">Bussines</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="row justify-content-between">
+            <div class="col-12 col-md-6 form-group-custom border border-secondary border-opacity-25 my-5">
+                <div class="form-group-header">
+                    <h4>Your cloth photos</h4>
+                </div>
+                <div class="row row-cols-2 py-5 align-items-end">
+                    <div class="col-10">
+                        <label for="imgFile" class="form-label">Upload an image</label>
+                        <input class="form-control" type="file" id="imgFile">
+                    </div>
+                    <div class="col-2 col-md-2 p-0">
+                        <button class="btn btn-primary">
+                            <i class="fa fa-plus fa-lg text-white" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-5 form-group-custom border border-secondary border-opacity-25 my-5">
+                <div class="form-group-header">
+                    <h4>Your cloth color</h4>
+                </div>
+                <div class="row py-5">
+                    <div class="col-8">
+                        <label for="exampleColorInput" class="form-label pt-2">Pick a color</label>
+                    </div>
+                    <div class="col-4">
+                        <input type="color" class="form-control form-control-color" id="exampleColorInput"
+                            value="#563d7c" title="Choose your color">
+                    </div>
+                </div>
+                <div id="color1 w-10 block" style="background-color: red">
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group-custom border border-secondary border-opacity-25 my-5">
+            <div class="form-group-header">
+                <h4>Your cloth fabrics</h4>
+            </div>
+            <div class="row row-cols-3 p-5">
+                <div class="col-10 col-md-5 pb-3">
+                    <select class="form-select" id="cloth-part">
+                        <option value="">Shell</option>
+                        <option>Lining</option>
+                        <option>Padding</option>
+                    </select>
+                </div>
+                <div class="col-10 col-md-5">
+                    <select class="form-select" id="part-material">
+                        <option value="">Polyester</option>
+                        <option>Cotton</option>
+                        <option>Wool</option>
+                    </select>
+                </div>
+                <div class="col-2 col-md-2">
+                    <button class="btn btn-primary">
+                        <i class="fa fa-plus fa-lg text-white" aria-hidden="true"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="row pb-5">
+                <ul class="list-group-half justify-content-center">
+                    <li class="list-group-item">Shell</li>
+                    <li class="list-group-item">cotton</li>
+                    <li class="list-group-item">Linen</li>
+                    <li class="list-group-item">polyester</li>
+                    <li class="list-group-item">Padding</li>
+                    <li class="list-group-item">dawn</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="container col-md-6 col-lg-4 justify-content-center pb-5">
+            <button class="btn btn-primary btn-lg w-100" type="submit">Add cloth</button>
+        </div>
+    </form>
+    <hr/>
+</div>

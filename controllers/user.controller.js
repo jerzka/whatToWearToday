@@ -1,6 +1,6 @@
 const userModel = require('../db/models/User.model');
 const bcrypt = require('bcryptjs');
-const { createToken } = require('../middelwares/auth');
+const { createToken } = require('../middelwares/jwt');
 
 const storeUser = async (userData) => {
 
@@ -49,6 +49,11 @@ const getUserById = async (userId) => {
     }
 }
 
+const getUsers = async () => {
+    const users = await userModel.find().lean();
+
+}
+
 const signin = async (userData) => {
         const user = await getUser(userData.email)
         if (!user) {
@@ -67,6 +72,7 @@ const signin = async (userData) => {
         const token = await createToken(user.id)
         return { 
             userId: user.id,
+            userName: user.name,
             token
         }
 }
@@ -74,5 +80,6 @@ module.exports = {
     storeUser,
     getUser,
     signin,
-    getUserById
+    getUserById,
+    getUsers
 }

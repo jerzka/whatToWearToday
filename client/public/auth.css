@@ -3,6 +3,7 @@
     --darken-basic-color: rgb(112, 128, 144);
     --lighter-basic-color: lightsteelblue;
     --accent-color: rgb(226, 115, 150);
+    --accent-color-lighter: rgb(222, 145, 169);
     --logo-size: 70px;
 }
 
@@ -10,7 +11,8 @@ body {
     background: url("images/background_AdobeStock_169277666.jpg") no-repeat;
     background-size: cover;
     background-position: center;
-    background-position-y: -170px;
+    background-position-y: -100px;
+
     font-family: 'Open Sans', sans-serif;
     text-align: center;
     height: 100vh;
@@ -30,11 +32,16 @@ body {
     transform: translate(-50%, -50%);
     border-radius: 50%;
 }
-.accent{
+
+#logoutBtn{
+    background-color: var(--accent-color);
+}
+.accent {
     color: var(--accent-color);
 }
 
-h1, h5 {
+h1,
+h5 {
     font-family: 'Prata', serif;
 }
 
@@ -46,7 +53,7 @@ h1, h5 {
     color: var(--accent-color);
 }
 
-.opacity-bg{
+.opacity-bg {
     max-width: 960px;
     padding: 0 2rem;
     background-color: rgba(255, 255, 255, 1);
@@ -60,6 +67,7 @@ h1, h5 {
 .sticky-menu-btn:hover {
     background-color: var(--accent-color);
     color: rgb(255, 255, 255);
+    cursor:pointer;
 }
 
 .sticky-menu-btn>i:hover {
@@ -98,15 +106,15 @@ footer>p {
     margin-top: 20vh;
 }
 
-#intro{
+#intro {
     margin-top: 6rem;
 }
 
-.intro-heading{
+.intro-heading {
     font-size: 2rem;
 }
 
-.sub-heading{
+.sub-heading {
     font-size: 1.25rem;
 }
 
@@ -114,45 +122,20 @@ footer>p {
     font-size: .8rem;
 }
 
-.form-group-custom{
-    position: relative;
-  }
-
-.form-group-header{
-    position: absolute;
-    top: -20%;
-    left:50%;
-    transform: translateX(-50%);
-    padding: .5rem 1rem;
-    background-color: white;
-  }
 
 /* --- RESPONSIVE CSS  -------------------------------------------------- */
 @media (min-width: 75em) {
 
-    body{
+    body {
         background-position-y: -250px;
     }
-}
-
-@media (min-width: 62em) {
-    #intro{
-        margin-top: 9rem;
+    .nav{
+        max-width: 90%;
+      }
+} 
+  @media (min-width: 40em) {
+  
+    .nav{
+      max-width: 90%;
     }
-}
-
-@media (min-width: 40em) {
-
-   
-    .intro-heading {
-        font-size: 3em;
-    }
-
-    .sub-heading {
-        font-size: 2em;
-    }
-
-    .intro-lead {
-        font-size: 1rem;
-    }
-}
+  }

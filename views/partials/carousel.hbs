@@ -1,0 +1,25 @@
+<h1 class="my-3">Try this today{{ section.title }}</h1>
+
+<div id="myCarousel" class="carousel w-auto align-items-end slide me-xl-5" data-bs-ride="carousel">
+    <div class="carousel-indicators">
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" class="active" aria-current="true"
+            aria-label="Slide 1"></button>
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+    </div>
+    <div class="carousel-inner">
+        {{!-- this element to insert from .js - first has class active--}}
+        <div class="carousel-item active" data-bs-interval="10000">
+            <img class="" width="80%" height="100%" src="images/default.png" alt="...">
+        </div>
+        {{!-- section.item --}}
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon span-bg" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon span-bg" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+    </button>
+</div>

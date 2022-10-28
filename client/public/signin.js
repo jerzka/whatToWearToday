@@ -35,3 +35,8 @@ signInButton.addEventListener('click', handleSignin);
 
 const showBtn = document.getElementById("showButton");
 showBtn.addEventListener("click", showHidePassword);
+
+const logoHomeBtn = document.getElementById("logo");
+logoHomeBtn.addEventListener("click", () => {
+    window.location = "/";
+});
