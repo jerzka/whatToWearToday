@@ -9,12 +9,12 @@ const storeUser = async (userData) => {
         const user = new userModel({
             ...userData,
             password
-        })
+        });
         await user.save();
         return;
     } catch(err) {
         throw {
-            msg: 'failed to create user, please check your input', 
+            msg: 'Failed to create user, please check your input', 
             code: 400 
         }
     }

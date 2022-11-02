@@ -10,7 +10,7 @@
                 <div class="row p-5">
                     <div class="col-12 col-md-8">
                         <label for="clothName" class="form-label ">Your cloth name</label>
-                        <input type="text" class="form-control" id="clothName" placeholder="New item name" value="">
+                        <input type="text" class="form-control" id="clothName" placeholder="New item name">
                     </div>
                     <div class="col-12 col-md-4 mt-3 p-0 text-start">
                         <div class="form-check form-custom-switch">
@@ -23,62 +23,58 @@
         </div>
 
         <div class="row justify-content-between">
-            <div class="col-12 col-md-5 form-group-custom border border-secondary border-opacity-25 my-5">
+            <div id="seasons" class="col-12 col-md-5 form-group-custom border border-secondary border-opacity-25 my-5">
                 <div class="form-group-header">
                     <h4>Season</h4>
                 </div>
 
                 <div class="row row-cols-2 pt-5">
                     <div class="form-custom-check col pb-3">
-                        <input type="checkbox" class="form-check-input checkbox-xl" id="season-spring">
+                        <input type="checkbox" class="form-check-input checkbox-xl" id="seasonSpring" value="spring">
                         <label class="form-check-label d-block" for="season-spring">Spring</label>
                     </div>
                     <div class="form-custom-check col">
-                        <input type="checkbox" class="form-check-input checkbox-xl" id="season-summer">
+                        <input type="checkbox" class="form-check-input checkbox-xl" id="seasonSummer" value="summer">
                         <label class="form-check-label d-block" for="season-summer">Summer</label>
                     </div>
                 </div>
                 <div class="row row-cols-2 pb-5">
                     <div class="form-custom-check col">
-                        <input type="checkbox" class="form-check-input checkbox-xl" id="season-fall">
+                        <input type="checkbox" class="form-check-input checkbox-xl" id="season-fall" value="fall">
                         <label class="form-check-label d-block" for="season-fall">Fall</label>
                     </div>
                     <div class="form-custom-check col">
-                        <input type="checkbox" class="form-check-input checkbox-xl" id="season-winter">
+                        <input type="checkbox" class="form-check-input checkbox-xl" id="season-winter" value="winter">
                         <label class="form-check-label d-block" for="season-winter">Winter</label>
                     </div>
                 </div>
             </div>
 
-            <div class="col-12 col-md-6 form-group-custom border border-secondary border-opacity-25 my-5">
+            <div id="styles" class="col-12 col-md-6 form-group-custom border border-secondary border-opacity-25 my-5">
 
                 <div class="form-group-header">
                     <h4>Your cloth style</h4>
                 </div>
                 <div class="row pt-5 justify-content-around">
                     <div class="col-10 p-0 px-3">
-                        <select class="form-select" id="cloth-style">
-                            <option value="">Casual</option>
-                            <option>Elegant</option>
-                            <option>Sport</option>
-                            <option>Vintage</option>
-                            <option>Rock</option>
-                            <option>Outdoor</option>
+                        <select id="style" class="form-select" aria-label="select cloth style" >
+                            <option value="">-- Choose an style --</option>
+                            <option value="casual">Casual</option>
+                            <option value="elegant">Elegant</option>
+                            <option value="sport">Sport</option>
+                            <option value="outdoor">Outdoor</option>
+                            <option value="vintage">Vintage</option>
+                            <option value="rock">Rock</option>
                         </select>
                     </div>
                     <div class="col-2 p-0">
-                        <button class="btn btn-primary">
+                        <button id="addStyleBtn" type="button" class="btn btn-primary">
                             <i class="fa fa-plus fa-lg text-white" aria-hidden="true"></i>
                         </button>
                     </div>
                 </div>
-                <div class="row my-5">
-                    <ul class="list-group-custom col-12 p-0 justify-content-center">
-                        <li class="list-group-item">Elegant</li>
-                        <li class="list-group-item">Vintage</li>
-                        <li class="list-group-item">Bussines</li>
+                    <ul class="my-5 list-group-custom col-12 p-0 justify-content-center">
                     </ul>
-                </div>
             </div>
         </div>
 
@@ -89,11 +85,10 @@
                 </div>
                 <div class="row row-cols-2 py-5 align-items-end">
                     <div class="col-10">
-                        <label for="imgFile" class="form-label">Upload an image</label>
-                        <input class="form-control" type="file" id="imgFile">
+                        <input class="form-control" type="file" name="image" id="imgFile">
                     </div>
                     <div class="col-2 col-md-2 p-0">
-                        <button class="btn btn-primary">
+                        <button type="button" class="btn btn-primary">
                             <i class="fa fa-plus fa-lg text-white" aria-hidden="true"></i>
                         </button>
                     </div>
@@ -104,17 +99,23 @@
                 <div class="form-group-header">
                     <h4>Your cloth color</h4>
                 </div>
-                <div class="row py-5">
-                    <div class="col-8">
-                        <label for="exampleColorInput" class="form-label pt-2">Pick a color</label>
+                <div class="row py-5 justify-content-between">
+                    <div class="col-6">
+                        <label for="colorInput" class="form-label pt-2">Pick a color</label>
                     </div>
-                    <div class="col-4">
-                        <input type="color" class="form-control form-control-color" id="exampleColorInput"
-                            value="#563d7c" title="Choose your color">
+                    <div class="col-2">
+                        <input type="color" class="form-control form-control-color" id="colorInput" value="#000000"
+                            title="Choose your color">
                     </div>
+                    <div class="col-2 p-0">
+                        <button id="addColorBtn" type="button" class="btn btn-primary">
+                            <i class="fa fa-plus fa-lg text-white" aria-hidden="true"></i>
+                        </button>
+                    </div>
+
                 </div>
-                <div id="color1 w-10 block" style="background-color: red">
-                </div>
+                <ul id="colors">
+                </ul>
             </div>
         </div>
 
@@ -124,40 +125,35 @@
             </div>
             <div class="row row-cols-3 p-5">
                 <div class="col-10 col-md-5 pb-3">
-                    <select class="form-select" id="cloth-part">
-                        <option value="">Shell</option>
-                        <option>Lining</option>
-                        <option>Padding</option>
+                    <select class="form-select" id="part">
+                        <option value="shell">Shell</option>
+                        <option value="lining">Lining</option>
+                        <option value="padding">Padding</option>
                     </select>
                 </div>
                 <div class="col-10 col-md-5">
-                    <select class="form-select" id="part-material">
-                        <option value="">Polyester</option>
-                        <option>Cotton</option>
-                        <option>Wool</option>
+                    <select class="form-select" id="fabric">
+                        <option value="polyester">Polyester</option>
+                        <option value="cotton">Cotton</option>
+                        <option value="wool">Wool</option>
                     </select>
                 </div>
                 <div class="col-2 col-md-2">
-                    <button class="btn btn-primary">
+                    <button id="addFabricBtn" type="button" class="btn btn-primary">
                         <i class="fa fa-plus fa-lg text-white" aria-hidden="true"></i>
                     </button>
                 </div>
             </div>
             <div class="row pb-5">
-                <ul class="list-group-half justify-content-center">
-                    <li class="list-group-item">Shell</li>
-                    <li class="list-group-item">cotton</li>
-                    <li class="list-group-item">Linen</li>
-                    <li class="list-group-item">polyester</li>
-                    <li class="list-group-item">Padding</li>
-                    <li class="list-group-item">dawn</li>
+                <ul id="fabrics" class="list-group-half justify-content-center">
+                    
                 </ul>
             </div>
         </div>
 
         <div class="container col-md-6 col-lg-4 justify-content-center pb-5">
-            <button class="btn btn-primary btn-lg w-100" type="submit">Add cloth</button>
+            <button id="addCloth" type="button" class="btn btn-primary btn-lg w-100">Add cloth</button>
         </div>
     </form>
-    <hr/>
+    <hr />
 </div>

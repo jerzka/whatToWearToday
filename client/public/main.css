@@ -7,10 +7,10 @@
 }
 
 body {
-    background: url("images/background_AdobeStock_169277666.jpg") no-repeat;
+    background: url("images/background_AdobeStock_169277666.png") no-repeat;
     background-size: cover;
     background-position: center;
-    background-position-y: -170px;
+    background-position-y: -197px;
     font-family: 'Open Sans', sans-serif;
     text-align: center;
     height: 100vh;
@@ -130,9 +130,9 @@ footer>p {
 /* --- RESPONSIVE CSS  -------------------------------------------------- */
 @media (min-width: 75em) {
 
-    body{
+    /* body{
         background-position-y: -250px;
-    }
+    } */
 }
 
 @media (min-width: 62em) {

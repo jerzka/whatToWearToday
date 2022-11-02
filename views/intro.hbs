@@ -65,7 +65,8 @@
                                     <i class="fa fa-star fa-lg" aria-hidden="true"></i>
                                     <i class="fa fa-star-o fa-lg" aria-hidden="true"></i>
                                 </div>
-                                <button type="button" class="btn btn-sm btn-outline-primary">Rate</button>
+                                <button type="button" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal"
+                                    data-bs-target="#ratingModal">Rate</button>
                             </div>
                         </div>
                     </div>
@@ -85,7 +86,8 @@
                                     <i class="fa fa-star fa-lg" aria-hidden="true"></i>
                                     <i class="fa fa-star-o fa-lg" aria-hidden="true"></i>
                                 </div>
-                                <button type="button" class="btn btn-sm btn-outline-primary">Rate</button>
+                                <button type="button" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal"
+                                    data-bs-target="#ratingModal">Rate</button>
                             </div>
                         </div>
                     </div>
@@ -148,25 +150,14 @@
             <div class="modal-dialog">
                 <div class="modal-content text-center">
                     <div class="modal-header">
-                        <h4 class="modal-title text-center" id="ratingModalLabel">Rate outfit</h4>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <div class="text-center">
-                            <h1 class="fs-5">Leave your rating for <b>Outfit Name</b> of <span
-                                    class="span-bg">User</span></h1>
-                            <p>Select and click the stars</p>
-                            <div class="accent">
-                                <i class="fa fa-star fa-lg" aria-hidden="true"></i>
-                                <i class="fa fa-star fa-lg" aria-hidden="true"></i>
-                                <i class="fa fa-star fa-lg" aria-hidden="true"></i>
-                                <i class="fa fa-star fa-lg" aria-hidden="true"></i>
-                                <i class="fa fa-star-o fa-lg" aria-hidden="true"></i>
-                            </div>
+                            <h1 class="fs-3">Do you like this outfit!?</h1>
+                            <button id="signupBtn" class="btn btn-primary my-3">Register now!</button>
+                            <h1 class="fs-5">... and create your <span class="span-bg">own</span>!</h1>
                         </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button id="rateModalBtn" type="button" class="btn btn-primary">Rate</button>
                     </div>
                 </div>
             </div>

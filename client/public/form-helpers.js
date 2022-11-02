@@ -19,10 +19,10 @@ const validateSignInUpForm = (formValue) => {
 }
 
 const showError = (errorMessage) => {
-    const body = document.getElementsByTagName('body')[0]
-    console.log( body)
-    const randomNumber = Math.random()
-    const id = `toast-${randomNumber}`
+    const body = document.getElementsByTagName('body')[0];
+    console.log(body);
+    const randomNumber = Math.random();
+    const id = `toast-${randomNumber}`;
     body.insertAdjacentHTML('beforeend', `    
     <div id="${id}" class="toast errorToast position-fixed align-items-center text-bg-danger show border-0" role="alert" aria-live="assertive" aria-atomic="true">
         <div class="d-flex">
@@ -32,7 +32,7 @@ const showError = (errorMessage) => {
             <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
                 aria-label="Close"></button>
         </div>
-    </div>`)
+    </div>`);
 }
 
 const showHidePassword = () => {

@@ -6,6 +6,8 @@ const { getConnection } = require("./db/db");
 const userService = require("./controllers/user.controller");
 const cookieParser = require("cookie-parser");
 const { auth } = require('./middelwares/auth');
+const fileUpload = require('express-fileupload');
+
 
 const app = express();
 const port = 3003;
@@ -23,6 +25,14 @@ app.engine('hbs', engine({
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, '/client/public')));
 app.use(cookieParser());
+app.use(
+    fileUpload({
+        limits: {
+            fileSize: 1000000,
+        },
+        abortOnLimit: true
+    })
+);
 
 app.get('/', (req, res) => {
     res.render('intro', {
@@ -93,7 +103,20 @@ app.get('/home', auth, async (req, res) => {
         res.render('home', {
             layout: 'auth',
             customstyle: `<link rel="stylesheet" href="carousel.css">`,
-            customscript: `<script src="add-item.js"></script>`,
+            customscript: `<script src="home.js"></script>`,
+            helpers: {
+                currentDate() {
+                        const currentDate = new Date();
+                        const weekDays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+                        const weekDay = weekDays[currentDate.getDay()];
+                        const weekend = (weekDay === "Sunday" || weekDay === "Saturday") ? "Weekend" : "Week day";
+                        
+                        return `<h5>Today is <b>${weekDay}</b>,
+                                 ${currentDate.toLocaleString('default', { month: 'long' })} ${currentDate.toLocaleString('default', {day:'2-digit'})}, 
+                                 ${currentDate.getFullYear()} | <span class="span-bg">${weekend}</span></h5>`
+
+                    }
+            },
             name: req.userName
         })
     } catch (error) {
@@ -109,6 +132,7 @@ app.get('/cloth-form', auth, async (req, res) => {
         res.render('cloth-form', {
             layout: 'auth',
             customstyle: `<link rel="stylesheet" href="auth-forms.css">`,
+            customscript: `<script src="add-item.js"></script>`,
             name: req.userName
         })
     } catch (error) {
@@ -116,6 +140,34 @@ app.get('/cloth-form', auth, async (req, res) => {
         res.end();
         return;
     }
+});
+
+app.post('/add-cloth', auth, (req, res) => {
+    console.log(req.body);
+    const { image } = req.body.image;
+
+    if (!image){
+         return res.status(400).json({
+            error: "Please upload a photo"
+        });
+    }
+
+    if (/^image/.test(image.mimetype)){
+        return res.status(400).json({
+            error: "The photo is not a valid image"
+        });    
+    }
+    image.mv(__dirname + '/upload/' + image.name);
+
+    try{
+
+
+    } catch (error) {
+    res.redirect('/login')
+    res.end()
+    return
+    }
+    res.sendStatus(200);
 });
 
 app.get('/cloth-details', (req, res) => {

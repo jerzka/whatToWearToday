@@ -1,12 +1,11 @@
 <main>
     <div class="container-fluid date">
-        <h5>Today is <b>Friday</b>, Oct 14 , 2022 | <span class="span-bg">Week day</span></h5>
-
+        {{{ currentDate }}}
     </div>
     {{> carousel}}
 
-    <form class="d-flex w-75 m-auto" role="search">
-        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+    <form id="searchSection" class="d-flex w-75 m-auto" role="search">
+        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
         <button class="btn btn-lg btn-primary" type="submit">
             <i class="fa fa-search" aria-hidden="true"></i>
         </button>
@@ -16,11 +15,11 @@
 
         <!-- Three columns of text below the carousel -->
         <div class="row row-cols-2 row-cols-md-4 g-3 my-3">
+            {{!-- <div class="col">
+                <img id="{{item.id}}" class="w-100" src="{{ item.src }}" alt="{{ item.name }}">
+            </div> --}}
             <div class="col">
-                <img class="w-100" src="{{ item.src }}" alt="{{ item.name }}">
-            </div>
-            <div class="col">
-                <img class="w-100" src="images/default.png" alt="...">
+                <img class="w-100 bg-light" src="images/default.png" alt="...">
             </div>
             <div class="col">
                 <img class="w-100" src="images/default.png" alt="...">
@@ -32,6 +31,110 @@
                 <img class="w-100" src="images/default.png" alt="...">
             </div>
         </div>
-        {{> sticky-menu}}
     </div>
+
+    <div class="other-outfits py-5">
+        <div class="container">
+            <h1 class="my-3">Get inspired</h1>
+
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+                <div class="col">
+                    <div class="card shadow-sm">
+                        <img class="w-100 card-img-top" width="100%" height="225" src="images/default.png" alt="..."
+                            aria-label="Other user outfit" focusable="false">
+                        <div class="card-body">
+                            <p class="card-text">Outfit created by <span class="span-bg">Kate</span></p>
+                            <h3>Rock stripes</h3>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="accent">
+                                    <i class="fa fa-star fa-lg" aria-hidden="true"></i>
+                                    <i class="fa fa-star fa-lg" aria-hidden="true"></i>
+                                    <i class="fa fa-star fa-lg" aria-hidden="true"></i>
+                                    <i class="fa fa-star fa-lg" aria-hidden="true"></i>
+                                    <i class="fa fa-star-o fa-lg" aria-hidden="true"></i>
+                                </div>
+                                <button type="button" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal"
+                                    data-bs-target="#ratingModal">Rate</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card shadow-sm">
+                        <img class="w-100 card-img-top" width="100%" height="225" src="images/default.png" alt="..."
+                            aria-label="Other user outfit" focusable="false">
+                        <div class="card-body">
+                            <p class="card-text">Outfit created by <span class="span-bg">Kasia</span></p>
+                            <h3>Tame a tiger</h3>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="accent">
+                                    <i class="fa fa-star fa-lg" aria-hidden="true"></i>
+                                    <i class="fa fa-star fa-lg" aria-hidden="true"></i>
+                                    <i class="fa fa-star fa-lg" aria-hidden="true"></i>
+                                    <i class="fa fa-star fa-lg" aria-hidden="true"></i>
+                                    <i class="fa fa-star-o fa-lg" aria-hidden="true"></i>
+                                </div>
+                                <button type="button" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal"
+                                    data-bs-target="#ratingModal">Rate</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card shadow-sm">
+                        <img class="w-100 card-img-top" width="100%" height="225" src="images/default.png" alt="..."
+                            aria-label="Other user outfit" focusable="false">
+                        <div class="card-body">
+                            <p class="card-text">Outfit created by <span class="span-bg">Kate</span></p>
+                            <h3>Rock stripes</h3>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="accent">
+                                    <i class="fa fa-star fa-lg" aria-hidden="true"></i>
+                                    <i class="fa fa-star fa-lg" aria-hidden="true"></i>
+                                    <i class="fa fa-star fa-lg" aria-hidden="true"></i>
+                                    <i class="fa fa-star fa-lg" aria-hidden="true"></i>
+                                    <i class="fa fa-star-o fa-lg" aria-hidden="true"></i>
+                                </div>
+                                <button type="button" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal"
+                                    data-bs-target="#ratingModal">Rate</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    {{> sticky-menu}}
+
+    <!-- Modal -->
+        <div class="modal fade" id="ratingModal" tabindex="-1" aria-labelledby="ratingModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content text-center">
+                    <div class="modal-header">
+                        <h4 class="modal-title text-center" id="ratingModalLabel">Rate outfit</h4>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="text-center">
+                            <h1 class="fs-5">Leave your rating for <b>Outfit Name</b> of <span
+                                    class="span-bg">User</span></h1>
+                            <p>Select and click the stars</p>
+                            <div class="accent">
+                                <i class="fa fa-star fa-lg" aria-hidden="true"></i>
+                                <i class="fa fa-star fa-lg" aria-hidden="true"></i>
+                                <i class="fa fa-star fa-lg" aria-hidden="true"></i>
+                                <i class="fa fa-star fa-lg" aria-hidden="true"></i>
+                                <i class="fa fa-star-o fa-lg" aria-hidden="true"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button id="rateModalBtn" type="button" class="btn btn-primary">Rate</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
 </main>

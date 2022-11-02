@@ -26,42 +26,44 @@ const clothModel = mongoose.model('Cloths', new mongoose.Schema({
     }],
     fabric:[{
         layerName: String,
-    }],
-    cleaning:{
-        mashineWash: {
-            type: Array, 
-            default: ['normal', 'normal']
-        },
-        handWash: Boolean,
-        doNotWash: Boolean,
-        doNotWring: Boolean,
-        wetClean: Boolean,
-        bleach: String,
-        dry: {
-            doNotDry: Boolean,
-            tumbleDry:{
-                type: Array, 
-                default: []
-            },
-            lineDry: {
-                recommended: Boolean,
-                inShade: Boolean
-            },
-            dripDry: {
-                recommended: Boolean,
-                inShade: Boolean
-            },
-            flatDry: {
-                recommended: Boolean,
-                inShade: Boolean
-            },
-        },
-        iron :{
-            heat: String,
-            steam: Boolean
-        },
-        dryClean: Boolean
-    }
+
+    }]
+    // ,
+    // cleaning:{
+    //     mashineWash: {
+    //         type: Array, 
+    //         default: ['normal', 'normal']
+    //     },
+    //     handWash: Boolean,
+    //     doNotWash: Boolean,
+    //     doNotWring: Boolean,
+    //     wetClean: Boolean,
+    //     bleach: String,
+    //     dry: {
+    //         doNotDry: Boolean,
+    //         tumbleDry:{
+    //             type: Array, 
+    //             default: []
+    //         },
+    //         lineDry: {
+    //             recommended: Boolean,
+    //             inShade: Boolean
+    //         },
+    //         dripDry: {
+    //             recommended: Boolean,
+    //             inShade: Boolean
+    //         },
+    //         flatDry: {
+    //             recommended: Boolean,
+    //             inShade: Boolean
+    //         },
+    //     },
+    //     iron :{
+    //         heat: String,
+    //         steam: Boolean
+    //     },
+    //     dryClean: Boolean
+    // }
 })
 );
 
