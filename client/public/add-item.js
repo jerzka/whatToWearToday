@@ -73,23 +73,14 @@ const handleAddCloth = async () => {
     //const formDataValidated = validateSignInUpForm(formValue);
 
     if (formDataValidated = true) {
+        const formData  = new FormData();
+        for(const name in formValue) {
+            formData.append(name, formValue[name]);
+          }
+        
         const response = await fetch('/add-cloth', {
             method: 'POST',
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                name: formValue.name,
-                availability: formValue.availability,
-                seasons: formValue.seasons,
-                styles: formValue.styles,
-                image: formValue.image,
-                colors: formValue.colors,
-                fabrics: formValue.fabrics,
-                // cleaning: {
-                //     handWash: 
-                // }
-            })
+            body: formData
         });
         console.log(response)
         if (response.status !== 200) {

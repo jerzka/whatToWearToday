@@ -144,20 +144,21 @@ app.get('/cloth-form', auth, async (req, res) => {
 
 app.post('/add-cloth', auth, (req, res) => {
     console.log(req.body);
-    const { image } = req.body.image;
+    const { image } = req.files;
 
+    console.log(req.body.image);
     if (!image){
          return res.status(400).json({
             error: "Please upload a photo"
         });
     }
-
-    if (/^image/.test(image.mimetype)){
+    
+    if (!/^image/.test(image.mimetype)){
         return res.status(400).json({
             error: "The photo is not a valid image"
         });    
     }
-    image.mv(__dirname + '/upload/' + image.name);
+    image.mv(__dirname + '/client/public/upload/' + image.name);
 
     try{
 
