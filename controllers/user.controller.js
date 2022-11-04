@@ -12,10 +12,10 @@ const storeUser = async (userData) => {
         });
         await user.save();
         return;
-    } catch(err) {
+    } catch (err) {
         throw {
-            msg: 'Failed to create user, please check your input', 
-            code: 400 
+            msg: 'Failed to create user, please check your input',
+            code: 400
         }
     }
 }
@@ -32,7 +32,6 @@ const getUser = async (email) => {
             code: 400
         }
     }
-
 }
 
 const getUserById = async (userId) => {
@@ -51,35 +50,53 @@ const getUserById = async (userId) => {
 
 const getUsers = async () => {
     const users = await userModel.find().lean();
+}
+
+const updateUsersCloths = async (filterObj, addedObj) => {
+    try {
+        const updatedUser = await userModel.updateOne({ '_id': filterObj },
+            { $push: { clothes: addedObj } },
+            { 'new': true }
+        );
+        return updatedUser;
+    } catch (error) {
+        throw {
+            msg: 'unable to add cloth to user',
+            code: 400
+        }
+    }
 
 }
+
 
 const signin = async (userData) => {
-        const user = await getUser(userData.email)
-        if (!user) {
-            throw {
-                msg: "Invalid login iformation", 
-                code: 404
-            }
+    const user = await getUser(userData.email)
+    if (!user) {
+        throw {
+            msg: "Invalid login iformation",
+            code: 404
         }
-        const passwordMatch = await bcrypt.compareSync(userData.password, user.password)
-        if(!passwordMatch) {
-            throw {
-                msg: "Invalid login information", 
-                code: 401
-            }
+    }
+    const passwordMatch = await bcrypt.compareSync(userData.password, user.password)
+    if (!passwordMatch) {
+        throw {
+            msg: "Invalid login information",
+            code: 401
         }
-        const token = await createToken(user.id)
-        return { 
-            userId: user.id,
-            userName: user.name,
-            token
-        }
+    }
+    const token = await createToken(user.id)
+    return {
+        userId: user.id,
+        userName: user.name,
+        token
+    }
 }
+
 module.exports = {
     storeUser,
     getUser,
-    signin,
     getUserById,
-    getUsers
+    getUsers,
+    updateUsersCloths,
+    signin
 }

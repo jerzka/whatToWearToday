@@ -22,13 +22,13 @@ const userModel = mongoose.model('User', new mongoose.Schema({
         max: 255
     },
     clothes: [{
-        type: ObjectId, 
-        ref: 'Cloth'    
+        type: ObjectId,
+        ref: 'Cloth'
+    }],
+    outfits: [{
+        type: ObjectId,
+        ref: 'Outfit'
     }]
-    // ,
-    // outfits: [{
-    //     outfit_id: ObjectId
-    // }]
 })
 );
 

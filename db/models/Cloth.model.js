@@ -15,10 +15,7 @@ const clothModel = mongoose.model('Cloth', new mongoose.Schema({
     seasons: Array,
     styles:Array,
     colors: Array,
-    fabrics:[{
-        layerName: String,
-        layerFabric: String
-    }],
+    fabrics:[{type: Object}],
     photo: {
         type: String,
         required: [true, "You need to upload a photo"],

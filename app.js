@@ -160,10 +160,9 @@ app.post('/add-cloth', auth, async (req, res) => {
     }
 
     if(!req.userId || req.userId === 0 ){
-        throw{
-            code:401,
-            message: "Use not fouund"        
-        }
+        return res.status(401).json({
+            error: "User not found"
+        });
     }
 
     try {
@@ -179,8 +178,22 @@ app.post('/add-cloth', auth, async (req, res) => {
             fabrics: JSON.parse(data.fabrics),
             photo: imagePath
         }
-        await clothService.storeCloth(clothData);
+        const newCloth = await clothService.storeCloth(clothData);
+        if(!newCloth){
+            return res.status(400).json({
+                error: "Unsuccessful create new cloth"
+            });
+        }
+        
+        const updatedUser = await userService.updateUsersCloths({'_id': req.userId}, newCloth._id);
+        
+        if(!updatedUser){
+            return res.status(400).json({
+                error: "Unsuccessful adding cloth to user"
+            });
+        }
         res.sendStatus(200);
+
     } catch (error) {
         res.redirect('/home');
         res.end();
