@@ -1,33 +1,29 @@
+const { ObjectId } = require('mongodb');
 const { getConnection, Schema, mongoose } = require('../db');
 getConnection();
 
-const clothModel = mongoose.model('Cloths', new mongoose.Schema({
+const clothModel = mongoose.model('Cloth', new mongoose.Schema({
+    user:{
+        type: ObjectId, 
+        ref: 'User'    
+    },
     name: {
         type: String,
         required: [true, "Name is required"],
     },
-    availability: {
-        type: Boolean
-    },
-    seasons: [{
-        seasonName: String, 
-        required: [true, "Check one of the sesons"],
-        min: 4,
-        max: 128
-    }],
-    styles: [{
-        styleName: String,
-        required: [true, "Check one of the style"],
-        min: 4,
-        max: 128
-    }],
-    colors: [{
-        colorHex: String,
-    }],
-    fabric:[{
+    availability: Boolean,
+    seasons: Array,
+    styles:Array,
+    colors: Array,
+    fabrics:[{
         layerName: String,
+        layerFabric: String
+    }],
+    photo: {
+        type: String,
+        required: [true, "You need to upload a photo"],
 
-    }]
+    }
     // ,
     // cleaning:{
     //     mashineWash: {

@@ -1,3 +1,4 @@
+const { ObjectId } = require('mongodb');
 const { getConnection, Schema, mongoose } = require('../db');
 getConnection();
 
@@ -19,7 +20,15 @@ const userModel = mongoose.model('User', new mongoose.Schema({
         required: [true, "Password is required"],
         min: 8,
         max: 255
-    }
+    },
+    clothes: [{
+        type: ObjectId, 
+        ref: 'Cloth'    
+    }]
+    // ,
+    // outfits: [{
+    //     outfit_id: ObjectId
+    // }]
 })
 );
 

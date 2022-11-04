@@ -54,25 +54,22 @@ addFabricBtn.addEventListener("click", addFabric);
 const handleAddCloth = async () => {
     const seasonsSection = document.querySelector('#seasons');
     const seasonsCheckboxes = seasonsSection.querySelectorAll('input[type=checkbox]:checked');
-    const sesonsToDB = Array.prototype.map.call(seasonsCheckboxes, ({ value }) => value);
-
-    const styleSection = document.querySelector('#styles');
-    const stylesLi = styleSection.querySelectorAll('li');
-    const stylesToDB = Array.prototype.map.call(stylesLi, (item) => item.textContent);
+    const sesonsToDB = Array.prototype.map.call(seasonsCheckboxes, ({value}) => value);
 
     const formValue = {
         name: document.getElementById('clothName').value,
         availability: document.getElementById('availabilityCheck').checked,
-        seasons: sesonsToDB,
-        styles: stylesToDB,
+        seasons: JSON.stringify(sesonsToDB),
+        styles: JSON.stringify(styles),
         image: document.querySelector('input[name=image]').files[0],
-        colors: colors,
-        fabrics: fabrics
+        colors: JSON.stringify(colors),
+        fabrics: JSON.stringify(fabrics)
     };
     console.log(formValue);
-    //const formDataValidated = validateSignInUpForm(formValue);
+    
+    const formDataValidated = validateAddClothForm(formValue);
 
-    if (formDataValidated = true) {
+    if (formDataValidated) {
         const formData  = new FormData();
         for(const name in formValue) {
             formData.append(name, formValue[name]);
@@ -86,12 +83,16 @@ const handleAddCloth = async () => {
         if (response.status !== 200) {
             const responseBody = await response.json();
             console.log(responseBody);
-            showError(responseBody.error);
+            //showError(responseBody.error);
         }
         else {
-            window.location = '/home';
+            window.location = '/cloth-details:id';
         }
     }
+};
+
+const validateAddClothForm = (formValue) => {
+    return true;
 };
 
 const addClothBtn = document.getElementById("addCloth");

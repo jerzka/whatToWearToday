@@ -7,6 +7,7 @@ const userService = require("./controllers/user.controller");
 const cookieParser = require("cookie-parser");
 const { auth } = require('./middelwares/auth');
 const fileUpload = require('express-fileupload');
+const clothService = require("./controllers/cloth.controller");
 
 
 const app = express();
@@ -106,21 +107,21 @@ app.get('/home', auth, async (req, res) => {
             customscript: `<script src="home.js"></script>`,
             helpers: {
                 currentDate() {
-                        const currentDate = new Date();
-                        const weekDays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-                        const weekDay = weekDays[currentDate.getDay()];
-                        const weekend = (weekDay === "Sunday" || weekDay === "Saturday") ? "Weekend" : "Week day";
-                        
-                        return `<h5>Today is <b>${weekDay}</b>,
-                                 ${currentDate.toLocaleString('default', { month: 'long' })} ${currentDate.toLocaleString('default', {day:'2-digit'})}, 
+                    const currentDate = new Date();
+                    const weekDays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+                    const weekDay = weekDays[currentDate.getDay()];
+                    const weekend = (weekDay === "Sunday" || weekDay === "Saturday") ? "Weekend" : "Week day";
+
+                    return `<h5>Today is <b>${weekDay}</b>,
+                                 ${currentDate.toLocaleString('default', { month: 'long' })} ${currentDate.toLocaleString('default', { day: '2-digit' })}, 
                                  ${currentDate.getFullYear()} | <span class="span-bg">${weekend}</span></h5>`
 
-                    }
+                }
             },
             name: req.userName
         })
     } catch (error) {
-        res.redirect('/login')
+        res.redirect('/signin')
         res.end()
         return
     }
@@ -136,42 +137,58 @@ app.get('/cloth-form', auth, async (req, res) => {
             name: req.userName
         })
     } catch (error) {
-        res.redirect('/login');
+        res.redirect('/signin');
         res.end();
         return;
     }
 });
 
-app.post('/add-cloth', auth, (req, res) => {
-    console.log(req.body);
+app.post('/add-cloth', auth, async (req, res) => {
+    const data =  req.body;
     const { image } = req.files;
 
-    console.log(req.body.image);
-    if (!image){
-         return res.status(400).json({
+    if (!image) {
+        return res.status(400).json({
             error: "Please upload a photo"
         });
     }
-    
-    if (!/^image/.test(image.mimetype)){
+
+    if (!/^image/.test(image.mimetype)) {
         return res.status(400).json({
             error: "The photo is not a valid image"
-        });    
+        });
     }
-    image.mv(__dirname + '/client/public/upload/' + image.name);
 
-    try{
+    if(!req.userId || req.userId === 0 ){
+        throw{
+            code:401,
+            message: "Use not fouund"        
+        }
+    }
 
-
+    try {
+        const imagePath = __dirname + '/client/public/upload/' + image.name;
+        image.mv(imagePath);
+        const clothData = {
+            user: req.userId,
+            name: data.name,
+            availability: data.availability,
+            seasons: JSON.parse(data.seasons),
+            styles: JSON.parse(data.styles),
+            colors: JSON.parse(data.colors),
+            fabrics: JSON.parse(data.fabrics),
+            photo: imagePath
+        }
+        await clothService.storeCloth(clothData);
+        res.sendStatus(200);
     } catch (error) {
-    res.redirect('/login')
-    res.end()
-    return
+        res.redirect('/home');
+        res.end();
+        return;
     }
-    res.sendStatus(200);
 });
 
-app.get('/cloth-details', (req, res) => {
+app.get('/cloth-details:id', (req, res) => {
     res.sendFile(__dirname + '/client/cloth.html');
 });
 
@@ -187,10 +204,13 @@ app.use((req, res) => {
     res.status(404).sendFile(__dirname + '/client/404.html');
 });
 
-app.listen(port, async () => {
-    console.log('Listening from port 3003');
+const startServer = async () => {
     await getConnection();
     console.log("Connected to MongoDB");
-});
+    app.listen(port, async () => {
+        console.log('Listening from port 3003');
+    });
+}
+ startServer();
 
 module.exports = app;
