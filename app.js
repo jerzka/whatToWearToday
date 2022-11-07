@@ -11,7 +11,7 @@ const clothService = require("./controllers/cloth.controller");
 
 
 const app = express();
-const port = 3003;
+const port = process.env.PORT;
 
 app.engine('handlebars', engine());
 app.set('view engine', 'hbs');
@@ -144,7 +144,7 @@ app.get('/cloth-form', auth, async (req, res) => {
 });
 
 app.post('/add-cloth', auth, async (req, res) => {
-    const data =  req.body;
+    const data = req.body;
     const { image } = req.files;
 
     if (!image) {
@@ -159,15 +159,21 @@ app.post('/add-cloth', auth, async (req, res) => {
         });
     }
 
-    if(!req.userId || req.userId === 0 ){
+    if (!req.userId || req.userId === 0) {
         return res.status(401).json({
             error: "User not found"
         });
     }
 
     try {
-        const imagePath = __dirname + '/client/public/upload/' + image.name;
-        image.mv(imagePath);
+        let tempraryImageDirectory = '';
+        if (process.env.NODE_ENV && process.env.NODE_ENV === 'development') {
+            tempraryImageDirectory = __dirname + '/client/public/upload/'; //path.join(__dirname, `../../tmp/`);
+        } else {
+            tempraryImageDirectory = '/tmp/';
+        }
+        
+        image.mv(tempraryImageDirectory + image.name);
         const clothData = {
             user: req.userId,
             name: data.name,
@@ -176,23 +182,26 @@ app.post('/add-cloth', auth, async (req, res) => {
             styles: JSON.parse(data.styles),
             colors: JSON.parse(data.colors),
             fabrics: JSON.parse(data.fabrics),
-            photo: imagePath
+            photo: tempraryImageDirectory + image.name
         }
         const newCloth = await clothService.storeCloth(clothData);
-        if(!newCloth){
+        if (!newCloth) {
             return res.status(400).json({
                 error: "Unsuccessful create new cloth"
             });
         }
-        
-        const updatedUser = await userService.updateUsersCloths({'_id': req.userId}, newCloth._id);
-        
-        if(!updatedUser){
+
+        const updatedUser = await userService.updateUsersCloths({ '_id': req.userId }, newCloth._id);
+
+        if (!updatedUser) {
             return res.status(400).json({
                 error: "Unsuccessful adding cloth to user"
             });
         }
-        res.sendStatus(200);
+
+        res.status(200).json({
+            message: "Successfully created new cloth"
+        });
 
     } catch (error) {
         res.redirect('/home');
@@ -221,9 +230,9 @@ const startServer = async () => {
     await getConnection();
     console.log("Connected to MongoDB");
     app.listen(port, async () => {
-        console.log('Listening from port 3003');
+        console.log(`Listening from port ${process.env.PORT}`);
     });
 }
- startServer();
+startServer();
 
 module.exports = app;
