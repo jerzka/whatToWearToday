@@ -1,0 +1,26 @@
+<div class="container w-75 bg-white text-start">
+    <h1 class="p-3">Your <span class="span-bg text-white"> new </span> cloth</h1>
+
+    <div class="row p-5">
+        <h4>{{name}}</h4>        
+        <div class="col-12 col-md-4 mt-3 p-0 text-start">
+            <div class="form-check form-custom-switch">
+                                            <h4>Availability</h4>
+                <input class="form-check-input" type="checkbox" role="switch" id="availabilityCheck" checked="{{availability}}">
+            </div>
+        </div>
+    </div>
+
+    <h5>
+    {{#each seasons.item }}
+        {{ item }} | 
+
+        {{/each }}
+
+        {{!-- Spring | <span class="span-bg">Summer</span> | Fall | Winter --}}
+    </h5>
+
+    <div class="row justify-content-between">
+        
+        <img class="w-100 bg-light" src="../{{photo}}" alt="...">
+    </div>

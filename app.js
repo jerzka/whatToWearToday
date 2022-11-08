@@ -60,7 +60,7 @@ app.post('/signup', async (req, res) => {
         return;
     }
     res.status(200).json({
-        message: "user created sucessfully"
+        message: "user created sucessfully",
     });
 });
 
@@ -199,9 +199,7 @@ app.post('/add-cloth', auth, async (req, res) => {
             });
         }
 
-        res.status(200).json({
-            message: "Successfully created new cloth"
-        });
+        return res.status(200).json({clothId: newCloth.id});
 
     } catch (error) {
         res.redirect('/home');
@@ -210,8 +208,24 @@ app.post('/add-cloth', auth, async (req, res) => {
     }
 });
 
-app.get('/cloth-details:id', (req, res) => {
-    res.sendFile(__dirname + '/client/cloth.html');
+app.get('/cloth-details/:id', auth, async(req, res) => {
+    try{
+    const cloth = await clothService.getClothById(req.params.id);
+    res.render('cloth-details', {
+        layout: 'auth',
+        name: cloth.name,
+        availability: cloth.availability,
+        seasons: cloth.seasons,
+        styles: cloth.styles,
+        colors: cloth.colors,
+        fabrics: cloth.fabrics,
+        photo: cloth.photo.substring(cloth.photo.indexOf('upload'))  
+    });
+    }catch(error){
+        res.redirect('/home');
+        res.end();
+        return;
+    }
 });
 
 app.get('/logout', auth, (req, res) => {

@@ -79,15 +79,13 @@ const handleAddCloth = async () => {
             method: 'POST',
             body: formData
         });
-        console.log(response)
+        console.log(response);
+        const responseBody = await response.json();
         if (response.status !== 200) {
-            const responseBody = await response.json();
             console.log(responseBody);
             //showError(responseBody.error);
         }
-        else {
-            window.location = '/cloth-details:id';
-        }
+        window.location = `/cloth-details/${responseBody.clothId}`
     }
 };
 

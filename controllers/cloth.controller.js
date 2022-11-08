@@ -2,7 +2,7 @@ const clothModel = require('../db/models/Cloth.model');
 
 const storeCloth = async (clothData) => {
     try{
-        const newCloth = await clothModel.create(clothData)
+        const newCloth = await clothModel.create(clothData);
         return newCloth;
     }catch(err){
         throw {
@@ -12,6 +12,21 @@ const storeCloth = async (clothData) => {
     }
 }
 
+const getClothById = async (clothId) => {
+    try {
+        const cloth = await clothModel.findOne({
+            _id: clothId
+        });
+        return cloth;
+    } catch (error) {
+        throw {
+            msg: 'unable to find cloth',
+            code: 400
+        }
+    }
+}
+
 module.exports = {
-    storeCloth
+    storeCloth,
+    getClothById
 }
