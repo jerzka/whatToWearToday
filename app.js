@@ -5,10 +5,9 @@ const { engine } = require("express-handlebars");
 const { getConnection } = require("./db/db");
 const userService = require("./controllers/user.controller");
 const cookieParser = require("cookie-parser");
-const { auth } = require('./middelwares/auth');
+const { auth, authGuard } = require('./middelwares/auth');
 const fileUpload = require('express-fileupload');
 const clothService = require("./controllers/cloth.controller");
-
 
 const app = express();
 const port = process.env.PORT;
@@ -20,7 +19,9 @@ app.engine('hbs', engine({
     defaultLayout: 'main',
     layoutsDir: path.join(__dirname, '/views/layouts'),
     partialDir: path.join(__dirname, '/views/partials'),
-    extname: 'hbs'
+    extname: 'hbs',
+    helpers: require(path.join(__dirname, '/client/public/handlebar-helpers')) //only need this
+
 }));
 
 app.use(bodyParser.json());
@@ -103,22 +104,9 @@ app.get('/home', auth, async (req, res) => {
     try {
         res.render('home', {
             layout: 'auth',
-            customstyle: `<link rel="stylesheet" href="carousel.css">`,
+            customstyle: `<link rel="stylesheet" href="../carousel.css">`,
             customscript: `<script src="home.js"></script>`,
-            helpers: {
-                currentDate() {
-                    const currentDate = new Date();
-                    const weekDays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-                    const weekDay = weekDays[currentDate.getDay()];
-                    const weekend = (weekDay === "Sunday" || weekDay === "Saturday") ? "Weekend" : "Week day";
-
-                    return `<h5>Today is <b>${weekDay}</b>,
-                                 ${currentDate.toLocaleString('default', { month: 'long' })} ${currentDate.toLocaleString('default', { day: '2-digit' })}, 
-                                 ${currentDate.getFullYear()} | <span class="span-bg">${weekend}</span></h5>`
-
-                }
-            },
-            name: req.userName
+            user: req.userName
         })
     } catch (error) {
         res.redirect('/signin')
@@ -132,9 +120,9 @@ app.get('/cloth-form', auth, async (req, res) => {
     try {
         res.render('cloth-form', {
             layout: 'auth',
-            customstyle: `<link rel="stylesheet" href="auth-forms.css">`,
+            customstyle: `<link rel="stylesheet" href="../auth-forms.css">`,
             customscript: `<script src="add-item.js"></script>`,
-            name: req.userName
+            user: req.userName
         })
     } catch (error) {
         res.redirect('/signin');
@@ -175,7 +163,6 @@ app.post('/add-cloth', auth, async (req, res) => {
         
         image.mv(tempraryImageDirectory + image.name);
         const clothData = {
-            user: req.userId,
             name: data.name,
             availability: data.availability,
             seasons: JSON.parse(data.seasons),
@@ -213,6 +200,8 @@ app.get('/cloth-details/:id', auth, async(req, res) => {
     const cloth = await clothService.getClothById(req.params.id);
     res.render('cloth-details', {
         layout: 'auth',
+        customstyle: `<link rel="stylesheet" href="../cloth.css">`,
+        user: req.userName,
         name: cloth.name,
         availability: cloth.availability,
         seasons: cloth.seasons,
@@ -228,8 +217,13 @@ app.get('/cloth-details/:id', auth, async(req, res) => {
     }
 });
 
-app.get('/logout', auth, (req, res) => {
+app.get('/signout', (req, res) => {
+    res.cookie('token', '');
+    // res.status(200).send({
+    //     message: 'Signout out successfully'
+    // });
     res.redirect('/signin');
+
 });
 
 // app.get('/', (req, res) => {

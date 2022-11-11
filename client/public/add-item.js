@@ -15,7 +15,7 @@ const addColor = () => {
     const pickedColor = document.querySelector('#colorInput').value;
     const place = document.querySelector('#colors');
     place.insertAdjacentHTML('beforeend', `
-        <li id=${pickedColor}  class="w-10 block text-center" style="width: 40px; height: 40px; padding:1rem; border-radius:50%; background-color: ${pickedColor}"></li>
+        <li id=${pickedColor} style="background-color: ${pickedColor}"></li>
     `);
     colors.push(pickedColor);
 };
@@ -26,9 +26,11 @@ const addFabric = () => {
     const part = document.querySelector('#part').value;
     const fabric = document.querySelector('#fabric').value;
     const place = document.querySelector('#fabrics');
-    place.insertAdjacentHTML('beforeend', `    
-        <li id="${part}" class="list-group-item">${part}</li>
-        <li id="${fabric}"  class="list-group-item">${fabric}</li>`
+    place.insertAdjacentHTML('beforeend', `
+        <ul class="list-group-half">    
+            <li id="${part}" class="list-group-item">${part}</li>
+            <li id="${fabric}"  class="list-group-item">${fabric}</li>
+        </ul>`
     );
     let fabricObj = {};
     fabricObj[part] = fabric;
@@ -53,8 +55,8 @@ addFabricBtn.addEventListener("click", addFabric);
  
 const handleAddCloth = async () => {
     const seasonsSection = document.querySelector('#seasons');
-    const seasonsCheckboxes = seasonsSection.querySelectorAll('input[type=checkbox]:checked');
-    const sesonsToDB = Array.prototype.map.call(seasonsCheckboxes, ({value}) => value);
+    const seasonsCheckboxes = seasonsSection.querySelectorAll('input[type=checkbox]');
+    const sesonsToDB = Array.prototype.map.call(seasonsCheckboxes, ({value, checked}) => ({[value]: checked}));
 
     const formValue = {
         name: document.getElementById('clothName').value,

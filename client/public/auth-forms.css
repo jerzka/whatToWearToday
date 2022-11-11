@@ -124,7 +124,6 @@
   border-top-right-radius: 0;
   border-bottom-left-radius: inherit;
   border-bottom-right-radius: 0;
-
 }
 
 .list-group-custom .list-group-item:last-child {
@@ -143,8 +142,6 @@
   --bs-list-group-item-padding-x: 1rem;
   --bs-list-group-item-padding-y: 0.5rem;
   display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
   margin-bottom: 0;
   justify-content: flex-start;
   align-items: flex-start;
@@ -167,11 +164,24 @@
   border-bottom-left-radius: 0;
   border-bottom-right-radius: inherit;
   margin-right: 1.5rem;
-  width:120px;
   border-top-width: 1px;
   margin-bottom: 1rem;
 }
- 
+
+.ul-colors-swatch{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  list-style-type: none;
+}
+
+.ul-colors-swatch > li{
+  width: 40px; 
+  height: 40px; 
+  border-radius:25%; 
+  margin: 1rem;
+}
+
 /* --- RESPONSIVE CSS  -------------------------------------------------- */
 @media (min-width: 75em) {
 

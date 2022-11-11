@@ -33,9 +33,14 @@ body {
     border-radius: 50%;
 }
 
-#logoutBtn{
+#signoutBtn{
     background-color: var(--accent-color);
 }
+
+#newClothNavBtn {
+    background-color: var(--accent-color);
+}
+
 .accent {
     color: var(--accent-color);
 }
@@ -47,6 +52,7 @@ h5 {
 
 .span-bg {
     background-color: var(--accent-color);
+    padding: 2px 4px;
 }
 
 .span-color {

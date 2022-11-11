@@ -1,16 +1,34 @@
 <header>
-        <nav id="page-top" class="navbar navbar-expand-md mx-auto bg-primary">
-            <div class="container-fluid w-75">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container-fluid w-100 w-md-75 align-items-start">
+            <div>
                 <a class="navbar-brand" href="/home">
-                        <img src="../images/logo_WhatToWear_opaque.svg" width="50px" alt="Logo What to wear?"
-                            aria-label="Logo What to wear?">
+                    <img src="../images/logo_WhatToWear_opaque.svg" width="50px" alt="Logo What to wear?"
+                        aria-label="Logo What to wear?">
                 </a>
-                <div>
-                    <p id="user" class="d-inline me-3 text-white">{{ name }}</p>
-                    <a href="/home"><i class="fa fa-home fa-lg me-3 text-white" aria-hidden="true"></i></a>
-                    <a id="logoutBtn" class="btn btn-primary text-white" href="/logout">Log out</a>
+                <p id="user" class="d-inline me-3 text-white">{{ user }}</p>
+            </div>
+            <div>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarTogglerMenu" aria-controls="navbarTogglerMenu" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarTogglerMenu">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/cloth-form">New cloth</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link disabled" href="/outfit-form" tabindex="-1" aria-disabled="true">New
+                                outfit</a>
+                        </li>
+                    </ul>
+
+                    <a id="signoutBtn" class="btn btn-primary text-white" href="/signout">Log out</a>
                 </div>
             </div>
-            </div>
-        </nav>
-    </header>
+
+        </div>
+    </nav>
+</header>

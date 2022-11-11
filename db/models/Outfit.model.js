@@ -16,7 +16,7 @@ const outfitModel = mongoose.model('Outfit', new mongoose.Schema({
         type: Date, 
         default: Date.now
     },
-    seasons: Array,
+    seasons: [{type: Object}],
     styles:Array,
     clothes: [{
         type: ObjectId, 

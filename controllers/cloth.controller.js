@@ -16,7 +16,7 @@ const getClothById = async (clothId) => {
     try {
         const cloth = await clothModel.findOne({
             _id: clothId
-        });
+        }).lean();
         return cloth;
     } catch (error) {
         throw {

@@ -19,6 +19,23 @@ const auth = async (req, res, next) => {
         }
 }
 
+const authGuard = async (req, res, next) => {
+    const cookies = req.cookies;
+    try {
+        if (!cookies || !cookies.token) {
+            throw "User not authorized";
+        }
+        const data = await verifyToken(cookies.token);
+        req.userId = data.userId;
+        next();
+    }
+    catch (error) {
+        res.redirect('/signin');
+        res.end();
+    }
+}
+
 module.exports = {
-    auth
+    auth,
+    authGuard
 }

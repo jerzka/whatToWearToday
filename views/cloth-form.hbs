@@ -1,4 +1,4 @@
-<div id="custom-form" class="container w-75">
+<div id="custom-form" class="container w-100 w-md-75">
     <h1 class="p-3"><span class="span-bg text-white">Add</span> new cloth</h1>
 
     <form class="px-3">
@@ -57,7 +57,7 @@
                 </div>
                 <div class="row pt-5 justify-content-around">
                     <div class="col-10 p-0 px-3">
-                        <select id="style" class="form-select" aria-label="select cloth style" >
+                        <select id="style" class="form-select" aria-label="select cloth style">
                             <option value="">-- Choose an style --</option>
                             <option value="casual">Casual</option>
                             <option value="elegant">Elegant</option>
@@ -73,8 +73,8 @@
                         </button>
                     </div>
                 </div>
-                    <ul class="my-5 list-group-custom col-12 p-0 justify-content-center">
-                    </ul>
+                <ul class="my-5 list-group-custom col-12 p-0 justify-content-center">
+                </ul>
             </div>
         </div>
 
@@ -84,13 +84,8 @@
                     <h4>Your cloth photos</h4>
                 </div>
                 <div class="row row-cols-2 py-5 align-items-end">
-                    <div class="col-10">
+                    <div class="col-12">
                         <input class="form-control" type="file" name="image" id="imgFile">
-                    </div>
-                    <div class="col-2 col-md-2 p-0">
-                        <button type="button" class="btn btn-primary">
-                            <i class="fa fa-plus fa-lg text-white" aria-hidden="true"></i>
-                        </button>
                     </div>
                 </div>
             </div>
@@ -114,8 +109,10 @@
                     </div>
 
                 </div>
-                <ul id="colors">
-                </ul>
+                <div class="row">
+                    <ul id="colors" class="col ul-colors-swatch">
+                    </ul>
+                </div>
             </div>
         </div>
 
@@ -145,9 +142,9 @@
                 </div>
             </div>
             <div class="row pb-5">
-                <ul id="fabrics" class="list-group-half justify-content-center">
-                    
-                </ul>
+                <div id="fabrics" class="col-12">
+
+                </div>
             </div>
         </div>
 

@@ -12,8 +12,8 @@ const clothModel = mongoose.model('Cloth', new mongoose.Schema({
         required: [true, "Name is required"],
     },
     availability: Boolean,
-    seasons: Array,
-    styles:Array,
+    seasons: [{type: Object}],
+    styles: Array,
     colors: Array,
     fabrics:[{type: Object}],
     photo: {
