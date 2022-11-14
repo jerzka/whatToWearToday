@@ -13,11 +13,11 @@
 
     <div class="row col-1 seasons-detail p-4">
         <ul class="list-group col-12 p-0 justify-content-start">
-        {{#each seasons as |season|}}
+            {{#each seasons as |season|}}
             {{#each season}}
-                <li class="list-group-item {{#ifeq this 'true' }} seasons-active {{/ifeq}}"> {{@key}} </li>
+            <li class="list-group-item {{#ifeq this true }} seasons-active {{/ifeq}}"> {{@key}} </li>
             {{/each}}
-        {{/each}}
+            {{/each}}
         </ul>
     </div>
 
@@ -28,12 +28,12 @@
         <div class="col-6">
             <ul class="ul-colors-swatch">
                 {{#each colors}}
-                <li style="background-color: {{this}}"></li>
+                <li style="background-color: #{{this}}"></li>
                 {{/each}}
             </ul>
         </div>
     </div>
-    
+
     <div class="p-4">
         <h4>Styles</h4>
         <ul class="list-group-custom col-12 p-0 justify-content-start">
@@ -52,19 +52,23 @@
                 <li class="list-group-item">{{@key}}</li>
                 <li class="list-group-item">{{this}}</li>
             </ul>
-
             {{/each}}
             {{/each}}
         </div>
     </div>
 
     {{!-- <h4>Washing method</h4> --}}
+    <div class="container col-md-6 col-lg-4 justify-content-center pb-5">
+        <a id="editCloth" type="button" class="btn btn-primary btn-lg w-100" 
+        href="/cloth-form/{{id}}">Edit cloth</a>
+    </div>
 
     <div class="p-4 pb-5">
         <h4>Goes well with</h4>
-            <img class="w-25 bg-light" src="../{{photo}}" alt="...">
-            <img class="w-25 bg-light" src="../{{photo}}" alt="...">
-            <img class="w-25 bg-light" src="../{{photo}}" alt="...">
+        <img class="w-25 bg-light" src="../{{photo}}" alt="...">
+        <img class="w-25 bg-light" src="../{{photo}}" alt="...">
+        <img class="w-25 bg-light" src="../{{photo}}" alt="...">
     </div>
+
     <hr />
 </main>

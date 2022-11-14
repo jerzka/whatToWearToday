@@ -37,10 +37,6 @@ body {
     background-color: var(--accent-color);
 }
 
-#newClothNavBtn {
-    background-color: var(--accent-color);
-}
-
 .accent {
     color: var(--accent-color);
 }

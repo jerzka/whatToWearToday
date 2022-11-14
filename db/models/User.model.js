@@ -20,15 +20,7 @@ const userModel = mongoose.model('User', new mongoose.Schema({
         required: [true, "Password is required"],
         min: 8,
         max: 255
-    },
-    clothes: [{
-        type: ObjectId,
-        ref: 'Cloth'
-    }],
-    outfits: [{
-        type: ObjectId,
-        ref: 'Outfit'
-    }]
+    }
 })
 );
 

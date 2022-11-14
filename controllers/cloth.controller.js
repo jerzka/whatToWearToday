@@ -1,6 +1,6 @@
 const clothModel = require('../db/models/Cloth.model');
 
-const storeCloth = async (clothData) => {
+const store = async (clothData) => {
     try{
         const newCloth = await clothModel.create(clothData);
         return newCloth;
@@ -12,7 +12,7 @@ const storeCloth = async (clothData) => {
     }
 }
 
-const getClothById = async (clothId) => {
+const getById = async (clothId) => {
     try {
         const cloth = await clothModel.findOne({
             _id: clothId
@@ -26,7 +26,31 @@ const getClothById = async (clothId) => {
     }
 }
 
+const updateOne = async (cloth) => {
+    const filter = { _id: cloth.id};
+    const update = { name: cloth.name,
+                    availability: cloth.availability,
+                    seasons: cloth.seasons,
+                    styles: cloth.styles,
+                    //image: cloth.photo,
+                    colors: cloth.colors,
+                    fabrics: cloth.fabrics
+    };
+    
+    try {
+        const cloth = await clothModel.findOneAndUpdate(filter, update, 
+            {new: true}).lean();
+        return cloth;
+    } catch (error) {
+        throw {
+            msg: 'unable to find cloth',
+            code: 400
+        }
+    }
+}
+
 module.exports = {
-    storeCloth,
-    getClothById
+    store,
+    getById,
+    updateOne
 }

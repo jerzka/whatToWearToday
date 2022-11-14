@@ -121,7 +121,8 @@ app.get('/cloth-form', auth, async (req, res) => {
         res.render('cloth-form', {
             layout: 'auth',
             customstyle: `<link rel="stylesheet" href="../auth-forms.css">`,
-            customscript: `<script src="add-item.js"></script>`,
+            customscript: `<script src="cloth.js"></script>`,
+            edit: false,
             user: req.userName
         })
     } catch (error) {
@@ -171,21 +172,12 @@ app.post('/add-cloth', auth, async (req, res) => {
             fabrics: JSON.parse(data.fabrics),
             photo: tempraryImageDirectory + image.name
         }
-        const newCloth = await clothService.storeCloth(clothData);
+        const newCloth = await clothService.store(clothData);
         if (!newCloth) {
             return res.status(400).json({
                 error: "Unsuccessful create new cloth"
             });
         }
-
-        const updatedUser = await userService.updateUsersCloths({ '_id': req.userId }, newCloth._id);
-
-        if (!updatedUser) {
-            return res.status(400).json({
-                error: "Unsuccessful adding cloth to user"
-            });
-        }
-
         return res.status(200).json({clothId: newCloth.id});
 
     } catch (error) {
@@ -197,11 +189,12 @@ app.post('/add-cloth', auth, async (req, res) => {
 
 app.get('/cloth-details/:id', auth, async(req, res) => {
     try{
-    const cloth = await clothService.getClothById(req.params.id);
+    const cloth = await clothService.getById(req.params.id);
     res.render('cloth-details', {
         layout: 'auth',
         customstyle: `<link rel="stylesheet" href="../cloth.css">`,
         user: req.userName,
+        id: cloth._id,
         name: cloth.name,
         availability: cloth.availability,
         seasons: cloth.seasons,
@@ -216,6 +209,89 @@ app.get('/cloth-details/:id', auth, async(req, res) => {
         return;
     }
 });
+
+app.get('/cloth-form/:id', auth, async (req, res) => {
+    try {
+        const cloth = await clothService.getById(req.params.id);
+        res.render('cloth-form', {
+            layout: 'auth',
+            customstyle: `<link rel="stylesheet" href="../auth-forms.css">`,
+            customscript: `<script src="../cloth.js"></script>`,
+            edit: true,
+            user: req.userName,
+            id: cloth._id,
+            name: cloth.name,
+            availability: cloth.availability,
+            seasons: cloth.seasons,
+            styles: cloth.styles,
+            colors: cloth.colors,
+            fabrics: cloth.fabrics,
+            photo: cloth.photo.substring(cloth.photo.indexOf('upload'))        
+        });
+    } catch (error) {
+        res.redirect('/signin');
+        res.end();
+        return;
+    }
+});
+
+app.post('/update-cloth/:id', auth, async (req, res) => {
+    const data = req.body;
+    //const { image } = req.files;
+
+    // if (!image) {
+    //     return res.status(400).json({
+    //         error: "Please upload a photo"
+    //     });
+    // }
+
+    // if (!/^image/.test(image.mimetype)) {
+    //     return res.status(400).json({
+    //         error: "The photo is not a valid image"
+    //     });
+    // }
+
+    if (!req.userId || req.userId === 0) {
+        return res.status(401).json({
+            error: "User not found"
+        });
+    }
+
+    try {
+        // let tempraryImageDirectory = '';
+        // if (process.env.NODE_ENV && process.env.NODE_ENV === 'development') {
+        //     tempraryImageDirectory = __dirname + '/client/public/upload/'; //path.join(__dirname, `../../tmp/`);
+        // } else {
+        //     tempraryImageDirectory = '/tmp/';
+        // }
+        
+        // image.mv(tempraryImageDirectory + image.name);
+        const clothData = {
+            id: data.id,
+            name: data.name,
+            availability: data.availability,
+            seasons: JSON.parse(data.seasons),
+            styles: JSON.parse(data.styles),
+            colors: JSON.parse(data.colors),
+            fabrics: JSON.parse(data.fabrics),
+            //photo: tempraryImageDirectory + image.name
+        }
+        const updatedCloth = await clothService.updateOne(clothData);
+        if (!updatedCloth) {
+            return res.status(400).json({
+                error: "Unsuccessful update new cloth"
+            });
+        }
+
+        return res.status(200).json({clothId: updatedCloth._id});
+
+    } catch (error) {
+        res.redirect('/home');
+        res.end();
+        return;
+    }
+});
+
 
 app.get('/signout', (req, res) => {
     res.cookie('token', '');
