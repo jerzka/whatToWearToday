@@ -26,6 +26,26 @@ const getById = async (clothId) => {
     }
 }
 
+const getByUserId = async (userId) => {
+    try {
+        const cloths = await clothModel.find({
+            user: userId
+        }).lean();
+        if(!cloths || cloths.length === 0) { 
+            throw {
+                msg: 'unable to find any cloth',
+                code: 400
+            }
+        }
+        return cloths;
+    } catch (error) {
+        throw {
+            msg: 'unable to find cloth',
+            code: 400
+        }
+    }
+}
+
 const updateOne = async (cloth) => {
     const filter = { _id: cloth.id};
     const update = { name: cloth.name,
@@ -52,5 +72,6 @@ const updateOne = async (cloth) => {
 module.exports = {
     store,
     getById,
-    updateOne
+    updateOne,
+    getByUserId
 }

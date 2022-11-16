@@ -2,12 +2,13 @@ const express = require("express");
 const path = require("path");
 const bodyParser = require("body-parser");
 const { engine } = require("express-handlebars");
-const { getConnection } = require("./db/db");
+const { getConnection, initializeFirebase } = require("./db/db");
 const userService = require("./controllers/user.controller");
+const clothService = require("./controllers/cloth.controller");
 const cookieParser = require("cookie-parser");
 const { auth, authGuard } = require('./middelwares/auth');
+const { uploadPhoto } = require('./middelwares/upload');
 const fileUpload = require('express-fileupload');
-const clothService = require("./controllers/cloth.controller");
 
 const app = express();
 const port = process.env.PORT;
@@ -32,7 +33,7 @@ app.use(
         limits: {
             fileSize: 1000000,
         },
-        abortOnLimit: true
+        abortOnLimit: true,
     })
 );
 
@@ -102,11 +103,13 @@ app.post('/signin', async (req, res) => {
 
 app.get('/home', auth, async (req, res) => {
     try {
+        const cloths = await clothService.getByUserId(req.userId);
         res.render('home', {
             layout: 'auth',
             customstyle: `<link rel="stylesheet" href="../carousel.css">`,
             customscript: `<script src="home.js"></script>`,
-            user: req.userName
+            user: req.userName,
+            cloths: cloths
         })
     } catch (error) {
         res.redirect('/signin')
@@ -132,45 +135,25 @@ app.get('/cloth-form', auth, async (req, res) => {
     }
 });
 
-app.post('/add-cloth', auth, async (req, res) => {
-    const data = req.body;
-    const { image } = req.files;
-
-    if (!image) {
-        return res.status(400).json({
-            error: "Please upload a photo"
-        });
-    }
-
-    if (!/^image/.test(image.mimetype)) {
-        return res.status(400).json({
-            error: "The photo is not a valid image"
-        });
-    }
-
+app.post('/add-cloth', auth, uploadPhoto, async (req, res) => {
+    const formData = req.body;
+    
     if (!req.userId || req.userId === 0) {
         return res.status(401).json({
             error: "User not found"
         });
-    }
+    } 
 
     try {
-        let tempraryImageDirectory = '';
-        if (process.env.NODE_ENV && process.env.NODE_ENV === 'development') {
-            tempraryImageDirectory = __dirname + '/client/public/upload/'; //path.join(__dirname, `../../tmp/`);
-        } else {
-            tempraryImageDirectory = '/tmp/';
-        }
-        
-        image.mv(tempraryImageDirectory + image.name);
         const clothData = {
-            name: data.name,
-            availability: data.availability,
-            seasons: JSON.parse(data.seasons),
-            styles: JSON.parse(data.styles),
-            colors: JSON.parse(data.colors),
-            fabrics: JSON.parse(data.fabrics),
-            photo: tempraryImageDirectory + image.name
+            user: req.userId,
+            name: formData.name,
+            availability: formData.availability,
+            seasons: JSON.parse(formData.seasons),
+            styles: JSON.parse(formData.styles),
+            colors: JSON.parse(formData.colors),
+            fabrics: JSON.parse(formData.fabrics),
+            photo: req.photoUrl
         }
         const newCloth = await clothService.store(clothData);
         if (!newCloth) {
@@ -178,7 +161,7 @@ app.post('/add-cloth', auth, async (req, res) => {
                 error: "Unsuccessful create new cloth"
             });
         }
-        return res.status(200).json({clothId: newCloth.id});
+        return res.status(200).json({ clothId: newCloth.id });
 
     } catch (error) {
         res.redirect('/home');
@@ -187,23 +170,23 @@ app.post('/add-cloth', auth, async (req, res) => {
     }
 });
 
-app.get('/cloth-details/:id', auth, async(req, res) => {
-    try{
-    const cloth = await clothService.getById(req.params.id);
-    res.render('cloth-details', {
-        layout: 'auth',
-        customstyle: `<link rel="stylesheet" href="../cloth.css">`,
-        user: req.userName,
-        id: cloth._id,
-        name: cloth.name,
-        availability: cloth.availability,
-        seasons: cloth.seasons,
-        styles: cloth.styles,
-        colors: cloth.colors,
-        fabrics: cloth.fabrics,
-        photo: cloth.photo.substring(cloth.photo.indexOf('upload'))  
-    });
-    }catch(error){
+app.get('/cloth-details/:id', auth, async (req, res) => {
+    try {
+        const cloth = await clothService.getById(req.params.id);
+        res.render('cloth-details', {
+            layout: 'auth',
+            customstyle: `<link rel="stylesheet" href="../cloth.css">`,
+            user: req.userName,
+            id: cloth._id,
+            name: cloth.name,
+            availability: cloth.availability,
+            seasons: cloth.seasons,
+            styles: cloth.styles,
+            colors: cloth.colors,
+            fabrics: cloth.fabrics,
+            photo: cloth.photo
+        });
+    } catch (error) {
         res.redirect('/home');
         res.end();
         return;
@@ -226,7 +209,7 @@ app.get('/cloth-form/:id', auth, async (req, res) => {
             styles: cloth.styles,
             colors: cloth.colors,
             fabrics: cloth.fabrics,
-            photo: cloth.photo.substring(cloth.photo.indexOf('upload'))        
+            photo: cloth.photo
         });
     } catch (error) {
         res.redirect('/signin');
@@ -235,21 +218,8 @@ app.get('/cloth-form/:id', auth, async (req, res) => {
     }
 });
 
-app.post('/update-cloth/:id', auth, async (req, res) => {
+app.post('/update-cloth/:id', auth, uploadPhoto, async (req, res) => {
     const data = req.body;
-    //const { image } = req.files;
-
-    // if (!image) {
-    //     return res.status(400).json({
-    //         error: "Please upload a photo"
-    //     });
-    // }
-
-    // if (!/^image/.test(image.mimetype)) {
-    //     return res.status(400).json({
-    //         error: "The photo is not a valid image"
-    //     });
-    // }
 
     if (!req.userId || req.userId === 0) {
         return res.status(401).json({
@@ -258,14 +228,6 @@ app.post('/update-cloth/:id', auth, async (req, res) => {
     }
 
     try {
-        // let tempraryImageDirectory = '';
-        // if (process.env.NODE_ENV && process.env.NODE_ENV === 'development') {
-        //     tempraryImageDirectory = __dirname + '/client/public/upload/'; //path.join(__dirname, `../../tmp/`);
-        // } else {
-        //     tempraryImageDirectory = '/tmp/';
-        // }
-        
-        // image.mv(tempraryImageDirectory + image.name);
         const clothData = {
             id: data.id,
             name: data.name,
@@ -274,7 +236,7 @@ app.post('/update-cloth/:id', auth, async (req, res) => {
             styles: JSON.parse(data.styles),
             colors: JSON.parse(data.colors),
             fabrics: JSON.parse(data.fabrics),
-            //photo: tempraryImageDirectory + image.name
+            photo: req.photoUrl
         }
         const updatedCloth = await clothService.updateOne(clothData);
         if (!updatedCloth) {
@@ -283,7 +245,7 @@ app.post('/update-cloth/:id', auth, async (req, res) => {
             });
         }
 
-        return res.status(200).json({clothId: updatedCloth._id});
+        return res.status(200).json({ clothId: updatedCloth._id });
 
     } catch (error) {
         res.redirect('/home');
@@ -313,6 +275,7 @@ app.use((req, res) => {
 const startServer = async () => {
     await getConnection();
     console.log("Connected to MongoDB");
+    await initializeFirebase();
     app.listen(port, async () => {
         console.log(`Listening from port ${process.env.PORT}`);
     });

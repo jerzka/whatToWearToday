@@ -3,7 +3,7 @@
             {{#if edit}}Edit</span>{{else}} Add</span> new {{/if}} cloth
     </h1>
 
-    <form class="px-3">
+    <form class="px-3" enctype="multipart/form-data">
         <div class="row justify-content-between">
             <div class="form-group-custom border border-secondary border-opacity-25 my-5">
                 <div class="form-group-header">
@@ -108,7 +108,7 @@
                 </div>
                 <div class="row row-cols-2 py-5 align-items-end">
                     <div class="col-12">
-                        <input class="form-control" type="file" name="image" id="imgFile">
+                        <input class="form-control" type="file" name="image" id="imgFile" accept="image/*">
                         {{#if edit}}
                         <div id="photo" class="row pt-2 pb-5 align-items-center">
                             <div class="col-4">

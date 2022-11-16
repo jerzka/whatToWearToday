@@ -136,7 +136,6 @@ const handleSubmitCloth = async () => {
     const seasonsToDB = Array.prototype.map.call(seasonsCheckboxes, ({value, checked}) => ({[value]: checked}));
 
     const formValue = {
-        id: document.getElementById('clothID').innerText,
         name: document.getElementById('clothName').value,
         availability: document.getElementById('availabilityCheck').checked,
         seasons: seasonsToDB,
