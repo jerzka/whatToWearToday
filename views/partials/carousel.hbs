@@ -1,4 +1,4 @@
-<h1 class="my-3">Try this today{{ section.title }}</h1>
+<h1 class="my-3">Try this today{{ title }}</h1>
 
 <div id="myCarousel" class="carousel w-auto align-items-end slide me-xl-5" data-bs-ride="carousel">
     <div class="carousel-indicators">
@@ -10,7 +10,7 @@
     <div class="carousel-inner">
         {{!-- this element to insert from .js - first has class active--}}
         <div class="carousel-item active" data-bs-interval="10000">
-            <img class="" width="80%" height="100%" src="images/default.png" alt="...">
+            <img id="{{_id}}" class="w-100" src="{{photo}}" alt="{{ item.name }}">
         </div>
         {{!-- section.item --}}
     </div>

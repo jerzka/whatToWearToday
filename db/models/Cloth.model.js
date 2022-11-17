@@ -57,7 +57,7 @@ const clothModel = mongoose.model('Cloth', new mongoose.Schema({
     //     },
     //     dryClean: Boolean
     // }
-})
+}).index({'$**': 'text'})
 );
 
 module.exports = clothModel;

@@ -103,13 +103,22 @@ app.post('/signin', async (req, res) => {
 
 app.get('/home', auth, async (req, res) => {
     try {
-        const cloths = await clothService.getByUserId(req.userId);
+        let clothes;
+        const searchText = req.query.search;
+        if(searchText === undefined){
+            clothes = await clothService.getByUserId(req.userId);
+        }
+        else{
+            clothes = await clothService.getBySearchText(searchText);
+        }
+        
+    
         res.render('home', {
             layout: 'auth',
             customstyle: `<link rel="stylesheet" href="../carousel.css">`,
             customscript: `<script src="home.js"></script>`,
             user: req.userName,
-            cloths: cloths
+            clothes: clothes
         })
     } catch (error) {
         res.redirect('/signin')

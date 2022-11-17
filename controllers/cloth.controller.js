@@ -28,16 +28,38 @@ const getById = async (clothId) => {
 
 const getByUserId = async (userId) => {
     try {
-        const cloths = await clothModel.find({
+        const clothes = await clothModel.find({
             user: userId
         }).lean();
-        if(!cloths || cloths.length === 0) { 
+        if(!clothes) { 
             throw {
                 msg: 'unable to find any cloth',
                 code: 400
             }
         }
-        return cloths;
+        else if(clothes === 0){
+//            return;
+        }
+        return clothes;
+    } catch (error) {
+        throw {
+            msg: 'unable to find cloth',
+            code: 400
+        }
+    }
+}
+
+const getBySearchText = async (searchText) => {
+    try {
+        const clothes = await clothModel.find({ 
+            $text: { $search: searchText }}).lean();
+        if(!clothes || clothes.length === 0) { 
+            throw {
+                msg: 'unable to find any cloth',
+                code: 400
+            }
+        }
+        return clothes;
     } catch (error) {
         throw {
             msg: 'unable to find cloth',
@@ -73,5 +95,6 @@ module.exports = {
     store,
     getById,
     updateOne,
-    getByUserId
+    getByUserId,
+    getBySearchText
 }
