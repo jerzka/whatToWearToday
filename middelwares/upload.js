@@ -24,18 +24,12 @@ const uploadPhoto = async (req, res, next) => {
         const storageRef = ref(storage, 'upload/' + image.name);
        
         await uploadBytes(storageRef, image.data.buffer, metadata);
-        getDownloadURL(storageRef)
-            .then((url) => {
-                console.log('File available at', url);
-                req.photoUrl = url;
-                next();
-            })
-            .catch((error) => {
-                return res.status(400).json({
-                    error: "Uploading image unsuccessful"
-                });
-            });
-
+        const url = await getDownloadURL(storageRef);
+        if(url){
+            console.log('File available at', url);
+            req.photoUrl = url;
+            next();
+        }
     }
     catch (error) {
         return res.status(400).json({

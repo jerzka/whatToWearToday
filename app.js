@@ -105,14 +105,11 @@ app.get('/home', auth, async (req, res) => {
     try {
         let clothes;
         const searchText = req.query.search;
-        if(searchText === undefined){
+        if(searchText === undefined || searchText === ''){
             clothes = await clothService.getByUserId(req.userId);
-        }
-        else{
+        }else{
             clothes = await clothService.getBySearchText(searchText);
         }
-        
-    
         res.render('home', {
             layout: 'auth',
             customstyle: `<link rel="stylesheet" href="../carousel.css">`,
@@ -263,6 +260,36 @@ app.post('/update-cloth/:id', auth, uploadPhoto, async (req, res) => {
     }
 });
 
+app.get('/outfit-form', auth, async (req, res) => {
+    try {
+        const clothes = await clothService.getByUserId(req.userId);
+
+        const clothesMatrics = (arr, chunkSize)  => {
+                const result = [];
+                while (arr.length > 0) {
+                    const chunk = arr.splice(0, chunkSize);
+                    result.push({chunk: chunk});
+                }
+                console.log(result)
+                return result;
+            }
+        const newClothesArr = clothesMatrics(clothes, 3);
+
+        res.render('outfit-form', {
+            layout: 'auth',
+            customstyle: `<link rel="stylesheet" href="../auth-forms.css">
+                        <link rel="stylesheet" href="../carousel.css">`,
+            customscript: `<script src="outfit.js"></script>`,
+            edit: false,
+            user: req.userName,
+            clothes: newClothesArr
+        })
+    } catch (error) {
+        res.redirect('/signin');
+        res.end();
+        return;
+    }
+});
 
 app.get('/signout', (req, res) => {
     res.cookie('token', '');

@@ -12,12 +12,13 @@ const outfitModel = mongoose.model('Outfit', new mongoose.Schema({
         required: [true, "Name is required"],
     },
     availability: Boolean,
+    access: String,
     createdAt: {
         type: Date, 
         default: Date.now
     },
-    seasons: [{type: Object}],
-    styles:Array,
+    seasons: Array,
+    styles: Array,
     clothes: [{
         type: ObjectId, 
         ref: 'Cloth'    
@@ -30,3 +31,16 @@ const outfitModel = mongoose.model('Outfit', new mongoose.Schema({
 );
 
 module.exports = outfitModel;
+
+// db.outfits.insertOne({
+//     user: _id,
+//     name: "Meeting with friend",
+//     availability: true,
+//     access: "public",
+//     createdAt: "2022-11-19 9:05",
+//     seasons: ["spring" , "summer"],
+//     styles: ["casual", "outdoor"],
+//     clothes: [{"63654e79c739477cfd0e9c02"},
+//               {"636550a7a6b0f0c04fabdecc"}],
+//     photo: {"https://firebasestorage.googleapis.com/v0/b/what-to-wear-today-f3d84.appspot.com/o/upload%2Foutfit1.png?alt=media&token=9e1a08bd-1647-402b-8881-4999a798db91"}
+// });

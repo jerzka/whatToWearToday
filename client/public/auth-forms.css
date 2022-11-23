@@ -1,17 +1,16 @@
 :root {
-    --basic-color: steelblue;
-    --darken-basic-color: rgb(112, 128, 144);
-    --lighter-accent-color:  rgba(241, 165, 189, 0.5);
-    --accent-color: rgb(226, 115, 150);
-    --logo-size: 100px;
-    --bs-list-group-border-width: 1px;
-    --bs-list-group-item-padding-x: 0.75rem;
-    --bs-list-group-item-padding-y: 0.5rem;  
-  }
-  
-  #custom-form {
-    background-color: rgb(255, 255, 255);
-  }
+  --bs-primary-color: rgb(13, 110, 253);
+  --lighter-accent-color: rgba(241, 165, 189, 0.5);
+  --accent-color: rgb(226, 115, 150);
+  --logo-size: 100px;
+  --bs-list-group-border-width: 1px;
+  --bs-list-group-item-padding-x: 0.75rem;
+  --bs-list-group-item-padding-y: 0.5rem;
+}
+
+#custom-form {
+  background-color: rgb(255, 255, 255);
+}
 
 .form-group-custom {
   position: relative;
@@ -43,7 +42,7 @@
   background-position: right center;
 }
 
-.form-icon-check .form-check-input{
+.form-icon-check .form-check-input {
   /* float: right; */
   width: 4em;
   height: 2em;
@@ -68,7 +67,7 @@
 
 }
 
-.list-group {  
+.list-group {
   --bs-list-group-color: #000;
   --bs-list-group-bg: #FFF;
   --bs-list-group-border-color: rgba(0, 0, 0, 0.125);
@@ -134,43 +133,49 @@
   border-top-width: 1px;
 }
 
-.ul-colors-swatch{
+.ul-colors-swatch {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   list-style-type: none;
 }
 
-.ul-colors-swatch > li{
-  width: 40px; 
-  height: 40px; 
-  border-radius:25%; 
+.ul-colors-swatch>li {
+  width: 40px;
+  height: 40px;
+  border-radius: 25%;
   margin: 1rem;
 }
 
-.btn-delete{
-  width: 40px; 
-  height: 40px; 
+.btn-delete {
+  width: 40px;
+  height: 40px;
   margin: 1rem;
 }
 
-.errorToast{
+.errorToast {
   display: block;
-  top:2%;
-  right:2%;
+  top: 2%;
+  right: 2%;
 }
+
+canvas {
+  width: 100%;
+  height: 75%;
+}
+
 
 /* --- RESPONSIVE CSS  -------------------------------------------------- */
 @media (min-width: 75em) {
 
-  #custom-form{
-      max-width: 75%;
+  #custom-form {
+    max-width: 75%;
   }
 }
 
 @media (min-width: 40em) {
 
-  #custom-form{
+  #custom-form {
     max-width: 100%;
   }
 }

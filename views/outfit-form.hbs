@@ -33,15 +33,27 @@
                 </div>
                 <div class="row row-cols-4 pt-5">
                     {{#if edit}}
-                        {{#each seasons as |season|}}
-                            {{#each season}}
-                            <div class="form-custom-check col pb-3">
-                                <input type="checkbox" class="form-check-input checkbox-xl" id="seasonSpring" value={{@key}}
-                                    {{#ifeq this true}} checked {{/ifeq}}>
-                                <label class="form-check-label d-block text-capitalize" for="season-spring">{{@key}}</label>
-                            </div>
-                            {{/each}}
-                        {{/each}}
+                        <div class="form-custom-check col pb-3">
+                            <input type="checkbox" class="form-check-input checkbox-xl" id="seasonSpring" 
+                            {{#contains seasons "spring" true}} checked {{/contains}} value="spring">
+                            <label class="form-check-label d-block" for="season-spring">Spring</label>
+                        </div>
+                        <div class="form-custom-check col">
+                            <input type="checkbox" class="form-check-input checkbox-xl" id="seasonSummer"
+                            {{#contains seasons "summer" true}} checked {{/contains}} value="summer">
+                            <label class="form-check-label d-block" for="season-summer">Summer</label>
+                        </div>
+                        <div class="form-custom-check col">
+                            <input type="checkbox" class="form-check-input checkbox-xl" id="season-fall"
+                            {{#contains seasons "fall" true}} checked {{/contains}} value="fall">
+                            <label class="form-check-label d-block" for="season-fall">Fall</label>
+                        </div>
+                        <div class="form-custom-check col">
+                            <input type="checkbox" class="form-check-input checkbox-xl" id="season-winter"
+                            {{#contains seasons "spring" true}} checked {{/contains}} value="winter">
+                            <label class="form-check-label d-block" for="season-winter">Winter</label>
+                        </div>
+
                     {{else}}
 
                     <div class="form-custom-check col pb-3">
@@ -106,24 +118,25 @@
                 <div class="form-group-header">
                     <h4>Your clothes</h4>
                 </div>
-                <div class="row row-cols-2 py-5 align-items-end">
-                    <div class="col-12">
+                <div class="row row-cols-2 py-5 align-items-center">
+                    <div class="col-12 col-lg-6 py-3">
                         {{>carousel}}
+                    </div>
+                    <div class="col-12 col-lg-6 py-3">
+                        <canvas id="outfitCanvas" class="canvas bg-light"></canvas>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="w-100 bg-light ">
-
-        </div>
-
+        <hr/>
+        
         {{#if edit}}
             <div id="outfitID" hidden>{{id}}</div>
         {{/if}}
 
         <div class="container col-md-6 col-lg-4 justify-content-center pb-5">
-            <button id="submitCloth" type="button" class="btn btn-primary btn-lg w-100">
+            <button id="submitOutfit" type="button" class="btn btn-primary btn-lg w-100">
                 {{#if edit}}Save outfit{{else}}Add outfit{{/if}}</button>
         </div>
     </form>

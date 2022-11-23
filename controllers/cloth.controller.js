@@ -38,7 +38,7 @@ const getByUserId = async (userId) => {
             }
         }
         else if(clothes === 0){
-//            return;
+           return ;
         }
         return clothes;
     } catch (error) {

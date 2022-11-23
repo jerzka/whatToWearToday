@@ -1,7 +1,5 @@
 :root {
-    --basic-color: steelblue;
-    --darken-basic-color: rgb(112, 128, 144);
-    --lighter-basic-color: lightsteelblue;
+    --bs-primary-color: rgb(13, 110, 253);
     --accent-color: rgb(226, 115, 150);
     --accent-color-lighter: rgb(222, 145, 169);
     --logo-size: 70px;
@@ -55,6 +53,16 @@ h5 {
     color: var(--accent-color);
 }
 
+.pink-serif-link {
+    font-family: 'Prata', serif;
+    color: #FFF;
+    text-decoration: none;
+  }
+  .pink-serif-link :hover{
+    color: #FFF;
+    background-color: var(--bs-primary-color);
+}
+  
 .opacity-bg {
     max-width: 960px;
     padding: 0 2rem;

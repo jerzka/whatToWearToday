@@ -1,18 +1,53 @@
-<h1 class="my-3">Try this today{{ title }}</h1>
+<h1 class="my-3">{{ title }}</h1>
 
-<div id="myCarousel" class="carousel w-auto align-items-end slide me-xl-5" data-bs-ride="carousel">
-    <div class="carousel-indicators">
-        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" class="active" aria-current="true"
-            aria-label="Slide 1"></button>
-        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
-        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
-    </div>
-    <div class="carousel-inner">
-        {{!-- this element to insert from .js - first has class active--}}
-        <div class="carousel-item active" data-bs-interval="10000">
-            <img id="{{_id}}" class="w-100" src="{{photo}}" alt="{{ item.name }}">
-        </div>
-        {{!-- section.item --}}
+<div id="myCarousel" class="carousel" data-bs-ride="carousel">
+  <div class="carousel-inner px-5">
+
+        {{#if home}}
+            {{#unless outfits}}       
+                <h4>You don't have any saved outfits yet!</h4>
+                <h5>Go to <a href="/outfit-form" class="pink-serif-link"><span class="span-bg">adding outfit form</span></a></h5>
+            {{/unless}}
+        {{else}}
+            {{#unless clothes}}
+                <h4>You don't have any saved clothes yet!</h4>
+                <h5>Go to <a href="/cloth-form" class="pink-serif-link"><span class="span-bg">adding cloth form</span></a></h5>            
+            {{/unless}}
+        {{/if}}
+        {{#if outfits}}
+            {{#each outfit}}
+                <div class="carousel-item {{#if @first}} active{{/if}}" data-bs-interval="10000">
+                    <a href="/outfit-form/{{_id}}">
+                        <img id="{{_id}}" class="w-100" src="{{photo}}" alt="{{ name }}">
+                    </a>
+                </div>
+            {{/each}}
+        {{/if}}
+
+
+            {{#each clothes}}
+                <div class="carousel-item{{#if @first}} active{{/if}}">
+                    <div class="cards-wrapper">
+                    {{#chunk}}
+                        <div class="card text-white bg-light">
+                            <div class="image-wrapper">
+                                <img id="{{_id}}" class="carousel-photo card-img card-img-bottom" src="{{photo}}" alt="{{name}}">
+                            </div>
+                            <div class="card-image-overlay py-3">
+                                <button id="detailsBtn_{{_id}}" type="button" class="btn btn-primary">
+                                    Details
+                                </button>
+                                <button id="pickBtn_{{_id}}" type="button" class="btn btn-primary">
+                                    <i class="fa fa-plus fa-lg text-white" aria-hidden="true"></i>
+                                </button>
+
+                            </div>
+                        </div>
+                    {{/chunk}}
+                    </div>
+                </div>
+            {{/each}}
+
     </div>
     <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
         <span class="carousel-control-prev-icon span-bg" aria-hidden="true"></span>
