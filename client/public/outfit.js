@@ -49,7 +49,7 @@ const mouseDown = (event) => {
 
     let index = 0;
     for( let photo of photos){
-        if(isMouseInImage(startX, startY, photo.imagePos)){
+        if(isMouseInImage(startX, startY, photo.photoCanvasPos)){
             console.log('yes');
             current_photo_index = index;
             isDragging = true;
@@ -96,8 +96,8 @@ const mouseMove = (event) => {
         console.log(dx, dy);
 
         let currentPhoto = photos[current_photo_index];
-        currentPhoto.imagePos.x += dx;
-        currentPhoto.imagePos.y += dy;
+        currentPhoto.photoCanvasPos.x += dx;
+        currentPhoto.photoCanvasPos.y += dy;
 
         drawPhotos();
 
@@ -109,7 +109,12 @@ const mouseMove = (event) => {
 const drawPhotos = () => {
     context.clearRect(0, 0, canvasWidth, canvasHeight);
     for(let photo of photos){
-        context.drawImage(photo.image, photo.imagePos.x, photo.imagePos.y, photo.imagePos.width, photo.imagePos.height);
+        context.drawImage(
+            photo.photoImg, 
+            photo.photoCanvasPos.x, 
+            photo.photoCanvasPos.y, 
+            photo.photoCanvasPos.width, 
+            photo.photoCanvasPos.height);
     }
 }
 
@@ -124,12 +129,15 @@ const addToCanvas = (photoID) => {
     let imagePos = {
         x: 0,
         y: 0,
-        width: image.width/2,
-        height: image.height/2
+        width: image.width,
+        height: image.height
     };  
-    photos.push({image, imagePos});
+    photos.push({
+        photoID: photoID,
+        photoImg: image, 
+        photoSrc: image.src,
+        photoCanvasPos: imagePos});
     drawPhotos();
-
 }
 
 canvas.addEventListener('mousedown', mouseDown);
@@ -137,16 +145,16 @@ canvas.addEventListener('mouseup', mouseUp);
 canvas.addEventListener('mouseout', mouseOut)
 canvas.addEventListener('mousemove', mouseMove);
 
-let styles = [];
+let categories = [];
 
 const init = () => {
-    if(document.getElementById("styles").hasChildNodes()){
-        const stylesUls = document.getElementById("styles").children;
-        for(const child of stylesUls){
-            const stylesLi = child.getElementsByTagName('li');
-            styles.push(stylesLi[0].innerText);
-            const deleteStyleBtn = child.getElementsByTagName('button');
-            deleteStyleBtn[0].addEventListener("click", (e) => deleteBtn(styles, e), false);
+    if(document.getElementById("categories").hasChildNodes()){
+        const categoryUls = document.getElementById("categories").children;
+        for(const child of categoryUls){
+            const categoryLi = child.getElementsByTagName('li');
+            categories.push(categoryLi[0].innerText);
+            const deleteBtn = child.getElementsByTagName('button');
+            deleteBtn[0].addEventListener("click", (e) => deleteBtn(categories, e), false);
         }             
     }
 
@@ -164,32 +172,38 @@ const init = () => {
         const id = button.id.split('_')[1];
         button.addEventListener('click', ()=>{ window.location = `/cloth-details/${id}`})
     }
-
-
 }
 
-const addStyle = () => {
-    const select = document.querySelector('#styleOpt');
-    const selectedStyle = select.options[select.selectedIndex].value;
-    if(styles.indexOf(selectedStyle) !== -1){
+const canvasImage = () => {
+    const canvasEl = document.querySelector('#outfitCanvas');
+    let imageObj = new Image();
+    imageObj.crossOrigin = 'anonymous';
+    imageObj = canvasEl.toDataURL("image/png");
+    return imageObj;
+};
+
+const addCategory = () => {
+    const select = document.querySelector('#categoryOpt');
+    const selectedCategory = select.options[select.selectedIndex].value;
+    if(categories.indexOf(selectedCategory) !== -1){
         showError("This style has been already added");
         return false;  
     }
 
-    const place = document.querySelector('#styles');
+    const place = document.querySelector('#categories');
     place.insertAdjacentHTML('beforeend', `
-        <ul id="${selectedStyle}" class="list-group-custom col p-0 justify-content-center">
-            <li class="list-group-item" value="${selectedStyle}">${selectedStyle}</li>
-            <button id="delete-${selectedStyle}" type="button" class="btn btn-delete btn-primary">
+        <ul id="${selectedCategory}" class="list-group-custom col p-0 justify-content-center">
+            <li class="list-group-item" value="${selectedCategory}">${selectedCategory}</li>
+            <button id="delete-${selectedCategory}" type="button" class="btn btn-delete btn-primary">
                 <i class="fa fa-minus fa-lg text-white" aria-hidden="true"></i>
             </button>
         </ul`);
-    const deleteStyleBtn = document.querySelector(`#delete-${selectedStyle}`);
-    deleteStyleBtn.addEventListener("click", (e) => deleteBtn(styles, e), false);
-    styles.push(selectedStyle); 
+    const deleteBtn = document.querySelector(`#delete-${selectedCategory}`);
+    deleteBtn.addEventListener("click", (e) => deleteBtn(categories, e), false);
+    categories.push(selectedCategory); 
 };
 
-const deleteBtn = (arr, e) => {
+const deleteBtn = (arr, event) => {
     let toDelete;
     if(typeof arr[0] == "object"){
         toDelete = arr.findIndex(item => item[e.currentTarget.id.split("-")[1]]);
@@ -200,21 +214,23 @@ const deleteBtn = (arr, e) => {
 
     if(toDelete !== -1){
         arr.splice(toDelete, 1);
-        e.currentTarget.parentElement.remove();
+        event.currentTarget.parentElement.remove();
     }    
 }
 
-const handleSubmitOutfit = async () => {
+const handleSubmit = async () => {
     const seasonsSection = document.querySelector('#seasons');
     const seasonsCheckboxes = seasonsSection.querySelectorAll('input[type=checkbox]');
     const seasonsToDB = Array.prototype.map.call(seasonsCheckboxes, ({value, checked}) => ({[value]: checked}));
 
     const formValue = {
-        name: document.getElementById('outfitName').value,
+        name: document.getElementById('name').value,
         availability: document.getElementById('availabilityCheck').checked,
+        privacy: document.getElementById('privacyCheck').checked,
         seasons: seasonsToDB,
-        styles: styles,
-        image: document.querySelector('input[name=image]').files[0],
+        categories: categories,   
+        image: canvasImage() ,
+        clothes: photos
     };
     console.log(formValue);
     
@@ -252,13 +268,12 @@ const handleSubmitOutfit = async () => {
         }else{
 
             const dataValue = {
-                name: document.getElementById('outfitName').value,
-                availability: document.getElementById('availabilityCheck').checked,
+                name: document.getElementById('name').value,
+                privacy: document.getElementById('privacyCheck').checked,
                 seasons: JSON.stringify(seasonsToDB),
-                styles: JSON.stringify(styles),
+                categories: JSON.stringify(categories),
                 image: document.querySelector('input[name=image]').files[0],
-                colors: JSON.stringify(colors),
-                fabrics: JSON.stringify(fabrics)
+                clothes: JSON.stringify(photos),
             };
         
             const formData  = new FormData();
@@ -276,8 +291,9 @@ const handleSubmitOutfit = async () => {
         if (response.status !== 200) {
             console.log(responseBody);
             showError(responseBody.error);
+
+            window.location = '/home';
         }
-        window.location = `/cloth-details/${responseBody.clothId}`
     }
 };
 
@@ -285,7 +301,7 @@ const validateForm = (formValue) => {
     console.log(document.querySelectorAll('input[type=checkbox]:checked'));
 
     if(!formValue.name || formValue.name === ""){
-        showError("Please provide a outfit 's name");
+        showError("Please provide a outfit's name");
         return false;  
     }
 
@@ -294,16 +310,10 @@ const validateForm = (formValue) => {
         return false;  
     }
 
-    if(formValue.styles.length === 0){ 
-        showError("Please select at least one style");
+    if(formValue.categories.length === 0){ 
+        showError("Please select at least one category");
         return false;  
     }
-
-    // if(!formValue.image){
-    //     showError("Please upload a photo");
-    //     return false;  
-    // }
-
 
     return true;
 };
@@ -326,10 +336,10 @@ const showError = (errorMessage) => {
 }
 
 
-const addStyleBtn = document.querySelector("#addStyleBtn");
-addStyleBtn.addEventListener("click", addStyle);
+const addCategoryBtn = document.querySelector("#addCategoryBtn");
+addCategoryBtn.addEventListener("click", addCategory);
 
-const submitOutfitBtn = document.getElementById("submitOutfit");
-submitOutfitBtn.addEventListener("click", handleSubmitOutfit);
+const submitBtn = document.getElementById("submitBtn");
+submitBtn.addEventListener("click", handleSubmit);
 
 init();

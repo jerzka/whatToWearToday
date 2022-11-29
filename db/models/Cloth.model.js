@@ -12,7 +12,7 @@ const clothModel = mongoose.model('Cloth', new mongoose.Schema({
         required: [true, "Name is required"],
     },
     availability: Boolean,
-    seasons: [{type: Object}],
+    seasons: Array,
     styles: Array,
     colors: Array,
     fabrics:[{type: Object}],

@@ -1,6 +1,6 @@
 <main id="custom-form" class="container w-100 w-md-75">
     <h1 class="p-3"><span class="span-bg text-white">
-            {{#if edit}}Edit</span>{{else}} Add</span> new {{/if}} outfit
+            {{#if edit}}Edit</span>{{else}} Add</span>{{/if}} outfit
     </h1>
 
     <form class="px-3" enctype="multipart/form-data">
@@ -10,14 +10,23 @@
                     <h4>Basic info</h4>
                 </div>
                 <div class="row p-5 align-items-end">
-                    <div class="col-12 col-md-8">
-                        <label for="clothName" class="form-label ">Your outfit name</label>
-                        <input type="text" class="form-control" id="clothName" 
+                    <div class="col-12">
+                        <label for="name" class="form-label ">Your outfit name</label>
+                        <input type="text" class="form-control" id="name" 
                             value={{#if edit}}"{{name}}"{{else}}""{{/if}} />
                     </div>
-                    <div class="col-12 col-md-4 mt-3 p-0 text-start">
+                    
+                    <div class="col-12 col-md-6 mt-3 p-0 text-start">
                         <div class="form-check form-custom-switch">
-                            <label class="form-check-label pt-2" for="availabilityCheck">Private/Public</label>
+                            <label class="form-check-label pt-2" for="availabilityCheck">Availability</label>
+                            <input class="form-check-input" type="checkbox" role="switch" id="availabilityCheck"
+                                value={{#if edit}}{{availability}}{{else}}false{{/if}} />
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-6 mt-3 p-0 text-start">
+                        <div class="form-check form-custom-switch">
+                            <label class="form-check-label pt-2" for="privacyCheck">Private/Public</label>
                             <input class="form-check-input" type="checkbox" role="switch" id="privacyCheck"
                                 value={{#if edit}}{{privacy}}{{else}}true{{/if}} />
                         </div>
@@ -78,29 +87,29 @@
             <div class="col-12 col-md-6 form-group-custom border border-secondary border-opacity-25 my-5">
 
                 <div class="form-group-header">
-                    <h4>Your cloth style</h4>
+                    <h4>Your outfit occasion</h4>
                 </div>
                 <div class="row pt-5 justify-content-around">
                     <div class="col-10 p-0 px-3">
-                        <select id="styleOpt" class="form-select" aria-label="select cloth style">
-                            <option value="">-- Choose an style --</option>
-                            <option value="casual">Casual</option>
-                            <option value="elegant">Elegant</option>
-                            <option value="sport">Sport</option>
+                        <select id="categoryOpt" class="form-select" aria-label="select outfit occasion">
+                            <option value="">-- Choose an occasion --</option>
+                            <option value="work">Work</option>
+                            <option value="weekend">Weekend</option>
+                            <option value="date">Date</option>
+                            <option value="party">Party</option>
+                            <option value="christmas">Christmas</option>
                             <option value="outdoor">Outdoor</option>
-                            <option value="vintage">Vintage</option>
-                            <option value="rock">Rock</option>
                         </select>
                     </div>
                     <div class="col-2 p-0">
-                        <button id="addStyleBtn" type="button" class="btn btn-primary">
+                        <button id="addCategoryBtn" type="button" class="btn btn-primary">
                             <i class="fa fa-plus fa-lg text-white" aria-hidden="true"></i>
                         </button>
                     </div>
                 </div>
-                <div id="styles" class="row p-5">
+                <div id="categories" class="row p-5">
                 {{#if edit}}
-                    {{#each styles}}
+                    {{#each category}}
                     <ul class="list-group-custom col p-0 justify-content-center">
                         <li class="list-group-item" value={{this}}>{{this}}</li>
                         <button id="delete-{{this}}" type="button" class="btn btn-delete btn-primary">
@@ -128,15 +137,13 @@
                 </div>
             </div>
         </div>
-
-        <hr/>
         
         {{#if edit}}
             <div id="outfitID" hidden>{{id}}</div>
         {{/if}}
 
         <div class="container col-md-6 col-lg-4 justify-content-center pb-5">
-            <button id="submitOutfit" type="button" class="btn btn-primary btn-lg w-100">
+            <button id="submitBtn" type="button" class="btn btn-primary btn-lg w-100">
                 {{#if edit}}Save outfit{{else}}Add outfit{{/if}}</button>
         </div>
     </form>

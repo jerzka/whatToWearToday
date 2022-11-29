@@ -1,10 +1,10 @@
 const clothModel = require('../db/models/Cloth.model');
 
-const store = async (clothData) => {
-    try{
-        const newCloth = await clothModel.create(clothData);
-        return newCloth;
-    }catch(err){
+const store = async (itemData) => {
+    try {
+        const newItem = await clothModel.create(itemData);
+        return newItem;
+    } catch (err) {
         throw {
             msg: 'Failed to create new cloth, please check your input',
             code: 401
@@ -12,12 +12,12 @@ const store = async (clothData) => {
     }
 }
 
-const getById = async (clothId) => {
+const getById = async (itemId) => {
     try {
-        const cloth = await clothModel.findOne({
-            _id: clothId
+        const item = await clothModel.findOne({
+            _id: itemId
         }).lean();
-        return cloth;
+        return item;
     } catch (error) {
         throw {
             msg: 'unable to find cloth',
@@ -28,19 +28,19 @@ const getById = async (clothId) => {
 
 const getByUserId = async (userId) => {
     try {
-        const clothes = await clothModel.find({
+        const items = await clothModel.find({
             user: userId
         }).lean();
-        if(!clothes) { 
+        if (!items) {
             throw {
                 msg: 'unable to find any cloth',
                 code: 400
             }
         }
-        else if(clothes === 0){
-           return ;
+        else if (items.length === 0) {
+            return;
         }
-        return clothes;
+        return items;
     } catch (error) {
         throw {
             msg: 'unable to find cloth',
@@ -51,15 +51,19 @@ const getByUserId = async (userId) => {
 
 const getBySearchText = async (searchText) => {
     try {
-        const clothes = await clothModel.find({ 
-            $text: { $search: searchText }}).lean();
-        if(!clothes || clothes.length === 0) { 
+        const items = await clothModel.find({
+            $text: { $search: searchText }
+        }).lean();
+        if (!items) {
             throw {
                 msg: 'unable to find any cloth',
                 code: 400
             }
         }
-        return clothes;
+        else if (items.length === 0) {
+            return;
+        }
+        return items;
     } catch (error) {
         throw {
             msg: 'unable to find cloth',
@@ -68,21 +72,22 @@ const getBySearchText = async (searchText) => {
     }
 }
 
-const updateOne = async (cloth) => {
-    const filter = { _id: cloth.id};
-    const update = { name: cloth.name,
-                    availability: cloth.availability,
-                    seasons: cloth.seasons,
-                    styles: cloth.styles,
-                    //image: cloth.photo,
-                    colors: cloth.colors,
-                    fabrics: cloth.fabrics
+const updateOne = async (item) => {
+    const filter = { _id: item.id };
+    const update = {
+        name: item.name,
+        availability: item.availability,
+        seasons: item.seasons,
+        styles: item.styles,
+        image: item.photo,
+        colors: item.colors,
+        fabrics: item.fabrics
     };
-    
+
     try {
-        const cloth = await clothModel.findOneAndUpdate(filter, update, 
-            {new: true}).lean();
-        return cloth;
+        const item = await clothModel.findOneAndUpdate(filter, update,
+            { new: true }).lean();
+        return item;
     } catch (error) {
         throw {
             msg: 'unable to find cloth',

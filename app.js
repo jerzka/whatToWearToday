@@ -291,6 +291,40 @@ app.get('/outfit-form', auth, async (req, res) => {
     }
 });
 
+app.post('/add-outfit', auth, uploadPhoto, async (req, res) => {
+    const formData = req.body;
+    
+    if (!req.userId || req.userId === 0) {
+        return res.status(401).json({
+            error: "User not found"
+        });
+    } 
+
+    try {
+        const itemData = {
+            user: req.userId,
+            name: formData.name,
+            privacy: formData.privacy,
+            seasons: JSON.parse(formData.seasons),
+            categories: JSON.parse(formData.styles),
+            photo: req.photoUrl,
+            clothes: JSON.parse(formData.photos)
+        }
+        const newItem = await clothService.store(itemData);
+        if (!newItem) {
+            return res.status(400).json({
+                error: "Unsuccessful create new cloth"
+            });
+        }
+        return res.status(200).json({ itemId: newItem.id });
+
+    } catch (error) {
+        res.redirect('/home');
+        res.end();
+        return;
+    }
+});
+
 app.get('/signout', (req, res) => {
     res.cookie('token', '');
     // res.status(200).send({

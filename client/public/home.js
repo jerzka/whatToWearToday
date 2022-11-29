@@ -1,9 +1,4 @@
 
-const newClothNavBtn = document.getElementById("newClothNavBtn");
-newClothNavBtn.addEventListener("click", () => {
-    window.location = "/cloth-form";
-});
-
 const addClothBtn = document.getElementById("addClothMenuBtn");
 addClothBtn.addEventListener("click", () => {
     window.location = "/cloth-form";

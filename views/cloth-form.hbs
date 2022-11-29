@@ -1,6 +1,6 @@
 <main id="custom-form" class="container w-100 w-md-75">
     <h1 class="p-3"><span class="span-bg text-white">
-            {{#if edit}}Edit</span>{{else}} Add</span> new {{/if}} cloth
+            {{#if edit}}Edit</span>{{else}} Add</span>{{/if}} cloth
     </h1>
 
     <form class="px-3" enctype="multipart/form-data">
@@ -11,15 +11,15 @@
                 </div>
                 <div class="row p-5 align-items-end">
                     <div class="col-12 col-md-8">
-                        <label for="clothName" class="form-label ">Your cloth name</label>
-                        <input type="text" class="form-control" id="clothName" 
+                        <label for="name" class="form-label ">Your cloth name</label>
+                        <input type="text" class="form-control" id="name" 
                             value={{#if edit}}"{{name}}"{{else}}""{{/if}} />
                     </div>
                     <div class="col-12 col-md-4 mt-3 p-0 text-start">
                         <div class="form-check form-custom-switch">
                             <label class="form-check-label pt-2" for="availabilityCheck">Availability</label>
                             <input class="form-check-input" type="checkbox" role="switch" id="availabilityCheck"
-                                value={{#if edit}}{{availability}}{{else}}false{{/if}} />
+                                {{#if edit}}checked="{{availability}}"{{else}}{{/if}} />
                         </div>
                     </div>
                 </div>
@@ -33,15 +33,27 @@
                 </div>
                 <div class="row row-cols-4 pt-5">
                     {{#if edit}}
-                        {{#each seasons as |season|}}
-                            {{#each season}}
-                            <div class="form-custom-check col pb-3">
-                                <input type="checkbox" class="form-check-input checkbox-xl" id="seasonSpring" value={{@key}}
-                                    {{#ifeq this true}} checked {{/ifeq}}>
-                                <label class="form-check-label d-block text-capitalize" for="season-spring">{{@key}}</label>
-                            </div>
-                            {{/each}}
-                        {{/each}}
+                        <div class="form-custom-check col pb-3">
+                            <input type="checkbox" class="form-check-input checkbox-xl" id="seasonSpring" 
+                            {{#contains @root.seasons "spring" "checked"}} {{/contains}} value="spring">
+                            <label class="form-check-label d-block" for="season-spring">Spring</label>
+                        </div>
+                        <div class="form-custom-check col">
+                            <input type="checkbox" class="form-check-input checkbox-xl" id="seasonSummer"
+                            {{#contains @root.seasons "summer" "checked"}} {{/contains}} value="summer">
+                            <label class="form-check-label d-block" for="season-summer">Summer</label>
+                        </div>
+                        <div class="form-custom-check col">
+                            <input type="checkbox" class="form-check-input checkbox-xl" id="season-fall"
+                            {{#contains @root.seasons "fall" "checked"}}{{/contains}} value="fall">
+                            <label class="form-check-label d-block" for="season-fall">Fall</label>
+                        </div>
+                        <div class="form-custom-check col">
+                            <input type="checkbox" class="form-check-input checkbox-xl" id="season-winter"
+                            {{#contains @root.seasons "winter" "checked"}}{{/contains}} value="winter">
+                            <label class="form-check-label d-block" for="season-winter">Winter</label>
+                        </div>
+
                     {{else}}
 
                     <div class="form-custom-check col pb-3">
@@ -63,6 +75,7 @@
                     {{/if}}
                 </div>
             </div>
+
             <div class="col-12 col-md-6 form-group-custom border border-secondary border-opacity-25 my-5">
 
                 <div class="form-group-header">
@@ -112,10 +125,10 @@
                         {{#if edit}}
                         <div id="photo" class="row pt-2 pb-5 align-items-center">
                             <div class="col-4">
-                                <img class="w-100 bg-light" src="../{{photo}}" alt="...">
+                                <img id="photo_{{id}}" class="w-100 bg-light" src="{{photo}}" alt="...">
                             </div>
                             <div class="col-2 p-0">
-                                <button id="deleteImageBtn" type="button" class="btn btn-delete btn-primary">
+                                <button id="deleteImage-{{id}}" type="button" class="btn btn-delete btn-primary">
                                     <i class="fa fa-minus fa-lg text-white" aria-hidden="true"></i>
                                 </button>
                             </div>
@@ -202,12 +215,8 @@
             </div>
         </div>
 
-        {{#if edit}}
-            <div id="clothID" hidden>{{id}}</div>
-        {{/if}}
-
         <div class="container col-md-6 col-lg-4 justify-content-center pb-5">
-            <button id="submitCloth" type="button" class="btn btn-primary btn-lg w-100">
+            <button id="submit" {{#if edit}}data-id="{{id}}"{{/if}} type="button" class="btn btn-primary btn-lg w-100">
                 {{#if edit}}Save cloth{{else}}Add cloth{{/if}}</button>
         </div>
     </form>

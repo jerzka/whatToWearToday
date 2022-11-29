@@ -1,5 +1,5 @@
 <main class="container w-100 w-md-50 bg-white text-start">
-    <h1 class="px-5 py-3 text-center">Your <span class="span-bg text-white">new</span> cloth</h1>
+    <h1 class="px-5 py-3 text-center">Your <span class="span-bg text-white">cloth</span> </h1>
 
     <div class="row cols-2 p-4 text-start">
         <div class="col-10">
@@ -13,11 +13,10 @@
 
     <div class="row col-1 seasons-detail p-4">
         <ul class="list-group col-12 p-0 justify-content-start">
-            {{#each seasons as |season|}}
-            {{#each season}}
-            <li class="list-group-item {{#ifeq this true }} seasons-active {{/ifeq}}"> {{@key}} </li>
-            {{/each}}
-            {{/each}}
+            <li class="list-group-item {{#contains @root.seasons "spring" "seasons-active"}}{{/contains}}">spring</li>
+            <li class="list-group-item {{#contains @root.seasons "summer" "seasons-active"}}{{/contains}}">summer</li>
+            <li class="list-group-item {{#contains @root.seasons "fall" "seasons-active"}}{{/contains}}">fall</li>
+            <li class="list-group-item {{#contains @root.seasons "winter" "seasons-active"}}{{/contains}}">winter</li>
         </ul>
     </div>
 

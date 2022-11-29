@@ -88,11 +88,6 @@ footer>p {
     font-size: .6rem;
 }
 
-.footer-divider {
-    margin: 0 0 1rem 0;
-    /* Space out the Bootstrap <hr> more */
-}
-
 .navbar-toggler {
     border: none;
 }

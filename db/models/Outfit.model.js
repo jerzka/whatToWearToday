@@ -11,21 +11,21 @@ const outfitModel = mongoose.model('Outfit', new mongoose.Schema({
         type: String,
         required: [true, "Name is required"],
     },
-    availability: Boolean,
     access: String,
-    createdAt: {
-        type: Date, 
-        default: Date.now
-    },
+    rating: Number,
     seasons: Array,
-    styles: Array,
+    occasions: Array,
     clothes: [{
         type: ObjectId, 
         ref: 'Cloth'    
     }],
     photo: {
         type: String,
-        required: [true, "You need to upload a photo"],
+        required: [true, "You need to save an outfit"],
+    },
+    createdAt: {
+        type: Date, 
+        default: Date.now
     }
 })
 );
