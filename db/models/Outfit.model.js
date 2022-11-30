@@ -11,8 +11,12 @@ const outfitModel = mongoose.model('Outfit', new mongoose.Schema({
         type: String,
         required: [true, "Name is required"],
     },
-    access: String,
-    rating: Number,
+    availability: Boolean,
+    privacy: Boolean,
+    rating:{
+        type: Number, 
+        default: 0 
+    },
     seasons: Array,
     occasions: Array,
     clothes: [{
@@ -25,7 +29,7 @@ const outfitModel = mongoose.model('Outfit', new mongoose.Schema({
     },
     createdAt: {
         type: Date, 
-        default: Date.now
+        default: Date.now 
     }
 })
 );
@@ -36,7 +40,7 @@ module.exports = outfitModel;
 //     user: _id,
 //     name: "Meeting with friend",
 //     availability: true,
-//     access: "public",
+//     privacy: false,
 //     createdAt: "2022-11-19 9:05",
 //     seasons: ["spring" , "summer"],
 //     styles: ["casual", "outdoor"],

@@ -15,10 +15,10 @@
             {{/unless}}
         {{/if}}
         {{#if outfits}}
-            {{#each outfit}}
+            {{#each outfits}}
                 <div class="carousel-item {{#if @first}} active{{/if}}" data-bs-interval="10000">
                     <a href="/outfit-form/{{_id}}">
-                        <img id="{{_id}}" class="w-100" src="{{photo}}" alt="{{ name }}">
+                        <img id="{{_id}}" class="w-100" crossorigin="Anonymous" src="{{photo}}" alt="{{ name }}">
                     </a>
                 </div>
             {{/each}}

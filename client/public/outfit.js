@@ -125,6 +125,7 @@ const addToCanvas = (photoID) => {
     pickBtn.setAttribute('disabled', true);
     imageDOM.style.opacity = 0.3;
     let image = new Image(imageDOM.width, imageDOM.height);
+    image.crossOrigin = 'anonymous';
     image.src = imageDOM.currentSrc;
     let imagePos = {
         x: 0,
@@ -146,6 +147,7 @@ canvas.addEventListener('mouseout', mouseOut)
 canvas.addEventListener('mousemove', mouseMove);
 
 let categories = [];
+let seasons = [];
 
 const init = () => {
     if(document.getElementById("categories").hasChildNodes()){
@@ -176,9 +178,12 @@ const init = () => {
 
 const canvasImage = () => {
     const canvasEl = document.querySelector('#outfitCanvas');
-    let imageObj = new Image();
-    imageObj.crossOrigin = 'anonymous';
-    imageObj = canvasEl.toDataURL("image/png");
+    let image = new Image();
+    image.crossOrigin = 'anonymous';
+    image = canvasEl.toDataURL("image/png");
+    const randomNumber = Math.floor(Math.random() * 1000000);
+    const filename = 'outfit_'+randomNumber;
+    const imageObj = {filename: filename, file: image};
     return imageObj;
 };
 
@@ -220,17 +225,23 @@ const deleteBtn = (arr, event) => {
 
 const handleSubmit = async () => {
     const seasonsSection = document.querySelector('#seasons');
-    const seasonsCheckboxes = seasonsSection.querySelectorAll('input[type=checkbox]');
-    const seasonsToDB = Array.prototype.map.call(seasonsCheckboxes, ({value, checked}) => ({[value]: checked}));
+    const seasonsCheckboxesNodes = seasonsSection.querySelectorAll('input[type=checkbox]:checked');
+    for (let i = 0; i < seasonsCheckboxesNodes.length; i++) {
+        seasons.push(seasonsCheckboxesNodes[i].value);
+    }
+ let photosToDB=[];
+    for (let i = 0; i < photos.length; i++) {
+        photosToDB.push(photos[i].photoID);
+    }
 
     const formValue = {
         name: document.getElementById('name').value,
         availability: document.getElementById('availabilityCheck').checked,
         privacy: document.getElementById('privacyCheck').checked,
-        seasons: seasonsToDB,
+        seasons: seasons,
         categories: categories,   
         image: canvasImage() ,
-        clothes: photos
+        clothes: photosToDB
     };
     console.log(formValue);
     
@@ -238,21 +249,13 @@ const handleSubmit = async () => {
     if(formDataValidated) {
         let response;
         if(formValue.id !== undefined){
-            let photo;
-            if(document.getElementById("photo").hasChildNodes()){
-                photo = document.getElementsByTagName('img')[0].src; //localhost path
-            }
-            else{
-                photo = document.querySelector('input[name=image]').files[0];
-            }
-
             const dataValue = {
                 id: document.getElementById('outfitID').innerText,
                 name: document.getElementById('outfitName').value,
                 availability: document.getElementById('availabilityCheck').checked,
                 seasons: JSON.stringify(seasonsToDB),
                 styles: JSON.stringify(styles),
-                image: photo,
+                image: formValue.photo
             };
         
             const formData  = new FormData();
@@ -269,11 +272,13 @@ const handleSubmit = async () => {
 
             const dataValue = {
                 name: document.getElementById('name').value,
+                availability: document.getElementById('availabilityCheck').checked,
                 privacy: document.getElementById('privacyCheck').checked,
-                seasons: JSON.stringify(seasonsToDB),
+                seasons: JSON.stringify(seasons),
                 categories: JSON.stringify(categories),
-                image: document.querySelector('input[name=image]').files[0],
-                clothes: JSON.stringify(photos),
+                filename: formValue.image.filename,
+                file: formValue.image.file,
+                clothes: JSON.stringify(photosToDB),
             };
         
             const formData  = new FormData();

@@ -5,9 +5,10 @@ const { engine } = require("express-handlebars");
 const { getConnection, initializeFirebase } = require("./db/db");
 const userService = require("./controllers/user.controller");
 const clothService = require("./controllers/cloth.controller");
+const outfitService = require("./controllers/outfit.controller");
 const cookieParser = require("cookie-parser");
 const { auth, authGuard } = require('./middelwares/auth');
-const { uploadPhoto } = require('./middelwares/upload');
+const { uploadPhoto, uploadCanvas } = require('./middelwares/upload');
 const fileUpload = require('express-fileupload');
 
 const app = express();
@@ -25,6 +26,7 @@ app.engine('hbs', engine({
 
 }));
 
+
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, '/client/public')));
 app.use(cookieParser());
@@ -36,7 +38,6 @@ app.use(
         abortOnLimit: true,
     })
 );
-
 app.get('/', (req, res) => {
     res.render('intro', {
         layout: 'main',
@@ -110,12 +111,15 @@ app.get('/home', auth, async (req, res) => {
         }else{
             clothes = await clothService.getBySearchText(searchText);
         }
+        const outfits = await outfitService.getByUserId(req.userId);
+
         res.render('home', {
             layout: 'auth',
             customstyle: `<link rel="stylesheet" href="../carousel.css">`,
             customscript: `<script src="home.js"></script>`,
             user: req.userName,
-            clothes: clothes
+            clothes: clothes,
+            outfits: outfits
         })
     } catch (error) {
         res.redirect('/signin')
@@ -291,7 +295,7 @@ app.get('/outfit-form', auth, async (req, res) => {
     }
 });
 
-app.post('/add-outfit', auth, uploadPhoto, async (req, res) => {
+app.post('/add-outfit', auth, uploadCanvas, async (req, res) => {
     const formData = req.body;
     
     if (!req.userId || req.userId === 0) {
@@ -304,22 +308,23 @@ app.post('/add-outfit', auth, uploadPhoto, async (req, res) => {
         const itemData = {
             user: req.userId,
             name: formData.name,
+            availability: formData.availability,
             privacy: formData.privacy,
             seasons: JSON.parse(formData.seasons),
-            categories: JSON.parse(formData.styles),
-            photo: req.photoUrl,
-            clothes: JSON.parse(formData.photos)
+            occasions: JSON.parse(formData.categories),
+            clothes: JSON.parse(formData.clothes),
+            photo: req.photoUrl
         }
-        const newItem = await clothService.store(itemData);
+        const newItem = await outfitService.store(itemData);
         if (!newItem) {
             return res.status(400).json({
-                error: "Unsuccessful create new cloth"
+                error: "Unsuccessful create new outfit"
             });
         }
         return res.status(200).json({ itemId: newItem.id });
 
     } catch (error) {
-        res.redirect('/home');
+        res.redirect('/signin');
         res.end();
         return;
     }

@@ -12,6 +12,17 @@ const store = async (itemData) => {
     }
 }
 
+const getAll = async () => {
+    try {
+        const items = await outfitModel.find({}).lean()
+        return items;
+    } catch (error) {
+        throw {
+            msg: 'unable to find any outfit',
+            code: 400
+        }
+    }
+}
 const getById = async (itemId) => {
     try {
         const item = await outfitModel.findOne({
@@ -75,6 +86,7 @@ const updateOne = async (item) => {
 
 module.exports = {
     store,
+    getAll,
     getById,
     updateOne,
     getByUserId

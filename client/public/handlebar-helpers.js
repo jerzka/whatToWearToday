@@ -5,7 +5,7 @@ const currentDate = () => {
     const weekend = (weekDay === "Sunday" || weekDay === "Saturday") ? "Weekend" : "Week day";
 
     return `<h5>Today is <b>${weekDay}</b>,
-                                 ${currentDate.toLocaleString('default', { month: 'long' })} ${currentDate.toLocaleString('default', { day: '2-digit' })}, 
+                                 ${currentDate.toLocaleString(undefined, { month: 'long' })} ${currentDate.toLocaleString(undefined, { day: '2-digit' })}, 
                                  ${currentDate.getFullYear()} | <span class="span-bg">${weekend}</span></h5>`
 };
 
@@ -23,9 +23,15 @@ const escape = (variable) => {
     return variable.replace(/(['"])/g, '\\$1');
 };
 
+const contains = (seasonsData, season, className) => {
+   return (seasonsData.indexOf(season) > -1) ? className : '';
+ };
+
+
 module.exports = {
     currentDate,
     ifeq,
     ifnoteq,
-    escape
+    escape,
+    contains
 }
