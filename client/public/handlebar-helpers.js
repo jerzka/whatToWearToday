@@ -4,7 +4,7 @@ const currentDate = () => {
     const weekDay = weekDays[currentDate.getDay()];
     const weekend = (weekDay === "Sunday" || weekDay === "Saturday") ? "Weekend" : "Week day";
 
-    return `<h5>Today is <b>${weekDay}</b>,
+    return `<h5>Today is <b>${weekDay}</b>, <br class="d-md-none">
                                  ${currentDate.toLocaleString(undefined, { month: 'long' })} ${currentDate.toLocaleString(undefined, { day: '2-digit' })}, 
                                  ${currentDate.getFullYear()} | <span class="span-bg">${weekend}</span></h5>`
 };
