@@ -296,9 +296,10 @@ const handleSubmit = async () => {
         if (response.status !== 200) {
             console.log(responseBody);
             showError(responseBody.error);
-
-            window.location = '/home';
         }
+
+        window.location = '/home';
+
     }
 };
 

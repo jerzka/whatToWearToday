@@ -1,17 +1,17 @@
 <h1 class="my-3">{{ title }}</h1>
 
 <div id="myCarousel" class="carousel" data-bs-ride="carousel">
-  <div class="carousel-inner px-5">
-
+    <div class="carousel-inner px-5">
         {{#if home}}
-            {{#unless outfits}}       
+            {{#unless outfits}}
                 <h4>You don't have any saved outfits yet!</h4>
-                <h5>Go to <a href="/outfit-form" class="pink-serif-link"><span class="span-bg">adding outfit form</span></a></h5>
+                <h5>Go to <a href="/outfit-form" class="pink-serif-link"><span class="span-bg">adding outfit form</span></a>
+                </h5>
             {{/unless}}
         {{else}}
             {{#unless clothes}}
                 <h4>You don't have any saved clothes yet!</h4>
-                <h5>Go to <a href="/cloth-form" class="pink-serif-link"><span class="span-bg">adding cloth form</span></a></h5>            
+                <h5>Go to <a href="/cloth-form" class="pink-serif-link"><span class="span-bg">adding cloth form</span></a></h5>
             {{/unless}}
         {{/if}}
         {{#if outfits}}
@@ -24,29 +24,29 @@
             {{/each}}
         {{/if}}
 
+        {{#each clothes}}
+        <div class="carousel-item{{#if @first}} active{{/if}}">
+            <div class="cards-wrapper">
+                {{#each chunk}}
+                <div class="card text-white bg-light">
+                    <div class="image-wrapper">
+                        <img id="{{_id}}" class="carousel-photo card-img card-img-bottom" src="{{photo}}"
+                            alt="{{name}}">
+                    </div>
+                    <div class="card-image-overlay py-3">
+                        <button id="detailsBtn_{{_id}}" type="button" class="btn btn-primary">
+                            Details
+                        </button>
+                        <button id="pickBtn_{{_id}}" type="button" class="btn btn-primary">
+                            <i class="fa fa-plus fa-lg text-white" aria-hidden="true"></i>
+                        </button>
 
-            {{#each clothes}}
-                <div class="carousel-item{{#if @first}} active{{/if}}">
-                    <div class="cards-wrapper">
-                    {{#chunk}}
-                        <div class="card text-white bg-light">
-                            <div class="image-wrapper">
-                                <img id="{{_id}}" class="carousel-photo card-img card-img-bottom" src="{{photo}}" alt="{{name}}">
-                            </div>
-                            <div class="card-image-overlay py-3">
-                                <button id="detailsBtn_{{_id}}" type="button" class="btn btn-primary">
-                                    Details
-                                </button>
-                                <button id="pickBtn_{{_id}}" type="button" class="btn btn-primary">
-                                    <i class="fa fa-plus fa-lg text-white" aria-hidden="true"></i>
-                                </button>
-
-                            </div>
-                        </div>
-                    {{/chunk}}
                     </div>
                 </div>
-            {{/each}}
+                {{/each}}
+            </div>
+        </div>
+        {{/each}}
 
     </div>
     <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">

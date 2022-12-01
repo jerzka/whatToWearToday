@@ -5,7 +5,7 @@ const uploadPhoto = async (req, res, next) => {
         if (req.files != null && typeof req.files == 'object') {
             if (Object.keys(req.files).length != 0) // if user select file
             {
-                const { image } = req.files.photo;
+                const image = req.files.photo;
 
                 if (!/^image/.test(image.mimetype)) {
                     return res.status(400).json({
@@ -31,11 +31,9 @@ const uploadPhoto = async (req, res, next) => {
         } else if (req.params.id != null && req.files == null) {
             next();
         }
-
-
     }
     catch (error) {
-        return res.status(400).json({
+        return restatus(400).json({
             error: "Uploading image unsuccessful"
         });
     }

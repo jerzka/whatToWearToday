@@ -73,19 +73,19 @@ const getBySearchText = async (searchText) => {
 }
 
 const updateOne = async (item) => {
-    const filter = { _id: item.id };
-    const update = {
-        name: item.name,
-        availability: item.availability,
-        seasons: item.seasons,
-        styles: item.styles,
-        image: item.photo,
-        colors: item.colors,
-        fabrics: item.fabrics
-    };
-
+    
     try {
-        const item = await clothModel.findOneAndUpdate(filter, update,
+        const item = await clothModel.findOneAndUpdate({ 
+            _id: item.id },
+            {
+                name: item.name,
+                availability: item.availability,
+                seasons: item.seasons,
+                styles: item.styles,
+                image: item.photo,
+                colors: item.colors,
+                fabrics: item.fabrics
+            },
             { new: true }).lean();
         return item;
     } catch (error) {
@@ -96,10 +96,24 @@ const updateOne = async (item) => {
     }
 }
 
+const deleteItem = async (id) => {
+    try{
+        await clothModel.deleteOne({
+            _id: id
+        })
+    } catch (error){
+        throw {
+            msg: 'unable to delete cloth',
+            code: 400
+        }
+    }
+}
+
 module.exports = {
     store,
     getById,
     updateOne,
     getByUserId,
-    getBySearchText
+    getBySearchText,
+    deleteItem
 }

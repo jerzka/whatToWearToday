@@ -106,7 +106,7 @@ app.get('/home', auth, async (req, res) => {
     try {
         let clothes;
         const searchText = req.query.search;
-        if(searchText === undefined || searchText === ''){
+        if(searchText == null || searchText === ''){
             clothes = await clothService.getByUserId(req.userId);
         }else{
             clothes = await clothService.getBySearchText(searchText);
@@ -186,6 +186,7 @@ app.get('/cloth-details/:id', auth, async (req, res) => {
         res.render('cloth-details', {
             layout: 'auth',
             customstyle: `<link rel="stylesheet" href="../cloth.css">`,
+            customscript: `<script src="../details.js"></script>`,
             user: req.userName,
             id: cloth._id,
             name: cloth.name,
@@ -228,7 +229,7 @@ app.get('/cloth-form/:id', auth, async (req, res) => {
     }
 });
 
-app.post('/update-cloth/:id', auth, uploadPhoto, async (req, res) => {
+app.put('/update-cloth/:id', auth, uploadPhoto, async (req, res) => {
     const data = req.body;
 
     if (!req.userId || req.userId === 0) {
@@ -239,24 +240,36 @@ app.post('/update-cloth/:id', auth, uploadPhoto, async (req, res) => {
 
     try {
         const clothData = {
-            id: data.id,
-            name: data.name,
-            availability: data.availability,
+            ...data,
             seasons: JSON.parse(data.seasons),
             styles: JSON.parse(data.styles),
             colors: JSON.parse(data.colors),
-            fabrics: JSON.parse(data.fabrics),
-            photo: req.photoUrl
-        }
+            fabrics: JSON.parse(data.fabrics)        }
         const updatedCloth = await clothService.updateOne(clothData);
         if (!updatedCloth) {
             return res.status(400).json({
-                error: "Unsuccessful update new cloth"
+                error: "Unsuccessful update cloth"
             });
         }
 
         return res.status(200).json({ clothId: updatedCloth._id });
 
+    } catch (error) {
+        res.redirect('/home');
+        res.end();
+        return;
+    }
+});
+
+app.delete('/cloth-details/:id', auth, async(req, res) => {
+    try{
+        const id = req.params.id;
+        await clothService.deleteItem(id);
+
+        res.status(200).json({
+            message: "item deleted sucessfully",
+        });
+            
     } catch (error) {
         res.redirect('/home');
         res.end();
@@ -278,7 +291,7 @@ app.get('/outfit-form', auth, async (req, res) => {
                 return result;
             }
         const newClothesArr = clothesMatrics(clothes, 3);
-
+ 
         res.render('outfit-form', {
             layout: 'auth',
             customstyle: `<link rel="stylesheet" href="../auth-forms.css">
