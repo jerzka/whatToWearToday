@@ -33,7 +33,7 @@ const uploadPhoto = async (req, res, next) => {
         }
     }
     catch (error) {
-        return restatus(400).json({
+        return res.status(400).json({
             error: "Uploading image unsuccessful"
         });
     }
