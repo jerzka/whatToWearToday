@@ -10,6 +10,8 @@ const cookieParser = require("cookie-parser");
 const { auth, authGuard } = require('./middelwares/auth');
 const { uploadPhoto, uploadCanvas } = require('./middelwares/upload');
 const fileUpload = require('express-fileupload');
+const cors = require('cors');
+
 
 const app = express();
 const port = process.env.PORT;
@@ -26,7 +28,7 @@ app.engine('hbs', engine({
 
 }));
 
-
+app.use(cors());
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, '/client/public')));
 app.use(cookieParser());
@@ -115,7 +117,7 @@ app.get('/home', auth, async (req, res) => {
 
         res.render('home', {
             layout: 'auth',
-            customstyle: `<link rel="stylesheet" href="../carousel.css">`,
+            customstyle: `<link rel="stylesheet" href="carousel.css">`,
             customscript: `<script src="home.js"></script>`,
             user: req.userName,
             clothes: clothes,
@@ -133,7 +135,7 @@ app.get('/cloth-form', auth, async (req, res) => {
     try {
         res.render('cloth-form', {
             layout: 'auth',
-            customstyle: `<link rel="stylesheet" href="../auth-forms.css">`,
+            customstyle: `<link rel="stylesheet" href="auth-forms.css">`,
             customscript: `<script src="cloth.js"></script>`,
             edit: false,
             user: req.userName
@@ -244,7 +246,8 @@ app.put('/update-cloth/:id', auth, uploadPhoto, async (req, res) => {
             seasons: JSON.parse(data.seasons),
             styles: JSON.parse(data.styles),
             colors: JSON.parse(data.colors),
-            fabrics: JSON.parse(data.fabrics)        }
+            fabrics: JSON.parse(data.fabrics)          
+        }
         const updatedCloth = await clothService.updateOne(clothData);
         if (!updatedCloth) {
             return res.status(400).json({
