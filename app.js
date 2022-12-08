@@ -40,12 +40,22 @@ app.use(
         abortOnLimit: true,
     })
 );
-app.get('/', (req, res) => {
-    res.render('intro', {
-        layout: 'main',
-        customstyle: `<link rel="stylesheet" href="carousel.css">`,
-        customscript: `<script src="index.js"></script>`
-    });
+app.get('/', async (req, res) => {
+    try{
+        const outfits = await outfitService.getAll();
+        console.log(outfits);
+
+        res.render('intro', {
+            layout: 'main',
+            customstyle: `<link rel="stylesheet" href="carousel.css">`,
+            customscript: `<script src="index.js"></script>`,
+            outfits: outfits
+        });
+    } catch (error) {
+        res.redirect('/signin')
+        res.end()
+        return
+    }
 });
 app.get('/signup', (req, res) => {
     res.render('signup', {
@@ -114,6 +124,7 @@ app.get('/home', auth, async (req, res) => {
             clothes = await clothService.getBySearchText(searchText);
         }
         const outfits = await outfitService.getByUserId(req.userId);
+        const otherOutfits = await outfitService.getExcludedByUserId(req.userId);
 
         res.render('home', {
             layout: 'auth',
@@ -121,12 +132,13 @@ app.get('/home', auth, async (req, res) => {
             customscript: `<script src="home.js"></script>`,
             user: req.userName,
             clothes: clothes,
-            outfits: outfits
+            outfits: outfits,
+            otherOutfits: otherOutfits
         })
     } catch (error) {
-        res.redirect('/signin')
-        res.end()
-        return
+        res.redirect('/signin');
+        res.end();
+        return;
     }
 
 });
@@ -135,7 +147,7 @@ app.get('/cloth-form', auth, async (req, res) => {
     try {
         res.render('cloth-form', {
             layout: 'auth',
-            customstyle: `<link rel="stylesheet" href="auth-forms.css">`,
+            customstyle: `<link rel="stylesheet" href="../auth-forms.css">`,
             customscript: `<script src="cloth.js"></script>`,
             edit: false,
             user: req.userName
@@ -159,7 +171,7 @@ app.post('/add-cloth', auth, uploadPhoto, async (req, res) => {
     try {
         const clothData = {
             user: req.userId,
-            name: formData.name,
+            name: JSON.parse(formData.name),
             availability: formData.availability,
             seasons: JSON.parse(formData.seasons),
             styles: JSON.parse(formData.styles),
@@ -209,6 +221,7 @@ app.get('/cloth-details/:id', auth, async (req, res) => {
 app.get('/cloth-form/:id', auth, async (req, res) => {
     try {
         const cloth = await clothService.getById(req.params.id);
+        
         res.render('cloth-form', {
             layout: 'auth',
             customstyle: `<link rel="stylesheet" href="../auth-forms.css">`,
@@ -233,22 +246,22 @@ app.get('/cloth-form/:id', auth, async (req, res) => {
 
 app.put('/update-cloth/:id', auth, uploadPhoto, async (req, res) => {
     const data = req.body;
-
     if (!req.userId || req.userId === 0) {
         return res.status(401).json({
             error: "User not found"
         });
     }
+    let clothData={};
+    const keys = Object.keys(data);
+    keys.forEach((key, index) => {
+        console.log(JSON.parse(data[key]));
+            clothData[key] = JSON.parse(data[key]);
+
+    });
+    clothData["photo"] = req.photoUrl;  
 
     try {
-        const clothData = {
-            ...data,
-            seasons: JSON.parse(data.seasons),
-            styles: JSON.parse(data.styles),
-            colors: JSON.parse(data.colors),
-            fabrics: JSON.parse(data.fabrics)          
-        }
-        const updatedCloth = await clothService.updateOne(clothData);
+        const updatedCloth =  await clothService.updateOne(clothData, req.params.id);
         if (!updatedCloth) {
             return res.status(400).json({
                 error: "Unsuccessful update cloth"
@@ -297,8 +310,8 @@ app.get('/outfit-form', auth, async (req, res) => {
  
         res.render('outfit-form', {
             layout: 'auth',
-            customstyle: `<link rel="stylesheet" href="../auth-forms.css">
-                        <link rel="stylesheet" href="../carousel.css">`,
+            customstyle: `<link rel="stylesheet" href="auth-forms.css">
+                        <link rel="stylesheet" href="carousel.css">`,
             customscript: `<script src="outfit.js"></script>`,
             edit: false,
             user: req.userName,
@@ -323,7 +336,8 @@ app.post('/add-outfit', auth, uploadCanvas, async (req, res) => {
     try {
         const itemData = {
             user: req.userId,
-            name: formData.name,
+            name: req.userName,
+            title: formData.title,
             availability: formData.availability,
             privacy: formData.privacy,
             seasons: JSON.parse(formData.seasons),

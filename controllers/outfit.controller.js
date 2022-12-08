@@ -60,6 +60,29 @@ const getByUserId = async (userId) => {
     }
 }
 
+const getExcludedByUserId = async (userId) => {
+    try {
+        const items = await outfitModel.find({
+            user: { $ne: userId}
+        }).lean();
+        if (!items) {
+            throw {
+                msg: 'unable to find any outfit',
+                code: 400
+            }
+        }
+        else if (items.length === 0) {
+            return;
+        }
+        return items;
+    } catch (error) {
+        throw {
+            msg: 'unable to find outfit',
+            code: 400
+        }
+    }
+}
+
 const updateOne = async (item) => {
     const filter = { _id: item.id };
     const update = {
@@ -89,5 +112,6 @@ module.exports = {
     getAll,
     getById,
     updateOne,
-    getByUserId
+    getByUserId,
+    getExcludedByUserId
 }

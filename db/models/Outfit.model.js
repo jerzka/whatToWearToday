@@ -7,9 +7,10 @@ const outfitModel = mongoose.model('Outfit', new mongoose.Schema({
         type: ObjectId, 
         ref: 'User'    
     },
-    name: {
+    name: String,
+    title: {
         type: String,
-        required: [true, "Name is required"],
+        required: [true, "Outfit title is required"],
     },
     availability: Boolean,
     privacy: Boolean,

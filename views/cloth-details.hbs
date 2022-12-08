@@ -1,65 +1,69 @@
 <main class="container w-100 w-md-50 bg-white text-start">
     <h1 class="px-5 py-3 text-center">Your <span class="span-bg text-white">cloth</span> </h1>
 
-    <div class="row cols-2 p-4 text-start">
-        <div class="col-10">
+    <div class="row p-4 text-start">
+        <div class="col">
             <h4 class="text-capitalize">{{name}}</h4>
         </div>
-        <div class="col-2 form-check form-custom-switch">
-            <input class="form-check-input" type="checkbox" role="switch" id="availabilityCheck"
-                checked="{{availability}}" />
-        </div>
     </div>
 
-    <div class="row col-1 seasons-detail p-4">
-        <ul class="list-group col-12 p-0 justify-content-start">
-            <li class="list-group-item {{#contains @root.seasons "spring" "seasons-active"}}{{/contains}}">spring</li>
-            <li class="list-group-item {{#contains @root.seasons "summer" "seasons-active"}}{{/contains}}">summer</li>
-            <li class="list-group-item {{#contains @root.seasons "fall" "seasons-active"}}{{/contains}}">fall</li>
-            <li class="list-group-item {{#contains @root.seasons "winter" "seasons-active"}}{{/contains}}">winter</li>
-        </ul>
-    </div>
-
-    <div class="row cols-2 align-items-center p-4">
-        <div class="col-6">
+    <div class="row cols-3 align-items-center p-4">
+        <div class="col-6 col-md-4">
             <img class="w-100 bg-light" src="{{photo}}" alt="...">
         </div>
-        <div class="col-6">
+        <div class="col-6 col-md-2">
             <ul class="ul-colors-swatch">
                 {{#each colors}}
                 <li style="background-color: #{{this}}"></li>
                 {{/each}}
             </ul>
         </div>
-    </div>
 
-    <div class="p-4">
-        <h4>Styles</h4>
-        <ul class="list-group-custom col-12 p-0 justify-content-start">
-            {{#each styles}}
-            <li class="list-group-item">{{this}}</li>
-            {{/each}}
-        </ul>
-    </div>
-    <div class="p-4">
-        <h4>Fabrics</h4>
-        <div class="fabrics-list-group-container container ">
-            {{#each fabrics as |layer|}}
-            {{#each layer}}
-            <ul class="list-group-half">
+        <div class="col-12 col-md-6">
+            <div class="my-5">
+                <h4>Seasons</h4>
+                <div class="seasons-detail">
+                    <ul class="list-group col-12 p-0 justify-content-start">
+                        <li class="list-group-item {{#contains @root.seasons "spring" "seasons-active" }}{{/contains}}">spring</li>
+                        <li class="list-group-item {{#contains @root.seasons "summer" "seasons-active" }}{{/contains}}">summer</li>
+                        <li class="list-group-item {{#contains @root.seasons "fall" "seasons-active" }}{{/contains}}">fall</li>
+                        <li class="list-group-item {{#contains @root.seasons "winter" "seasons-active" }}{{/contains}}">winter</li>
+                    </ul>
+                </div>
+            </div>
 
-                <li class="list-group-item">{{@key}}</li>
-                <li class="list-group-item">{{this}}</li>
-            </ul>
-            {{/each}}
-            {{/each}}
+            <div class="my-5">
+                <h4>Styles</h4>
+                <ul class="list-group-custom col-12 p-0 justify-content-start">
+                    {{#each styles}}
+                    <li class="list-group-item">{{this}}</li>
+                    {{/each}}
+                </ul>
+            </div>
+            
+            <div class="my-5">
+                <h4>Fabrics</h4>
+                <div class="fabrics-list-group-container container ">
+                    {{#each fabrics as |layer|}}
+                    {{#each layer}}
+                    <ul class="list-group-half">
+
+                        <li class="list-group-item">{{@key}}</li>
+                        <li class="list-group-item">{{this}}</li>
+                    </ul>
+                    {{/each}}
+                    {{/each}}
+                </div>
+            </div>
         </div>
     </div>
-
     {{!-- <h4>Washing method</h4> --}}
     <div class="container row cols-2 justify-content-center pb-5">
-        <button id="deleteItem" type="button" class="btn btn-primary btn-lg col-md-6 col-lg-4 m-3" data-id={{id}}>Delete cloth</button>
-        <a id="editItem" type="button" class="btn btn-primary btn-lg col-md-6 col-lg-4 m-3" href="/cloth-form/{{id}}">Edit cloth</a>
+        <button type="button" class="btn btn-primary btn-lg col-md-6 col-lg-4 m-3"
+            data-bs-toggle="modal" data-bs-target="#confirmationModal">Delete
+            cloth</button>
+        <a id="editItem" type="button" class="btn btn-primary btn-lg col-md-6 col-lg-4 m-3"
+            href="/cloth-form/{{id}}">Edit cloth</a>
     </div>
 
     <div class="p-4 pb-5">
@@ -70,4 +74,31 @@
     </div>
 
     <hr />
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="confirmationModal" tabindex="-1" aria-labelledby="ratingModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content text-center">
+                <div class="modal-header">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Confirm deleting cloth</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+                </div>
+                <div class="modal-body">
+                    <div class="text-center">
+                        <h1 class="fs-3">Do you realy want to delete this... </h1>
+                         <h1 class="fs-5">...cloth <span class="span-bg">{{name}}</span>!</h1>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button id="deleteItem" type="button" class="btn btn-primary" data-id={{id}}>Delete cloth</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
 </main>

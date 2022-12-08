@@ -44,6 +44,7 @@
 
   .ul-colors-swatch{
     list-style-type: none;
+    padding-left: 0;
   }
   .ul-colors-swatch > li{
     width: 40px; 

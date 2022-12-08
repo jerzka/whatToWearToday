@@ -1,16 +1,30 @@
 const cloth = {
-    name: '',
-    availability: true,
+    name: undefined,
+    availability: undefined,
     seasons: [],
     styles: [],
+    photos: [],
     colors: [],
     fabrics: [],
     laundryIcons: [],
+    editedItem: {},
 
-    getSeason: (event) =>{
-        cloth.seasons.push(event.target.value);
+    setSeason: (event) => {
+        const value = event.target.value;
+
+        if (event.target.checked) {
+            cloth.seasons.push(value);
+        }
+        else {
+            const indexToRemove = cloth.seasons.indexOf(value);
+            if (indexToRemove > -1) {
+                cloth.seasons.splice(indexToRemove, 1);
+            }
+        }
+        console.log(cloth.seasons);
     },
     getSeasons: () => {
+        cloth.seasons = [];
         const seasonsSection = document.querySelector('#seasons');
         const seasonsCheckboxesNodes = seasonsSection.querySelectorAll('input[type=checkbox]:checked');
         for (let i = 0; i < seasonsCheckboxesNodes.length; i++) {
@@ -30,13 +44,13 @@ const cloth = {
 
         const place = document.querySelector('#styles');
         place.insertAdjacentHTML('beforeend', `
-            <ul id="${selectedStyle}" class="list-group-custom col p-0 justify-content-center">
-                <li class="list-group-item" value="${selectedStyle}">${selectedStyle}</li>
-                <button id="delete-${selectedStyle}" type="button" class="btn btn-delete btn-primary">
+            <ul class="list-group-custom col p-0 justify-content-center">
+                <li class="list-group-item" id="${selectedStyle}">${selectedStyle}</li>
+                <button id="delete_${selectedStyle}" type="button" class="btn btn-delete btn-primary">
                     <i class="fa fa-minus fa-lg text-white" aria-hidden="true"></i>
                 </button>
             </ul`);
-        const deleteStyleBtn = document.querySelector(`#delete-${selectedStyle}`);
+        const deleteStyleBtn = document.querySelector(`#delete_${selectedStyle}`);
         deleteStyleBtn.addEventListener("click", (event) => deleteBtn(cloth.styles, event));
         cloth.styles.push(selectedStyle);
     },
@@ -50,11 +64,11 @@ const cloth = {
         place.insertAdjacentHTML('beforeend', `
             <ul class="col ul-colors-swatch">
                 <li id=${pickedColor} style="background-color: #${pickedColor}"></li>
-                <button id="delete-${pickedColor}" type="button" class="btn btn-delete btn-primary">
+                <button id="delete_${pickedColor}" type="button" class="btn btn-delete btn-primary">
                     <i class="fa fa-minus fa-lg text-white" aria-hidden="true"></i>
                 </button>
             </ul>`);
-        const deleteColorBtn = document.querySelector(`#delete-${pickedColor}`);
+        const deleteColorBtn = document.querySelector(`#delete_${pickedColor}`);
         deleteColorBtn.addEventListener("click", (event) => deleteBtn(cloth.colors, event), false);
 
         cloth.colors.push(pickedColor);
@@ -76,12 +90,12 @@ const cloth = {
             <ul id="${part}" class="list-group-half">    
                 <li class="list-group-item">${part}</li>
                 <li class="list-group-item">${fabric}</li>
-                <button id="delete-${part}" type="button" class="btn btn-delete btn-primary">
+                <button id="delete_${part}" type="button" class="btn btn-delete btn-primary">
                     <i class="fa fa-minus fa-lg text-white" aria-hidden="true"></i>
                 </button>
             </ul>`
         );
-        const deleteFabricBtn = document.querySelector(`#delete-${part}`);
+        const deleteFabricBtn = document.querySelector(`#delete_${part}`);
         deleteFabricBtn.addEventListener("click", (event) => deleteBtn(cloth.fabrics, event));
 
         cloth.fabrics.push(fabricObj);
@@ -89,129 +103,113 @@ const cloth = {
     addLaundryIcons: () => {
 
     },
-    getName: () => {
-        cloth.name = document.getElementById('name').value
+    setName: () => {
+        const newValue = document.getElementById('name').value;
+        if (cloth.isFeatureChanged(cloth.editedItem.name, newValue)) {
+            cloth.name = newValue;
+        }
     },
-    getAvailability: () => {
-        cloth.availability = document.getElementById('availabilityCheck').checked
+    setAvailability: () => {
+        const newValue = document.getElementById('availabilityCheck').checked
+        if (cloth.isFeatureChanged(cloth.editedItem.availability, newValue)) {
+            cloth.availability = newValue;
+        }
     },
-    getPhoto: () => {
-        cloth.photo = document.querySelector('input[name=image]').files[0];
+    setPhoto: () => {
+       const newValue = document.querySelector('input[name=image]').files[0];
+        if (cloth.isFeatureChanged(cloth.editedItem.photo, newValue)) {
+            cloth.photos = newValue;
+        }
+        console.log(cloth.photos)
+
     },
-    // setItemFeatures: (feature) => {
-    //     if (document.getElementById(feature).hasChildNodes()) {
-    //         const featuresUls = document.getElementById(feature.toString()).children;
-    //         for (const child of featuresUls) {
-    //             const featureLi = child.getElementsByTagName('li');
-    //             feature.push(featureLi[0].innerText);
-    //             const deleteStyleBtn = child.getElementsByTagName('button');
-    //             deleteStyleBtn[0].addEventListener("click", (event) => deleteBtn(feature, event));
-    //         }
-    //     }
-    // },
     getEditedItem: () => {
-        const editedItemId = document.getElementById('clothID').innerText;
-        if (editedItemId !== undefined) {
-            cloth.editedItem.id = editedItemId,
-            cloth.editedItem.name = JSON.stringify(document.getElementById('clothName').value),
+        cloth.editedItem.name = JSON.stringify(document.getElementById('name').value),
             cloth.editedItem.availability = JSON.stringify(document.getElementById('availabilityCheck').checked),
             cloth.editedItem.seasons = JSON.stringify(cloth.seasons),
             cloth.editedItem.styles = JSON.stringify(cloth.styles),
-            cloth.editedItem.photo = document.getElementById('photo_'+editedItemId).src,
+            cloth.editedItem.photo = document.getElementById('photo').src,
             cloth.editedItem.colors = JSON.stringify(cloth.colors),
             cloth.editedItem.fabrics = JSON.stringify(cloth.fabrics)
-        }
         return cloth.editedItem;
     },
     isFeatureChanged: (editedValue, formValue) => {
-        console.log("cloth.editedItem:", cloth.editedItem[editedValue]);
+         console.log("cloth.editedItem:", editedValue);
         console.log("JSON.stringify(formValue)", JSON.stringify(formValue));
-        let result = (cloth.editedItem[editedValue] !== JSON.stringify(formValue));
-        console.log("cloth.editedItem[editedValue] == JSON.stringify(formValue)", result)
-        return result;
+        return (editedValue !== JSON.stringify(formValue));
     },
     handleSubmit: async (event) => {
-        const id = event.target.getAttribute("data-id")
-        const formValue = {
-            ...(id ? {id: id} : undefined),
-            ...(cloth.name ? {name: cloth.name} : undefined),
-            ...(cloth.availability ? {availability: cloth.availability} : undefined),
-            ...(cloth.seasons ? {seasons: JSON.stringify(cloth.seasons)} : undefined),
-            ...(cloth.styles ? {styles: JSON.stringify(cloth.styles)} : undefined),
-            ...(cloth.photo ? {photo: cloth.photo} : undefined),
-            ...(cloth.colors ? {colors: JSON.stringify(cloth.colors)} : undefined),
-            ...(cloth.fabrics ? {fabrics: JSON.stringify(cloth.fabrics)} : undefined)
-        };
-        console.log(formValue);
+        const id = event.target.getAttribute("data-id");
 
-       const formDataValidated = validateForm(formValue);
+        const formDataValidated = validateForm(cloth);
+
+        if (formDataValidated) {
+
+            const formValue = {
+                ...(cloth.name ? { name: cloth.name } : undefined),
+                ...(cloth.availability ? { availability: cloth.availability } : undefined),
+                ...(cloth.isFeatureChanged(cloth.editedItem.seasons, cloth.seasons) ? { seasons: cloth.seasons } : undefined),
+                ...(cloth.isFeatureChanged(cloth.editedItem.styles, cloth.styles) ? { styles: cloth.styles } : undefined),
+                ...(cloth.isFeatureChanged(cloth.editedItem.colors, cloth.colors) ? { colors: cloth.colors } : undefined),
+                ...(cloth.isFeatureChanged(cloth.editedItem.fabrics, cloth.fabrics) ? { fabrics: cloth.fabrics } : undefined)
+            };
+            console.log(formValue);
 
             let response;
-            const formData  = new FormData();
-            for(const name in formValue) {
-                formData.append(name, formValue[name]);
-              }
-            
-            if(id != null){
+            const formData = new FormData();
+            for (const name in formValue) {
+                formData.append(name, JSON.stringify(formValue[name]));
+            }
+            if (document.querySelector('input[name=image]').files[0] != null) {
+                formData.append("photo", document.querySelector('input[name=image]').files[0]);
+            }
+
+            if (id != null) {
                 response = await putData(`/update-cloth/${id}`, formData)
-         
+
             } else {
-                if (formDataValidated) {
-
-                response = await postData('/add-cloth', formData)
+                    response = await postData('/add-cloth', formData)
                 }
-            }
-        if (response.status !== 200 || response.status !== 204) {
-            console.log(response);
-            showError(response.error);
+            
+            window.location = `/cloth-details/${id}`
         }
-        window.location = `/cloth-details/${id}`
     },
-    
-    init: () => {
-        cloth.getSeasons();
 
-        if (document.getElementById("styles").hasChildNodes()) {
-            const stylesUls = document.getElementById("styles").children;
-            for (const child of stylesUls) {
-                const stylesLi = child.getElementsByTagName('li');
-                cloth.styles.push(stylesLi[0].innerText);
+    setItemFeatures: (feature) => {
+        if (document.getElementById(feature).hasChildNodes()) {
+            const featuresUls = document.getElementById(feature).children;
+            for (const child of featuresUls) {
+                const featureLi = child.getElementsByTagName('li');
+                if (feature == "fabrics") {
+                    let fabricObj = {};
+                    fabricObj[featureLi[0].id] = featureLi[1].id;
+                    cloth.fabrics.push(fabricObj);
+                }
+                else {
+                    cloth[feature].push(featureLi[0].id);
+                }
                 const deleteStyleBtn = child.getElementsByTagName('button');
-                deleteStyleBtn[0].addEventListener("click", (event) => deleteBtn(cloth.styles, event));
-
+                deleteStyleBtn[0].addEventListener("click", (event) => deleteBtn(cloth[feature], event));
             }
         }
+    },
 
-        if (document.getElementById("colors").hasChildNodes()) {
-            const colorsUls = document.getElementById("colors").children;
-            for (const child of colorsUls) {
-                const colorsLi = child.getElementsByTagName('li');
-                cloth.colors.push(colorsLi[0].id);
-                const deleteColorBtn = child.getElementsByTagName('button');
-                deleteColorBtn[0].addEventListener("click", (event) => deleteBtn(cloth.colors, event));
-
-            }
-        }
-
-        if (document.getElementById("fabrics").hasChildNodes()) {
-            const fabricsUls = document.getElementById("fabrics").children;
-            for (const child of fabricsUls) {
-                const fabricsLi = child.getElementsByTagName('li');
-                let fabricObj = {};
-                fabricObj[fabricsLi[0].id] = fabricsLi[1].id;
-                cloth.fabrics.push(fabricObj);
-                const deleteFabricBtn = child.getElementsByTagName('button');
-                deleteFabricBtn[0].addEventListener("click", (event) => deleteBtn(cloth.fabrics, event));
-
-            }
+    init: () => {
+        if (window.location.pathname.split('/').length > 2) {
+            cloth.getSeasons();
+            cloth.setItemFeatures("styles");
+            cloth.setItemFeatures("photos");
+            cloth.setItemFeatures("colors");
+            cloth.setItemFeatures("fabrics");
+            cloth.editedItem = cloth.getEditedItem();
         }
     }
 }
 
-const putData = async (url = '', data = {}) => { 
+const putData = async (url = '', data = {}) => {
     const response = await fetch(url, {
         method: 'PUT',
-        body: data 
+        body: data
     });
 
     return response.json();
@@ -223,46 +221,49 @@ const postData = async (url = '', data = {}) => {
         body: data
     });
     return response.json();
- }
+}
 
 const deleteBtn = (arr, event) => {
     let toDelete;
     if (typeof arr[0] == "object") {
-        toDelete = arr.findIndex(item => item[event.currentTarget.id.split("-")[1]]);
+        toDelete = arr.findIndex(item => item[event.currentTarget.id.split("_")[1]]);
     }
     else {
-        toDelete = arr.indexOf(event.currentTarget.id.split("-")[1]);
+        toDelete = arr.indexOf(event.currentTarget.id.split("_")[1]);
     }
 
     if (toDelete !== -1) {
         arr.splice(toDelete, 1);
         event.currentTarget.parentElement.remove();
     }
+
+    console.log(cloth.photos)
+
 }
 
 
 const validateForm = (formValue) => {
     console.log(document.querySelectorAll('input[type=checkbox]:checked'));
 
-    if (!formValue.name || formValue.name === "") {
+    if ((!formValue.name || formValue.name === "") && !cloth.editedItem.name) {
         showError("Please provide a cloth's name");
         return false;
     }
 
-    if (document.querySelectorAll('input[type=checkbox]:checked').length == 0) {
+    if (formValue.seasons.length == 0) {
         showError("Please select at least one season");
         return false;
     }
 
-    if (formValue.styles.length === 0) {
+    if (formValue.styles.length == 0) {
         showError("Please select at least one style");
         return false;
     }
 
-    // if(!formValue.image){
-    //     showError("Please upload a photo");
-    //     return false;  
-    // }
+    if(!formValue.image && formValue.photos.length == 0){
+        showError("Please upload a photo");
+        return false;  
+    }
 
     if (formValue.colors.length === 0) {
         showError("Please pick at least one color");
@@ -290,22 +291,22 @@ const showError = (errorMessage) => {
 }
 
 const inputName = document.querySelector('#name')
-inputName.addEventListener('focusout', cloth.getName);
+inputName.addEventListener('focusout', cloth.setName);
 
 const availabilitySwitch = document.querySelector('#availabilityCheck');
-availabilitySwitch.addEventListener("change", cloth.getAvailability);
+availabilitySwitch.addEventListener("change", cloth.setAvailability);
 
 const seasonsSection = document.querySelector('#seasons');
 const seasonsCheckboxesNodes = seasonsSection.querySelectorAll('input[type=checkbox]');
 for (let i = 0; i < seasonsCheckboxesNodes.length; i++) {
-    seasonsCheckboxesNodes[i].addEventListener("click", cloth.getSeason);
+    seasonsCheckboxesNodes[i].addEventListener("click", cloth.setSeason);
 }
 
 const addStyleBtn = document.querySelector("#addStyleBtn");
 addStyleBtn.addEventListener("click", cloth.addStyle);
 
 const photoUploadInput = document.querySelector("#imgFile");
-photoUploadInput.addEventListener("change", cloth.getPhoto);
+photoUploadInput.addEventListener("change", cloth.setPhoto);
 
 const addColorBtn = document.querySelector("#addColorBtn");
 addColorBtn.addEventListener("click", cloth.addColor);

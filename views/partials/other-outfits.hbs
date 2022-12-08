@@ -1,0 +1,27 @@
+<div class="other-outfits py-5">
+        <div class="container">
+            <h1 class="my-3">Get inspired</h1>
+
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+                {{#each outfits}}
+                <div class="col">
+                    <div class="card shadow-sm">
+                        <img class="w-100 card-img-top bg-light" width="100%" height="225" src={{photo}} alt="..."
+                            aria-label="Other user outfit" focusable="false">
+                        <div class="card-body">
+                            <p class="card-text">Outfit created by <span class="span-bg">{{name}}</span></p>
+                            <h3>{{title}}</h3>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="accent">
+                                    {{#ratingStars rating}}{{/ratingStars}}
+                                </div>
+                                <button type="button" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal"
+                                    data-bs-target="#ratingModal">Rate</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {{/each}}
+            </div>
+        </div>
+    </div>

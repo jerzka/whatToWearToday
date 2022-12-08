@@ -235,7 +235,7 @@ const handleSubmit = async () => {
     }
 
     const formValue = {
-        name: document.getElementById('name').value,
+        title: document.getElementById('title').value,
         availability: document.getElementById('availabilityCheck').checked,
         privacy: document.getElementById('privacyCheck').checked,
         seasons: seasons,
@@ -251,7 +251,7 @@ const handleSubmit = async () => {
         if(formValue.id !== undefined){
             const dataValue = {
                 id: document.getElementById('outfitID').innerText,
-                name: document.getElementById('outfitName').value,
+                title: document.getElementById('title').value,
                 availability: document.getElementById('availabilityCheck').checked,
                 seasons: JSON.stringify(seasonsToDB),
                 styles: JSON.stringify(styles),
@@ -271,7 +271,7 @@ const handleSubmit = async () => {
         }else{
 
             const dataValue = {
-                name: document.getElementById('name').value,
+                title: document.getElementById('title').value,
                 availability: document.getElementById('availabilityCheck').checked,
                 privacy: document.getElementById('privacyCheck').checked,
                 seasons: JSON.stringify(seasons),

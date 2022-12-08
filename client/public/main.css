@@ -9,7 +9,7 @@ body {
     background: url("images/background_AdobeStock_169277666.png") no-repeat;
     background-size: cover;
     background-position: center;
-    background-position-y: -100px;
+    background-position-y: -240px;
     
     font-family: 'Open Sans', sans-serif;
     text-align: center;
@@ -136,21 +136,27 @@ footer>p {
 
 
 /* --- RESPONSIVE CSS  -------------------------------------------------- */
-@media (min-width: 75em) {
+
+@media (min-width: 48em) {
 
     body{
-        background-position-y: -250px;
+        background-position-y: -290px;
     }
 }
 
+
 @media (min-width: 62em) {
+
+    body{
+        background-position-y: -190px;
+    }
+
     #intro{
         margin-top: 9rem;
     }
 }
 
 @media (min-width: 40em) {
-
    
     .intro-heading {
         font-size: 3em;
@@ -162,5 +168,12 @@ footer>p {
 
     .intro-lead {
         font-size: 1rem;
+    }
+}
+
+@media (min-width: 25em) {
+
+    body{
+        background-position-y: -280px;
     }
 }
