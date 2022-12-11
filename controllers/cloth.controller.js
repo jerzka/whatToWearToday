@@ -72,21 +72,12 @@ const getBySearchText = async (searchText) => {
     }
 }
 
-const updateOne = async (item) => {
+const updateOne = async (itemData, id) => {
     
     try {
         const item = await clothModel.findOneAndUpdate({ 
-            _id: item.id },
-            {
-                name: item.name,
-                availability: item.availability,
-                seasons: item.seasons,
-                styles: item.styles,
-                image: item.photo,
-                colors: item.colors,
-                fabrics: item.fabrics
-            },
-            { new: true }).lean();
+            _id: id },{ $set: {...itemData}},
+            { new: true });
         return item;
     } catch (error) {
         throw {

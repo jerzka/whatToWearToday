@@ -27,23 +27,25 @@ const contains = (seasonsData, season, className) => {
    return (seasonsData.indexOf(season) > -1) ? className : '';
  };
 
+
 const ratingStars = (ratingData) => {
-    let domRating = '';
-    if(ratingData == 0){
-        for(let i = 0; i < ratingData; i++){
-            domRating += '<i class="fa fa-star-o fa-lg" aria-hidden="true"></i>\n';
+    let starIconsDom = '';
+    const ratingStarsCount = 5;
+    if(ratingData === 0){
+        for(let i = 0; i < ratingStarsCount; i++){
+            starIconsDom += '<i class="fa fa-star-o fa-lg" aria-hidden="true"></i>\n';
         }
     }
-    else if(ratingData <= 5){
+    else if(ratingData <= ratingStarsCount){
         for(let i = 0; i < ratingData; i++){
-                domRating += '<i class="fa fa-star fa-lg" aria-hidden="true"></i>\n';
+            starIconsDom += '<i class="fa fa-star fa-lg" aria-hidden="true"></i>\n';
             }
-            for(let i = 0; i < 5-ratingData; i++){
-                domRating += '<i class="fa fa-star-o fa-lg" aria-hidden="true"></i>\n';
+            for(let i = 0; i < ratingStarsCount-ratingData; i++){
+                starIconsDom += '<i class="fa fa-star-o fa-lg" aria-hidden="true"></i>\n';
             }
     }
 
-    return domRating;
+    return starIconsDom;
 }
 
 const photoToken = (photo) => {

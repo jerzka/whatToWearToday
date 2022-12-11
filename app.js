@@ -129,7 +129,8 @@ app.get('/home', auth, async (req, res) => {
         res.render('home', {
             layout: 'auth',
             customstyle: `<link rel="stylesheet" href="carousel.css">`,
-            customscript: `<script src="home.js"></script>`,
+            customscript: `<script src="home.js"></script>
+                           <script src="rating.js"></script>`,
             user: req.userName,
             clothes: clothes,
             outfits: outfits,
@@ -148,7 +149,8 @@ app.get('/cloth-form', auth, async (req, res) => {
         res.render('cloth-form', {
             layout: 'auth',
             customstyle: `<link rel="stylesheet" href="../auth-forms.css">`,
-            customscript: `<script src="cloth.js"></script>`,
+            customscript: `<script src="../form-helpers.js"></script>
+                           <script src="../cloth.js"></script>`,
             edit: false,
             user: req.userName
         })
@@ -200,7 +202,8 @@ app.get('/cloth-details/:id', auth, async (req, res) => {
         res.render('cloth-details', {
             layout: 'auth',
             customstyle: `<link rel="stylesheet" href="../cloth.css">`,
-            customscript: `<script src="../details.js"></script>`,
+            customscript: `<script src="../form-helpers.js"></script>
+                           <script src="../details.js"></script>`,
             user: req.userName,
             id: cloth._id,
             name: cloth.name,
@@ -225,7 +228,8 @@ app.get('/cloth-form/:id', auth, async (req, res) => {
         res.render('cloth-form', {
             layout: 'auth',
             customstyle: `<link rel="stylesheet" href="../auth-forms.css">`,
-            customscript: `<script src="../cloth.js"></script>`,
+            customscript: `<script src="../form-helpers.js"></script>
+                           <script src="../cloth.js"></script>`,
             edit: true,
             user: req.userName,
             id: cloth._id,
@@ -311,8 +315,9 @@ app.get('/outfit-form', auth, async (req, res) => {
         res.render('outfit-form', {
             layout: 'auth',
             customstyle: `<link rel="stylesheet" href="auth-forms.css">
-                        <link rel="stylesheet" href="carousel.css">`,
-            customscript: `<script src="outfit.js"></script>`,
+                          <link rel="stylesheet" href="carousel.css">`,
+            customscript: `<script src="form-helpers.js"></script>
+                           <script src="outfit.js"></script>`,
             edit: false,
             user: req.userName,
             clothes: newClothesArr
@@ -359,6 +364,72 @@ app.post('/add-outfit', auth, uploadCanvas, async (req, res) => {
         return;
     }
 });
+
+app.get('/outfit-list', auth, async (req, res) => {
+    try {
+
+        let outfits;
+        const searchText = req.query.search;
+        if(searchText == null || searchText === ''){
+            outfits = await outfitService.getByUserId(req.userId);
+        }else{
+            outfits = await outfitService.getBySearchText(searchText);
+        }
+ 
+        res.render('outfit-list', {
+            layout: 'auth',
+            customstyle: `<link rel="stylesheet" href="auth-forms.css">`,
+            customscript: `<script src="form-helpers.js"></script>
+                           <script src="outfit-list.js"></script>`,
+            user: req.userName,
+            outfits: outfits
+        })
+    } catch (error) {
+        res.redirect('/signin');
+        res.end();
+        return;
+    }
+});
+
+app.delete('/outfit-list/:id', auth, async(req, res) => {
+    try{
+        const id = req.params.id;
+        await outfitService.deleteItem(id);
+
+        res.status(200).json({
+            message: "item deleted sucessfully",
+        });7
+            
+    } catch (error) {
+        res.redirect('/home');
+        res.end();
+        return;
+    }
+});
+
+app.put('/rate-outfit', auth, async (req, res) => {
+    if (!req.userId || req.userId === 0) {
+        return res.status(401).json({
+            error: "User not found"
+        });
+    } 
+
+    try{
+        const data = req.body;
+        await outfitService.updateRating(data);
+
+        res.status(200).json({
+            message: "rating update sucessfully",
+        });
+        return; 
+
+    } catch (error) {
+        res.redirect('/home');
+        res.end();
+        return;
+    }
+});
+
 
 app.get('/signout', (req, res) => {
     res.cookie('token', '');

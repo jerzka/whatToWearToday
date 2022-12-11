@@ -165,10 +165,12 @@ const cloth = {
             }
 
             if (id != null) {
-                response = await putData(`/update-cloth/${id}`, formData)
+                response = await putData(`/update-cloth/${id}`, formData);
+                console.log("response after put : ", response)
 
             } else {
-                    response = await postData('/add-cloth', formData)
+                    response = await postData('/add-cloth', formData);
+                    console.log("response after post : ", response)
                 }
             
             window.location = `/cloth-details/${id}`
@@ -272,23 +274,6 @@ const validateForm = (formValue) => {
 
     return true;
 };
-
-const showError = (errorMessage) => {
-    const body = document.getElementsByTagName('body')[0];
-    console.log(body);
-    const randomNumber = Math.random();
-    const id = `toast-${randomNumber}`;
-    body.insertAdjacentHTML('beforeend', `    
-    <div id="${id}" class="toast errorToast position-fixed align-items-center text-bg-danger show border-0" role="alert" aria-live="assertive" aria-atomic="true">
-        <div class="d-flex">
-            <div class="toast-body">
-                ${errorMessage}
-            </div>
-            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
-                aria-label="Close"></button>
-        </div>
-    </div>`);
-}
 
 const inputName = document.querySelector('#name')
 inputName.addEventListener('focusout', cloth.setName);

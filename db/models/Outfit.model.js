@@ -18,6 +18,10 @@ const outfitModel = mongoose.model('Outfit', new mongoose.Schema({
         type: Number, 
         default: 0 
     },
+    count: {
+        type: Number, 
+        default: 0 
+    },
     seasons: Array,
     occasions: Array,
     clothes: [{
@@ -32,7 +36,7 @@ const outfitModel = mongoose.model('Outfit', new mongoose.Schema({
         type: Date, 
         default: Date.now 
     }
-})
+}).index({'$**': 'text'})
 );
 
 module.exports = outfitModel;

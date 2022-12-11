@@ -107,11 +107,71 @@ const updateOne = async (item) => {
     }
 }
 
+const updateRating = async (data) => {
+    const filter = { _id: data.id };
+    const update = {
+        rating: data.rating,
+        $inc: { count: 1 }
+    };
+
+    try {
+        const item = await outfitModel.findOneAndUpdate(filter, update,
+            { new: true }).lean();
+        if(item.rating === 0){
+            return 0;
+        }
+        return (Math.floor(item.rating/item.count)); 
+   } catch (error) {
+        throw {
+            msg: 'unable to find outfit',
+            code: 400
+        }
+    }
+}
+const getBySearchText = async (searchText) => {
+    try {
+        const items = await outfitModel.find({
+            $text: { $search: searchText }
+        }).lean();
+        if (!items) {
+            throw {
+                msg: 'unable to find any outfit',
+                code: 400
+            }
+        }
+        else if (items.length === 0) {
+            return;
+        }
+        return items;
+    } catch (error) {
+        throw {
+            msg: 'unable to find outfits',
+            code: 400
+        }
+    }
+}
+
+const deleteItem = async (id) => {
+    try{
+        await outfitModel.deleteOne({
+            _id: id
+        })
+    } catch (error){
+        throw {
+            msg: 'unable to delete outfit',
+            code: 400
+        }
+    }
+}
+
 module.exports = {
     store,
     getAll,
     getById,
     updateOne,
+    updateRating,
     getByUserId,
-    getExcludedByUserId
+    getExcludedByUserId,
+    getBySearchText,
+    deleteItem
 }

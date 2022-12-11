@@ -1,0 +1,46 @@
+<main style="margin-top: 25vh">
+    <h1 class="m-5">Manage your <span class="span-bg">outfits</span></h1>
+
+    <form id="searchSection" action="/outfit-list#search" method="GET" class="d-flex w-75 m-auto" role="search">
+        <input class="form-control me-2" id="search" name="search" type="search" placeholder="Search"
+            aria-label="Search" />
+        <button id="submitSearchText" class="btn btn-lg btn-primary" type="submit">
+            <i class="fa fa-search" aria-hidden="true"></i>
+        </button>
+    </form>
+
+    <div class="container items w-75">
+        {{#unless outfits}}
+        <div class="pt-5">
+            <h4>You have not yet any saved outfits!</h4>
+            <h5>Go to <a href="/outfit-form" class="pink-serif-link"><span class="span-bg">adding outfit form</span></a>
+            </h5>
+        </div>
+        {{/unless}}
+
+        <!-- Three columns of photos below the carousel -->
+        <div class="row row-cols-3 row-cols-md-4 align-items-center g-3 my-3">
+
+            {{#each outfits}}
+
+            <div class="cards-wrapper">
+                <div class="card shadow-sm bg-light">
+                    <div class="image-wrapper">
+                        <img id="{{_id}}" class="carousel-photo card-img card-img-bottom" src="{{photo}}"
+                            alt="{{title}}">
+                    </div>
+                    <div class="card-image-overlay py-3 d-flex justify-content-around align-items-end">
+                        <p class="card-title text-capitalize">{{title}}</p>
+                        <button name="delete" data-id="{{_id}}" type="button" class="btn btn-primary">
+                            <i class="fa fa-minus fa-lg text-white" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            {{/each}}
+        </div>
+    </div>
+
+    {{> sticky-menu}}
+</main>

@@ -10,13 +10,13 @@
                             aria-label="Other user outfit" focusable="false">
                         <div class="card-body">
                             <p class="card-text">Outfit created by <span class="span-bg">{{name}}</span></p>
-                            <h3>{{title}}</h3>
+                            <h3 class="text-capitalize">{{title}}</h3>
                             <div class="d-flex justify-content-between align-items-center">
                                 <div class="accent">
                                     {{#ratingStars rating}}{{/ratingStars}}
                                 </div>
                                 <button type="button" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal"
-                                    data-bs-target="#ratingModal">Rate</button>
+                                    data-bs-target="#ratingModal" data-bs-id="{{_id}}" data-bs-user="{{name}}" data-bs-title="{{title}}">Rate</button>
                             </div>
                         </div>
                     </div>

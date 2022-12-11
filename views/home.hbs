@@ -11,7 +11,7 @@
         </div>
     </div>
     
-    <form id="searchSection" action="/home" method="GET" class="d-flex w-75 m-auto" role="search">
+    <form id="searchSection" action="/home#search" method="GET" class="d-flex w-75 m-auto" role="search">
         <input class="form-control me-2" id="search" name="search" type="search" placeholder="Search" aria-label="Search" />
         <button id="submitSearchText" class="btn btn-lg btn-primary" type="submit">
             <i class="fa fa-search" aria-hidden="true"></i>
@@ -53,15 +53,15 @@
                     </div>
                     <div class="modal-body">
                         <div class="text-center">
-                            <h1 class="fs-5">Leave your rating for <b>Outfit Name</b> of <span
+                            <h1 class="fs-5">Leave your rating for <b>{{title}}</b> of <span
                                     class="span-bg">User</span></h1>
                             <p>Select and click the stars</p>
                             <div class="accent">
-                                <i class="fa fa-star fa-lg" aria-hidden="true"></i>
-                                <i class="fa fa-star fa-lg" aria-hidden="true"></i>
-                                <i class="fa fa-star fa-lg" aria-hidden="true"></i>
-                                <i class="fa fa-star fa-lg" aria-hidden="true"></i>
-                                <i class="fa fa-star-o fa-lg" aria-hidden="true"></i>
+                                <i class="rating fa fa-star-o fa-lg" aria-hidden="true"></i>
+                                <i class="rating fa fa-star-o fa-lg" aria-hidden="true"></i>
+                                <i class="rating fa fa-star-o fa-lg" aria-hidden="true"></i>
+                                <i class="rating fa fa-star-o fa-lg" aria-hidden="true"></i>
+                                <i class="rating fa fa-star-o fa-lg" aria-hidden="true"></i>
                             </div>
                         </div>
                     </div>

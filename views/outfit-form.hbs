@@ -10,22 +10,21 @@
                     <h4>Basic info</h4>
                 </div>
                 <div class="row p-5 align-items-end">
-                    <div class="col-12">
+                    <div class="col-12 col-md-6">
                         <label for="title" class="form-label ">Your outfit title</label>
                         <input type="text" class="form-control" id="title" 
                             value={{#if edit}}"{{title}}"{{else}}""{{/if}} />
                     </div>
                     
-                    <div class="col-12 col-md-6 mt-3 p-0 text-start">
-                        <div class="form-check form-custom-switch">
+                    <div class="col-12 col-md-3 mt-3 p-0 g-3">
+                        <div class="form-check form-custom-switch text-start">
                             <label class="form-check-label pt-2" for="availabilityCheck">Availability</label>
                             <input class="form-check-input" type="checkbox" role="switch" id="availabilityCheck"
                                 value={{#if edit}}{{availability}}{{else}}false{{/if}} />
                         </div>
                     </div>
-
-                    <div class="col-12 col-md-6 mt-3 p-0 text-start">
-                        <div class="form-check form-custom-switch">
+                    <div class="col-12 col-md-3 mt-3 p-0 ">
+                        <div class="form-check form-custom-switch text-start">
                             <label class="form-check-label pt-2" for="privacyCheck">Private</label>
                             <input class="form-check-input" type="checkbox" role="switch" id="privacyCheck"
                                 value={{#if edit}}{{privacy}}{{else}}false{{/if}} />
