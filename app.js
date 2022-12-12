@@ -52,9 +52,9 @@ app.get('/', async (req, res) => {
             outfits: outfits
         });
     } catch (error) {
-        res.redirect('/signin')
-        res.end()
-        return
+        res.redirect('/signin');
+        res.end();
+        return;
     }
 });
 app.get('/signup', (req, res) => {
@@ -68,9 +68,9 @@ app.post('/signup', async (req, res) => {
     console.log(req.body);
     try {
         await userService.storeUser(req.body);
-    } catch (err) {
-        res.status(err.code).json({
-            error: err.msg
+    } catch (error) {
+        res.status(error.code).json({
+            error: error.msg
         })
         return;
     }
@@ -177,6 +177,8 @@ app.post('/add-cloth', auth, uploadPhoto, async (req, res) => {
             availability: formData.availability,
             seasons: JSON.parse(formData.seasons),
             styles: JSON.parse(formData.styles),
+            types: JSON.parse(formData.types),
+            decors: JSON.parse(formData.decors),
             colors: JSON.parse(formData.colors),
             fabrics: JSON.parse(formData.fabrics),
             photo: req.photoUrl
@@ -199,6 +201,7 @@ app.post('/add-cloth', auth, uploadPhoto, async (req, res) => {
 app.get('/cloth-details/:id', auth, async (req, res) => {
     try {
         const cloth = await clothService.getById(req.params.id);
+        const chosenCloths = await clothService.getMatched(req.userId, cloth.decors, cloth.types);
         res.render('cloth-details', {
             layout: 'auth',
             customstyle: `<link rel="stylesheet" href="../cloth.css">`,
@@ -210,9 +213,11 @@ app.get('/cloth-details/:id', auth, async (req, res) => {
             availability: cloth.availability,
             seasons: cloth.seasons,
             styles: cloth.styles,
+            types: cloth.types,
             colors: cloth.colors,
             fabrics: cloth.fabrics,
-            photo: cloth.photo
+            photo: cloth.photo,
+            chosenCloths: chosenCloths,
         });
     } catch (error) {
         res.redirect('/home');
@@ -237,6 +242,8 @@ app.get('/cloth-form/:id', auth, async (req, res) => {
             availability: cloth.availability,
             seasons: cloth.seasons,
             styles: cloth.styles,
+            types: cloth.types,
+            decors: cloth.decors,
             colors: cloth.colors,
             fabrics: cloth.fabrics,
             photo: cloth.photo
@@ -286,7 +293,7 @@ app.delete('/cloth-details/:id', auth, async(req, res) => {
         const id = req.params.id;
         await clothService.deleteItem(id);
 
-        res.status(200).json({
+        return res.status(200).json({
             message: "item deleted sucessfully",
         });
             
@@ -398,7 +405,8 @@ app.delete('/outfit-list/:id', auth, async(req, res) => {
 
         res.status(200).json({
             message: "item deleted sucessfully",
-        });7
+        });
+        return;
             
     } catch (error) {
         res.redirect('/home');

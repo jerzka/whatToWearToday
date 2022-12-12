@@ -3,6 +3,8 @@ const cloth = {
     availability: undefined,
     seasons: [],
     styles: [],
+    types: [],
+    decors: [],
     photos: [],
     colors: [],
     fabrics: [],
@@ -31,29 +33,31 @@ const cloth = {
             cloth.seasons.push(seasonsCheckboxesNodes[i].value);
         }
     },
-    addStyle: () => {
-        const select = document.querySelector('#styleOpt');
-        const selectedStyle = select.options[select.selectedIndex].value;
-        if (selectedStyle === '') {
-            showError("You didn't select any style");
+    addFeature: (feature) => {
+        const featureDomId = `#${feature}Opt`
+        const select = document.querySelector(featureDomId);
+        const selectedFeature = select.options[select.selectedIndex].value;
+        if (selectedFeature === '') {
+            showError(`You didn't select any ${feature}`);
             return false;
-        } else if (cloth.styles.indexOf(selectedStyle) !== -1) {
-            showError("This style has been already added");
+        } else if (cloth[feature].indexOf(selectedFeature) !== -1) {
+            showError(`This ${feature} has been already added`);
             return false;
         }
 
-        const place = document.querySelector('#styles');
+        const place = document.querySelector(`#${feature}`);
         place.insertAdjacentHTML('beforeend', `
             <ul class="list-group-custom col p-0 justify-content-center">
-                <li class="list-group-item" id="${selectedStyle}">${selectedStyle}</li>
-                <button id="delete_${selectedStyle}" type="button" class="btn btn-delete btn-primary">
+                <li class="list-group-item" id="${selectedFeature}">${selectedFeature}</li>
+                <button id="delete_${selectedFeature}" type="button" class="btn btn-delete btn-primary">
                     <i class="fa fa-minus fa-lg text-white" aria-hidden="true"></i>
                 </button>
             </ul`);
-        const deleteStyleBtn = document.querySelector(`#delete_${selectedStyle}`);
-        deleteStyleBtn.addEventListener("click", (event) => deleteBtn(cloth.styles, event));
-        cloth.styles.push(selectedStyle);
+        const deleteFeatureBtn = document.querySelector(`#delete_${selectedFeature}`);
+        deleteFeatureBtn.addEventListener("click", (event) => deleteBtn(cloth[feature], event));
+        cloth[feature].push(selectedFeature);
     },
+
     addColor: () => {
         const pickedColor = document.querySelector('#colorInput').value.slice(1);
         if (cloth.colors.indexOf(pickedColor) !== -1) {
@@ -128,6 +132,8 @@ const cloth = {
             cloth.editedItem.availability = JSON.stringify(document.getElementById('availabilityCheck').checked),
             cloth.editedItem.seasons = JSON.stringify(cloth.seasons),
             cloth.editedItem.styles = JSON.stringify(cloth.styles),
+            cloth.editedItem.types = JSON.stringify(cloth.types),
+            cloth.editedItem.decors = JSON.stringify(cloth.decors),
             cloth.editedItem.photo = document.getElementById('photo').src,
             cloth.editedItem.colors = JSON.stringify(cloth.colors),
             cloth.editedItem.fabrics = JSON.stringify(cloth.fabrics)
@@ -150,10 +156,13 @@ const cloth = {
                 ...(cloth.availability ? { availability: cloth.availability } : undefined),
                 ...(cloth.isFeatureChanged(cloth.editedItem.seasons, cloth.seasons) ? { seasons: cloth.seasons } : undefined),
                 ...(cloth.isFeatureChanged(cloth.editedItem.styles, cloth.styles) ? { styles: cloth.styles } : undefined),
+                ...(cloth.isFeatureChanged(cloth.editedItem.types, cloth.types) ? { types: cloth.types } : undefined),
+                ...(cloth.isFeatureChanged(cloth.editedItem.decors, cloth.decors) ? { decors: cloth.decors } : undefined),
                 ...(cloth.isFeatureChanged(cloth.editedItem.colors, cloth.colors) ? { colors: cloth.colors } : undefined),
                 ...(cloth.isFeatureChanged(cloth.editedItem.fabrics, cloth.fabrics) ? { fabrics: cloth.fabrics } : undefined)
             };
             console.log(formValue);
+
 
             let response;
             const formData = new FormData();
@@ -200,6 +209,8 @@ const cloth = {
         if (window.location.pathname.split('/').length > 2) {
             cloth.getSeasons();
             cloth.setItemFeatures("styles");
+            cloth.setItemFeatures("types");
+            cloth.setItemFeatures("decors");
             cloth.setItemFeatures("photos");
             cloth.setItemFeatures("colors");
             cloth.setItemFeatures("fabrics");
@@ -287,8 +298,14 @@ for (let i = 0; i < seasonsCheckboxesNodes.length; i++) {
     seasonsCheckboxesNodes[i].addEventListener("click", cloth.setSeason);
 }
 
-const addStyleBtn = document.querySelector("#addStyleBtn");
-addStyleBtn.addEventListener("click", cloth.addStyle);
+const addStyleBtn = document.querySelector("#addStylesBtn");
+addStyleBtn.addEventListener("click", () => { cloth.addFeature("styles")});
+
+const addTypesBtn = document.querySelector("#addTypesBtn");
+addTypesBtn.addEventListener("click", () => { cloth.addFeature("types")});
+
+const addDecorsBtn = document.querySelector("#addDecorsBtn");
+addDecorsBtn.addEventListener("click", () => { cloth.addFeature("decors")});
 
 const photoUploadInput = document.querySelector("#imgFile");
 photoUploadInput.addEventListener("change", cloth.setPhoto);

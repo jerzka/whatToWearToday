@@ -85,7 +85,7 @@
                 </div>
                 <div class="row pt-5 justify-content-around">
                     <div class="col-10 p-0 px-3">
-                        <select id="styleOpt" class="form-select" aria-label="select cloth style">
+                        <select id="stylesOpt" class="form-select" aria-label="select cloth style">
                             <option value="">-- Choose an style --</option>
                             <option value="casual">Casual</option>
                             <option value="elegant">Elegant</option>
@@ -96,7 +96,7 @@
                         </select>
                     </div>
                     <div class="col-2 p-0">
-                        <button id="addStyleBtn" type="button" class="btn btn-primary">
+                        <button id="addStylesBtn" type="button" class="btn btn-primary">
                             <i class="fa fa-plus fa-lg text-white" aria-hidden="true"></i>
                         </button>
                     </div>
@@ -118,6 +118,87 @@
 
         <div class="row justify-content-between">
             <div class="col-12 col-md-6 form-group-custom border border-secondary border-opacity-25 my-5">
+
+                <div class="form-group-header">
+                    <h4>Your cloth type</h4>
+                </div>
+                <div class="row pt-5 justify-content-around">
+                    <div class="col-10 p-0 px-3">
+                        <select id="typesOpt" class="form-select" aria-label="select cloth type">
+                            <option value="">-- Choose an type --</option>
+                            <option value="blouse">Blouse</option>
+                            <option value="t-shirt">T-shirt</option>
+                            <option value="long-sleeves">Long sleeves</option>
+                            <option value="jacket">Jacket</option>
+                            <option value="dress">Dress</option>
+                            <option value="pants">Pants</option>
+                            <option value="jeans">Jeans</option>
+                            <option value="leggins">Leggins</option>                                                        
+                            <option value="skirt">Skirt</option>
+                            <option value="sweater">Sweater</option>
+                            <option value="sweatshirt">Sweatshirt</option>
+                            <option value="shoes">Shoes</option>
+                            <option value="belt">Belt</option>
+                            <option value="accesory">Accessory</option>
+                        </select>
+                    </div>
+                    <div class="col-2 p-0">
+                        <button id="addTypesBtn" type="button" class="btn btn-primary">
+                            <i class="fa fa-plus fa-lg text-white" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </div>
+                <div id="types" class="row p-5">
+                {{#if edit}}
+                    {{#each types}}
+                    <ul class="list-group-custom col p-0 justify-content-center">
+                        <li class="list-group-item" id={{this}}>{{this}}</li>
+                        <button id="delete_{{this}}" type="button" class="btn btn-delete btn-primary">
+                            <i class="fa fa-minus fa-lg text-white" aria-hidden="true"></i>
+                        </button>
+                    </ul>
+                    {{/each}}
+                {{/if}}
+                </div>
+            </div>
+
+            <div class="col-12 col-md-5 form-group-custom border border-secondary border-opacity-25 my-5">
+
+                <div class="form-group-header">
+                    <h4>Your cloth decoration</h4>
+                </div>
+                <div class="row pt-5 justify-content-around">
+                    <div class="col-10 p-0 px-3">
+                        <select id="decorsOpt" class="form-select" aria-label="select cloth decoration">
+                            <option value="">-- Choose an decoration --</option>
+                            <option value="printed">Printed</option>
+                            <option value="pattern">Pattern</option>
+                            <option value="solid">Solid</option>
+                        </select>
+                    </div>
+                    <div class="col-2 p-0">
+                        <button id="addDecorsBtn" type="button" class="btn btn-primary">
+                            <i class="fa fa-plus fa-lg text-white" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </div>
+                <div id="decors" class="row p-5">
+                {{#if edit}}
+                    {{#each decors}}
+                    <ul class="list-group-custom col p-0 justify-content-center">
+                        <li class="list-group-item" id={{this}}>{{this}}</li>
+                        <button id="delete_{{this}}" type="button" class="btn btn-delete btn-primary">
+                            <i class="fa fa-minus fa-lg text-white" aria-hidden="true"></i>
+                        </button>
+                    </ul>
+                    {{/each}}
+                {{/if}}
+                </div>
+            </div>
+        </div>
+
+        <div class="row justify-content-between">
+            <div class="col-12 col-md-5 form-group-custom border border-secondary border-opacity-25 my-5">
                 <div class="form-group-header">
                     <h4>Your cloth photos</h4>
                 </div>
@@ -141,7 +222,7 @@
                 </div>
             </div>
 
-            <div class="col-12 col-md-5 form-group-custom border border-secondary border-opacity-25 my-5">
+            <div class="col-12 col-md-6 form-group-custom border border-secondary border-opacity-25 my-5">
                 <div class="form-group-header">
                     <h4>Your cloth color</h4>
                 </div>

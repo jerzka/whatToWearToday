@@ -72,6 +72,42 @@ const getBySearchText = async (searchText) => {
     }
 }
 
+const getMatched = async (userId, decors, types) => {
+    const decorOpt = (decors.indexOf("pattern") > -1) ? 'solid' : 'pattern';
+    const typesOpt = 
+        (types[0] === "pants" || types[0] === "jeans" || types[0] === "skirt" || types[0] === "leggins")
+            ? ['blouse', 't-shirt', 'long-sleeves', 'jacket', 'sweater', 'sweatshirt']
+            : ['pants', 'jeans', 'skirt', 'leggins'];
+        
+
+    const filter = {
+        $and: [
+            {user: userId},
+            {decors: decorOpt},
+            {types: {$in: typesOpt}},
+        ]
+    };
+    try {
+        const items = await clothModel.find(
+                    filter).limit(3).lean();
+        if (!items) {
+            throw {
+                msg: 'unable to find any cloth',
+                code: 400
+            }
+        }
+        else if (items.length === 0) {
+            return;
+        }
+        return items;
+    } catch (error) {
+        throw {
+            msg: 'unable to find cloth',
+            code: 400
+        }
+    }
+}
+
 const updateOne = async (itemData, id) => {
     
     try {
@@ -106,5 +142,6 @@ module.exports = {
     updateOne,
     getByUserId,
     getBySearchText,
+    getMatched,
     deleteItem
 }
