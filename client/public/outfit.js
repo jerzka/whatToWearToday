@@ -306,8 +306,8 @@ const handleSubmit = async () => {
 const validateForm = (formValue) => {
     console.log(document.querySelectorAll('input[type=checkbox]:checked'));
 
-    if(!formValue.name || formValue.name === ""){
-        showError("Please provide a outfit's name");
+    if(!formValue.title || formValue.title === ""){
+        showError("Please provide a outfit's title");
         return false;  
     }
 
