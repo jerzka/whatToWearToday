@@ -106,6 +106,90 @@ const mouseMove = (event) => {
     }
 }
 
+const touchDown = (event) => {
+    event.preventDefault();
+    console.log(canvas.clientWidth, canvas.clientHeight)
+    startX = parseInt(event.touches[0].clientX - offsetX);
+    startY = parseInt(event.touches[0].clientY - offsetY);
+
+    let index = 0;
+    for( let photo of photos){
+        if(isMouseInImage(startX, startY, photo.photoCanvasPos)){
+            console.log('yes');
+            current_photo_index = index;
+            isDragging = true;
+            return;
+        }
+        else{
+            console.log('no');
+        }
+        index++;
+    }
+}
+
+const touchStart = (event) => {
+    event.preventDefault();
+    console.log("touchstart event");
+    console.log(canvas.clientWidth, canvas.clientHeight)
+    startX = parseInt(event.touches[0].clientX - offsetX);
+    startY = parseInt(event.touches[0].clientY - offsetY);
+
+    let index = 0;
+    for( let photo of photos){
+        if(isMouseInImage(startX, startY, photo.photoCanvasPos)){
+            console.log('yes');
+            current_photo_index = index;
+            isDragging = true;
+            return;
+        }
+        else{
+            console.log('no');
+        }
+        index++;
+    }
+    if(!isDragging){
+        return;
+    }
+    isDragging = false;
+}
+
+const touchMove = (event) => {
+    if(!isDragging){
+        return;
+    }
+    else{
+        console.log('touch with dragging');
+        event.preventDefault();
+        const touchLocation = event.targetTouches[0];
+
+        let mouseX = touchLocation.clientX - offsetX;
+        let mouseY = touchLocation.clientY - offsetY;           
+        let dx = mouseX - startX;
+        let dy = mouseY - startY;
+
+        console.log(dx, dy);
+
+        let currentPhoto = photos[current_photo_index];
+        currentPhoto.photoCanvasPos.x += dx;
+        currentPhoto.photoCanvasPos.y += dy;
+
+        drawPhotos();
+
+        startX = mouseX;
+        startY = mouseY;
+    }
+}
+
+const touchEnd = (event) => {
+    console.log("touch end event");
+    if(!isDragging){
+        return;
+    }
+
+    event.preventDefault();
+    isDragging = false;
+}
+
 const drawPhotos = () => {
     context.clearRect(0, 0, canvasWidth, canvasHeight);
     for(let photo of photos){
@@ -145,6 +229,11 @@ canvas.addEventListener('mousedown', mouseDown);
 canvas.addEventListener('mouseup', mouseUp);
 canvas.addEventListener('mouseout', mouseOut)
 canvas.addEventListener('mousemove', mouseMove);
+
+canvas.addEventListener('touchstart', touchStart);
+canvas.addEventListener('touchend', touchEnd);
+canvas.addEventListener('touchmove', touchMove);
+
 
 let categories = [];
 let seasons = [];

@@ -19,18 +19,18 @@
         {{/unless}}
 
         <!-- Three columns of photos below the carousel -->
-        <div class="row row-cols-3 row-cols-md-4 align-items-center g-3 my-3">
+        <div class="row row-cols-2 row-cols-md-4 align-items-center g-3 my-3">
 
             {{#each outfits}}
 
             <div class="cards-wrapper">
-                <div class="card shadow-sm bg-light">
-                    <div class="image-wrapper">
+                <div class="card shadow-sm">
+                    <p class="card-title text-capitalize py-2">{{title}}</p>
+                    <div class="image-wrapper bg-light">
                         <img id="{{_id}}" class="carousel-photo card-img card-img-bottom" src="{{photo}}"
                             alt="{{title}}">
                     </div>
                     <div class="card-image-overlay py-3 d-flex justify-content-around align-items-end">
-                        <p class="card-title text-capitalize">{{title}}</p>
                         <button name="delete" data-id="{{_id}}" type="button" class="btn btn-primary">
                             <i class="fa fa-minus fa-lg text-white" aria-hidden="true"></i>
                         </button>
