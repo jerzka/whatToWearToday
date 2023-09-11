@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Arapey&family=Poppins&display=swap');
+
 :root {
     --bs-primary-color: rgb(13, 110, 253);
     --accent-color: rgb(226, 115, 150);
@@ -5,18 +7,18 @@
     --logo-size: 70px;
 }
 
+html{
+    font-size: 100%;
+}
+
 body {
-    background: url("images/background_AdobeStock_169277666.png") no-repeat;
-    background-size: cover;
-    background-position: center;
-    background-position-y: -240px;
-    
-    font-family: 'Open Sans', sans-serif;
-    text-align: center;
-    height: 100vh;
+     font-family: 'Poppins', sans-serif;
+     text-align: center;
+     height: 100vh;
 }
 
 #logo {
+    display: none;
     position: relative;
     width: var(--logo-size);
     height: var(--logo-size);
@@ -35,9 +37,11 @@ body {
 }
 
 h1, h5 {
-    font-family: 'Prata', serif;
+    font-family: 'Arapey', serif;
 }
-
+h4{
+    font-family: 'Poppins', serif;
+}
 .span-bg {
     background-color: var(--accent-color);
     padding: 2px 4px;
@@ -67,12 +71,24 @@ h1, h5 {
     scale: 1.2;
 }
 
+.bottom-menu .navbar-toggler-icon::before {
+    font-family: FontAwesome;
+    content: "\f077";
+}
+
+.bottom-menu .navbar-toggler-icon-collapsed::before {
+    font-family: FontAwesome;
+    content: "\f078";
+}
+
 footer>p {
     font-size: .6rem;
 }
 
 .navbar-toggler {
     border: none;
+    height: 100%;
+    min-width: 80px;
 }
 
 .navbar-toggler:focus {
@@ -83,31 +99,53 @@ footer>p {
     background-image: none;
     background: none;
 }
-
+ 
 .navbar-toggler-icon::before {
     font-family: FontAwesome;
-    content: "\f077";
-    /* fa-chevron-up */
+    content: "\f00d";
 }
 
+.navbar-toggler-icon-collapsed::before {
+    font-family: FontAwesome;
+    content: "\f0c9";
+}
+ 
 .date {
     margin-top: 20vh;
 }
 
 #intro{
-    margin-top: 6rem;
+    margin: 0;
+    background: url('images/background_AdobeStock_169277666_landing-page.png') no-repeat;
+    background-size: contain;
+    background-position-x: right;
+}
+ 
+#hero-photo{
+    background: url("images/background_AdobeStock_169277666_hero-image.jpg") no-repeat;
+    background-size: contain;
+    background-position: top right;
+    margin: 0; 
+    height: 70vw;
 }
 
-.intro-heading{
-    font-size: 2rem;
+#hero-content{
+    margin: auto;
 }
 
-.sub-heading{
+.hero-title{
+    margin: 2rem 0;
+    font-size: 2.4rem;
+}
+
+.hero-subtitle{
     font-size: 1.25rem;
+    margin: 0 10%;
 }
 
-.intro-lead {
-    font-size: .8rem;
+.hero-lead {
+    font-size: 0.9rem;
+    margin: 2rem 8% 2rem 8%;
 }
 
 .form-group-custom{
@@ -123,57 +161,65 @@ footer>p {
     background-color: white;
   }
 
-  .navbar-toggler-icon {
-    display: inline-block;
-    width: 1.5em;
-    height: 1.5em;
-    vertical-align: middle;
-    background-image: var(--bs-navbar-toggler-icon-bg);
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: 100%;
-}
-
-
-/* --- RESPONSIVE CSS  -------------------------------------------------- */
 
 @media (min-width: 48em) {
+    .navbar-expand-lg .navbar-collapse {
+        display: flex;
+        flex-basis: auto;
+        justify-content: flex-end;
+    } 
 
-    body{
-        background-position-y: -290px;
+    .hero-title {
+        margin: 1rem 0;
+        font-size: 1.8em;
+    }
+    .hero-subtitle {
+        font-size: 0.75em;
+        margin: 0 10%;
+    }
+    .hero-lead {
+        font-size: 0.6em;
+        margin: 2rem 10% 1.5rem 10%;
+    }
+
+    #hero {
+        background: linear-gradient(130deg, rgb(222, 145, 169, 0.5) 0 5%, rgba(255,255,255,0) 20% 100%);
+    }
+    #hero-photo{
+        height: 40vw;
     }
 }
 
+@media (min-width: 75em) {
+    .hero-title {
+         font-size: 3em;
+     }
+     
+     .hero-subtitle {
+         font-size: 1.2em;
+     }
+ 
+     .hero-lead{
+         font-size: 1em;
+         margin: 4rem 15% 2rem 15%;
+     }
 
-@media (min-width: 62em) {
-
-    body{
-        background-position-y: -190px;
+     #hero-photo{
+        height: 50vw;
     }
+ }
 
-    #intro{
-        margin-top: 9rem;
-    }
-}
-
-@media (min-width: 40em) {
-   
-    .intro-heading {
-        font-size: 3em;
-    }
-
-    .sub-heading {
-        font-size: 2em;
-    }
-
-    .intro-lead {
-        font-size: 1rem;
-    }
-}
-
-@media (min-width: 25em) {
-
-    body{
-        background-position-y: -280px;
-    }
-}
+@media (min-width: 87em) {
+    .hero-title {
+         font-size: 3.5em;
+     }
+     
+     .hero-subtitle {
+         font-size: 1.5em;
+     }
+ 
+     .hero-lead{
+         font-size: 1em;
+         margin: 4rem 15% 2rem 15%;
+     }
+ }

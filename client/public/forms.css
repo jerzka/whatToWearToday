@@ -7,25 +7,38 @@
 }
 
 body {
-  padding: 15% 0;
-  justify-content: center;
-  display: flex;
-  align-items: center;
+  background: url("images/background-image.jpg") no-repeat;
+  background-position: top center;
+  background-position-y: -20px;
+  background-attachment: fixed;
+  background-size: cover;
+}
+
+.navbar-brand{
+  display:none;
+}
+
+.container-fluid{
+  flex-direction: row-reverse;
 }
 
 #form-signup, #form-signin {
-  background-color: rgba(255, 255, 255, 1);
+  background: linear-gradient(rgba(255, 255, 255, 1) 80%, rgba(255,255,255,0));
   max-width: 330px;
   padding: 0;
+  padding-bottom: 1rem;
 }
 
 form {
   position: relative;
-  top: -3rem;
+  margin-top: 35%;
+  margin-bottom: 15%;
 }
 
 #logo{
+  display: block;
   position: relative;
+  top:-20px;
   width: var(--logo-size);
   height: var(--logo-size);
   border-radius: 50%;
@@ -41,6 +54,7 @@ form {
 
 #submit-btn {
   margin-top: 2rem;
+  margin-bottom: 2rem;
 }
 
 .form-row {
@@ -49,7 +63,7 @@ form {
 }
 
 #form-signin > form > div:nth-child(2){
-  margin-top: 3rem;
+  margin-top: 1rem;
 }
 
 form > p{
@@ -60,7 +74,6 @@ form > p{
 .form-row > label{
   font-weight: 100;
 }
-
 
 footer h5{
   font-family: 'Prata', serif;
@@ -78,4 +91,19 @@ footer > p{
   display: block;
   top:2%;
   right:2%;
+}
+
+@media (min-width: 380px) {
+
+  body{
+      background-position-y: -45px;
+  }
+}
+
+@media (min-width: 540px) {
+
+  body{
+      background-position-y: -20px;
+  }
+
 }

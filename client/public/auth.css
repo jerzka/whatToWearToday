@@ -11,7 +11,6 @@ body {
     background-position: center;
     background-position-y: -100px;
 
-    font-family: 'Open Sans', sans-serif;
     text-align: center;
     height: 100vh;
 }
@@ -58,7 +57,7 @@ h5 {
     color: #FFF;
     text-decoration: none;
   }
-  .pink-serif-link :hover{
+.pink-serif-link :hover{
     color: #FFF;
     background-color: var(--bs-primary-color);
 }
@@ -90,21 +89,16 @@ footer>p {
 
 .navbar-toggler {
     border: none;
+    height: 100%;
+    min-width: 80px;
 }
 
 .navbar-toggler:focus {
     box-shadow: none;
 }
 
-.navbar-toggler-icon {
-    background-image: none;
-    background: none;
-}
-
-.navbar-toggler-icon::before {
-    font-family: FontAwesome;
-    content: "\f077";
-    /* fa-chevron-up */
+.nav-link{
+    padding-right: 5px;
 }
 
 .date {
@@ -115,18 +109,9 @@ footer>p {
     margin-top: 6rem;
 }
 
-.intro-heading {
-    font-size: 2rem;
+.rating{
+    cursor: pointer;
 }
-
-.sub-heading {
-    font-size: 1.25rem;
-}
-
-.intro-lead {
-    font-size: .8rem;
-}
-
 
 /* --- RESPONSIVE CSS  -------------------------------------------------- */
 @media (min-width: 75em) {
